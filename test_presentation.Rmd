@@ -149,3 +149,12 @@ ___
 plot(rnorm(100))
 ```
 
+
+---
+
+# Headline
+
+.wubox[
+.center[**A new box**]
+This is a WU themed box!!
+]

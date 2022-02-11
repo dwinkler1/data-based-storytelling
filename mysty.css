@@ -83,3 +83,15 @@ div.footer span {
     bottom: 1px;
 }
 
+
+.wubox {
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
+  padding-left: 1em;
+  background: rgb(0,150,211, 0.9);
+  color: rgb(255,255,255);
+  border-radius: 5px;
+}
+.center {
+  text-align: center;
+}
