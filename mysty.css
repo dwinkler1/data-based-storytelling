@@ -1,0 +1,85 @@
+
+ul {
+    list-style: none;
+}
+
+ul li::before {
+    content: "\2BC0";
+    color: rgb(0,150,211);
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+    margin-right: 0.5em;
+    margin-top: 1em;
+
+}
+
+
+
+
+hr {
+  border: 0;
+  width: 250%;
+  border-top: 5px solid rgb(0,150,211);
+  
+  //padding-left: 0px;
+  margin-left: -100%;  
+  //text-align: left;
+  //margin-right: 0;
+  
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.title-slide {
+  background-image: url(Graphics/D2.jpg);
+  text-align: left
+}
+  
+
+.title-slide h1 {
+  background: rgb(0,150,211, 0.9);
+  padding: 0 20px;
+  display:inline-block; 
+  color: rgb(255,255,255);
+}  
+
+
+
+.my-logo-right {
+content: "";
+    position: absolute;
+    top: 15px;
+    right:   8px;
+    height: 40px;
+    width: 120px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url(Graphics/WU_Logo.png);
+}
+
+
+.remark-slide-number {
+  color: rgb(137,137,137);
+  left: 2%;
+  background-color: rgba(255,255,255, 0.1);
+}
+
+div.footer {
+    color: rgb(137,137,137);
+    background-color: rgba(255,255,255, 0.1);
+    position: absolute;
+    left: 40%;
+    bottom: 10px;
+    height: 25px;
+    width: 100%;
+}
+div.footer span {
+    font-size: 13pt;
+    color: rgb(137,137,137);
+    position: absolute;
+    left: 15px;
+    bottom: 1px;
+}
+

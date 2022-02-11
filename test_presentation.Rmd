@@ -1,0 +1,55 @@
+---
+title: |
+ | <font size="5" color="black"> SBWL Handel & Marketing </font> <br/> Introduction to R <br/> <font size="5">Institute for Retailing & Data Science</font> 
+
+
+layout: true
+output:
+  xaringan::moon_reader:
+    self_contained: true
+    includes:
+      after_body: insert-logo.html
+    css: [mysty.css]
+    lib_dir: libs
+    nature:
+      ratio: '16:9'
+      titleSlideClass: [left]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: "%current%"
+---
+
+layout:true
+
+<div class="footer"><span>Daniel Winkler</span></div>
+---
+
+
+```{css echo=FALSE}
+.hide-count .remark-slide-number {
+  display: none;
+}
+  
+```
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+
+
+
+
+# A slide
+
+___
+
+- Point 1
+--
+
+- Point 2
+
+```{r}
+print("Hello World!")
+```
+

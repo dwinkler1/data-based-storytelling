@@ -1,0 +1,88 @@
+
+<style>
+.logo {
+  background-image: url(Graphics/WU_Logo.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 1.5em;
+  right: 2.5em;
+  width: 206.6px;
+  height: 109px;
+  z-index: 0;
+}
+</style>
+<style>
+.wrapper
+{
+width:300px;
+height:300px;
+position:relative;
+}
+.logo_title {
+  background-image: url(Graphics/WU_Logo.png);
+  background-color: rgba(255,255,255, 0.9);
+  background-size: contain;
+  background-repeat: no-repeat;
+  position:absolute;
+  right:50px;
+  bottom:50px;
+  //width: 20.66px;
+  width: 25%;
+  //border: 350px;
+  height: 25%;
+  z-index: 0;
+  background-position: center;
+  //padding-top: 50px;
+  //padding-right: 50px;
+  //padding-bottom: 10px;
+  //padding-left: 50px;
+  //margin-right: -30px;
+  //box-shadow: inset 20px 2px 0px 0px  ; 
+  border: 10px solid rgba(255,255,255, 0.1);
+}
+.logo_bottom {
+    background-image: url(Graphics/Triple-Accreditation.png);
+  background-color: rgba(255,255,255, 0.9);
+  background-size: contain;
+  background-repeat: no-repeat;
+  position:absolute;
+  bottom: 10px;
+  height: 25px;
+  right: 0%;
+  width: 25%;
+  height: 5%;
+  z-index: 0;
+  background-position: center;
+
+  //border: 10px solid rgba(255,255,255, 0.1);
+}
+</style>
+<script>
+document
+  .querySelectorAll(
+    '.remark-slide-content' +
+    ':not(.title-slide)' +
+    ':not(.hide-logo)'
+  )
+  .forEach(el => {
+    el.innerHTML += '<div class="logo"></div>';
+    el.innerHTML += '<div class="logo_bottom"></div>';
+
+  });
+</script>
+
+<script>
+document
+  .querySelectorAll(
+    '.remark-slide-content' +
+    '.title-slide' 
+  )
+  .forEach(el => {
+    el.innerHTML += '<div class="logo_title"></div>';
+    el.innerHTML += '<div class="wrapper"></div>';
+    
+  });
+</script>
+
+
