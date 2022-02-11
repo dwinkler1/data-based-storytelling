@@ -2,7 +2,6 @@
 title: |
  | <font size="5" color="black"> SBWL Handel & Marketing </font> <br/> Introduction to R <br/> <font size="5">Institute for Retailing & Data Science</font> 
 
-
 layout: true
 output:
   xaringan::moon_reader:
