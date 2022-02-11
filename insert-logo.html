@@ -12,6 +12,21 @@
   z-index: 0;
 }
 </style>
+
+<style>
+.logo_small {
+  background-image: url(Graphics/WU_Logo.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  width: 103.3px;
+  height: 54.5px;
+  z-index: 0;
+}
+</style>
+
 <style>
 .wrapper
 {
@@ -63,12 +78,50 @@ document
   .querySelectorAll(
     '.remark-slide-content' +
     ':not(.title-slide)' +
-    ':not(.hide-logo)'
+    ':not(.hide-logo)' +
+    ':not(.logo-small)'
   )
   .forEach(el => {
     el.innerHTML += '<div class="logo"></div>';
-    el.innerHTML += '<div class="logo_bottom"></div>';
+  });
+</script>
 
+<script>
+document
+  .querySelectorAll(
+    '.remark-slide-content' +
+    '.logo-small' +
+    ':not(.title-slide)' 
+  )
+  .forEach(el => {
+    el.innerHTML += '<div class="logo_small"></div>';
+  });
+</script>
+
+<script>
+document
+  .querySelectorAll(
+    '.remark-slide-content' +
+    ':not(.title-slide)' +
+    ':not(.hide-logo-bottom)'
+  )
+  .forEach(el => {
+    el.innerHTML += '<div class="logo_bottom"></div>';
+  });
+</script>
+
+
+
+
+<script>
+document
+  .querySelectorAll(
+    '.remark-slide-content' +
+    ':not(.title-slide)' +
+    ':not(.hide-footer)'
+  )
+  .forEach(el => {
+    el.innerHTML += '<div class="footer"><span>Daniel Winkler</span></div>';
   });
 </script>
 

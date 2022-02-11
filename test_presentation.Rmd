@@ -19,10 +19,6 @@ output:
       slideNumberFormat: "%current%"
 ---
 
-layout:true
-
-<div class="footer"><span>Daniel Winkler</span></div>
----
 
 ```{r xaringan-panelset, echo=FALSE}
 xaringanExtra::use_panelset()
@@ -130,4 +126,26 @@ ggplot(penguins) +
 ]]
 ]
 
+---
+
+class: hide-footer hide-logo-bottom
+
+## Hide footer, bottom logos,<br/> and divider
+
+
+```{r, fig.align='center', dpi=300, fig.width=20, fig.height=8}
+plot(rnorm(100))
+```
+
+---
+
+class: logo-small hide-footer hide-logo-bottom
+
+## Hide bottom, hide footer, shrink top WU
+
+___
+
+```{r, fig.align='center', dpi=300, fig.width=20, fig.height=8.5}
+plot(rnorm(100))
+```
 
