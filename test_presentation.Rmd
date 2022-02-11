@@ -8,7 +8,7 @@ output:
     self_contained: true
     includes:
       after_body: insert-logo.html
-    css: [mysty.css]
+    css: [default, mysty.css]
     lib_dir: libs
     nature:
       ratio: '16:9'
@@ -24,6 +24,13 @@ layout:true
 <div class="footer"><span>Daniel Winkler</span></div>
 ---
 
+```{r xaringan-panelset, echo=FALSE}
+xaringanExtra::use_panelset()
+```
+
+```{r xaringan-animate-css, echo=FALSE}
+xaringanExtra::use_animate_css()
+```
 
 ```{css echo=FALSE}
 .hide-count .remark-slide-number {
@@ -34,9 +41,6 @@ layout:true
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 ```
-
-
-
 
 
 # A slide
@@ -51,4 +55,79 @@ ___
 ```{r}
 print("Hello World!")
 ```
+
+---
+
+
+# A plot
+
+___
+
+.pull-left[
+```{r plot-label, eval=FALSE}
+library(tidyverse)
+data(penguins, package = "palmerpenguins")
+ggplot(penguins) + 
+  aes(bill_length_mm, 
+      flipper_length_mm, 
+      color = species,
+      shape = sex) + 
+  labs(x = "Bill length (mm)", 
+       y = "Flipper length (mm)") +
+  geom_point() +
+  theme_bw()
+```
+]
+
+--
+
+class: animated fadeIn 
+
+
+.pull-right[
+
+```{r plot-label-out, dpi=300,ref.label="plot-label", echo=FALSE, warning=FALSE, message=FALSE, fig.height=5.5}
+```
+]
+
+
+---
+
+
+
+# Slide panel
+
+___
+
+.panelset[
+.panel[
+.panel-name[R code]
+```{r plot-density, eval=FALSE}
+ggplot(penguins) + 
+  aes(bill_length_mm, 
+      color = species) + 
+  geom_density()
+```
+]
+.panel[
+.panel-name[Plot]
+```{r plot-density-out, dpi=300,ref.label="plot-density", echo=FALSE, warning=FALSE, message=FALSE, fig.height=2.7}
+```
+]
+.panel[.panel-name[with Theme]
+.pull-left[
+```{r plot-theme, eval=FALSE}
+ggplot(penguins) + 
+  aes(bill_length_mm, 
+      color = species) + 
+  geom_density() +
+  theme_bw()
+```
+]
+.pull-right[
+```{r plot-theme-out, dpi=300,ref.label="plot-theme", echo=FALSE, warning=FALSE, message=FALSE, fig.height=5}
+```
+]]
+]
+
 
