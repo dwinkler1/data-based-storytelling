@@ -89,7 +89,7 @@ class: animated fadeIn
 
 ---
 
-
+class: hide-footer
 
 # Slide panel
 
