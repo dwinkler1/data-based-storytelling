@@ -1,14 +1,14 @@
 ---
-title: |
- | <font size="5" color="black"> SBWL Handel & Marketing </font> <br/> Introduction to R <br/> <font size="5">Institute for Retailing & Data Science</font> 
-
+title: 'Introduction to R<br><font size="5" color="black"> SBWL H &amp; M: Data-based Storytelling</font>'
 layout: true
 output:
   xaringan::moon_reader:
+    pandoc_args: 
+      - "--wrap=preserve"
     self_contained: true
     includes:
       after_body: insert-logo.html
-    css: [default, mysty.css]
+    css: [default, wu-rds.css]
     lib_dir: libs
     nature:
       ratio: '16:9'
@@ -24,20 +24,17 @@ output:
 xaringanExtra::use_panelset()
 ```
 
+
 ```{r xaringan-animate-css, echo=FALSE}
 xaringanExtra::use_animate_css()
 ```
 
-```{css echo=FALSE}
-.hide-count .remark-slide-number {
-  display: none;
-}
-  
-```
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 ```
 
+
+class: hide-count
 
 # A slide
 
@@ -53,7 +50,6 @@ print("Hello World!")
 ```
 
 ---
-
 
 # A plot
 
@@ -110,7 +106,8 @@ ggplot(penguins) +
 ```{r plot-density-out, dpi=300,ref.label="plot-density", echo=FALSE, warning=FALSE, message=FALSE, fig.height=2.7}
 ```
 ]
-.panel[.panel-name[with Theme]
+.panel[
+.panel-name[with Theme]
 .pull-left[
 ```{r plot-theme, eval=FALSE}
 ggplot(penguins) + 

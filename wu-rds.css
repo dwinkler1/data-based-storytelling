@@ -1,3 +1,7 @@
+:root {
+  --rds-blue: 84, 152, 214;
+  --rds-blue-hex: #5498d6;
+}
 
 ul {
     list-style: none;
@@ -5,19 +9,31 @@ ul {
 
 ul li::before {
     content: "▪";
-    color:  rgb(84, 152, 214);
+    color:  rgb(var(--rds-blue));
     font-weight: bold;
     display: inline-block;
-    width: 1em;
+    width: 0.5em;
     margin-left: -1em;
-    margin-right: 0.1em;
-    margin-top: 0em;
+    margin-right: 0.5em;
+    margin-top: 1em;
+    padding-top: -1em;
+
 }
+
+.panelset ul li::before{content: none;}
+.panelset {
+  //--panel-tab-foreground: var(--rds-blue-hex);
+  --panel-tab-active-foreground: var(--rds-blue-hex);
+  --panel-tab-hover-foreground: var(--rds-blue-hex);
+  --panel-tabs-border-bottom: var(--rds-blue-hex);
+  --panel-tab-inactive-opacity: 0.5;
+}
+
 
 hr {
   border: 0;
   width: 250%;
-  border-top: 5px solid rgb(0,150,211);
+  border-top: 5px solid rgb(var(--rds-blue));
   
   //padding-left: 0px;
   margin-left: -100%;  
@@ -35,13 +51,18 @@ hr {
   
 
 .title-slide h1 {
-  background: rgb(0,150,211, 0.9);
+  background: rgba(var(--rds-blue), 0.9);
   padding: 0 20px;
   display:inline-block; 
   color: rgb(255,255,255);
 }  
 
-
+.title-slide h3 {
+  background: rgba(255,255,255, 0.9);
+  padding: 0 20px;
+  display: inline; 
+  color: rgb(0,0,0);
+}  
 
 .my-logo-right {
 content: "";
@@ -62,6 +83,14 @@ content: "";
   background-color: rgba(255,255,255, 0.1);
 }
 
+.title-slide .remark-slide-number {
+  display: none;
+}
+
+.hide-count .remark-slide-number {
+  display: none;
+}
+
 div.footer {
     color: rgb(137,137,137);
     background-color: rgba(255,255,255, 0.1);
@@ -78,7 +107,6 @@ div.footer span {
     left: 15px;
     bottom: 1px;
 }
-
 
 .wubox {
   padding-top: 0.1em;
