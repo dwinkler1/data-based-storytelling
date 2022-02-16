@@ -20,7 +20,7 @@ date: "Updated: `r Sys.Date()`"
 | 03-28-2022 | 11:00am - 3:30pm | TC.4.04 | | | |
 | 04-04-2022 | 11:00am - 3:30pm | **TC.3.06** | | | | 
 
-```{r  echo = FALSE, output='asis', fig.width=5, fig.height=4, fig.margin=TRUE, dpi=300} 
+```{r  echo = FALSE, output='asis', fig.width=0.5, fig.height=0.6, fig.margin=TRUE, dpi=500} 
 library(ggplot2)
 library(ggthemes)
 circle <- data.frame(position = seq(0, 2*pi, by = 0.001))
@@ -30,18 +30,17 @@ circle$heart_y <- 13*cos(circle$position) -
                    2*cos(3*circle$position) - 
                      cos(4*circle$position)
 
-heart <- ggplot(circle, aes(heart_x, heart_y), color = 'red', fill = 'red') +
+heart <- ggplot(circle, aes(heart_x, heart_y)) +
   geom_polygon(fill = 'firebrick') +
-  labs(title = "Made with", caption = "at the Institute for Retailing & Data Science at WU")  +
+  labs(title = "Made with", caption = "at the Institute for\nRetailing & Data Science")  +
   theme_tufte() + 
-  theme(
-    panel.background = element_rect(fill = "transparent",colour = NA),
-    plot.background = element_rect(fill = "transparent",colour = NA),
-    axis.ticks = element_blank(), 
-    axis.text = element_blank(), 
-    axis.title = element_blank(),
-    plot.caption = element_text(hjust = 0, size = 15),
-    plot.title = element_text(size = 15))
+  theme(panel.background = element_rect(fill = "transparent",colour = NA),
+        plot.background = element_rect(fill = "transparent",colour = NA),
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.title = element_blank(),
+        plot.caption = element_text(hjust = 0, size = 2),
+        plot.title = element_text(size = 2))
 heart
 ```
 
