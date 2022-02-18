@@ -3,6 +3,21 @@
   --rds-blue-hex: #5498d6;
 }
 
+body { font-family: "Open Sans"; }
+
+/* link to index on title slide should be black*/
+.title-slide a, a > code {
+  color: rgb(0,0,0); /*default: rgb(249, 38, 114); || sets color of links */
+  text-decoration: none; /* turns off background coloring of links */
+}
+
+/* links on other slides should be blue and underlined */
+a, a > code {
+  color: #538edf; 
+  text-decoration: underline;
+}
+
+
 ul {
     list-style: none;
 }
@@ -76,6 +91,10 @@ content: "";
     background-image: url(Graphics/WU_Logo.png);
 }
 
+.remark-slide-content {
+    font-size: 25px;
+    padding: 1em 4em 1em 4em;
+}
 
 .remark-slide-number {
   color: rgb(137,137,137);
@@ -117,6 +136,3 @@ div.footer span {
   border-radius: 5px;
 }
 
-.center {
-  text-align: center;
-}

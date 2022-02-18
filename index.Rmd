@@ -14,8 +14,8 @@ date: "Updated: `r Sys.Date()`"
 
 | **Date** | **Time** | **Room** | **Topics** | **Slides** | **Readings** |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-| 03-07-2022 | 11:00am - 3:30pm | TC.4.04 | Introduction to R | WIP | [**R for Data Science**](https://r4ds.had.co.nz/index.html) |
-| 03-14-2022 | 11:00am - 3:30pm | TC.4.04 | | | [**Lost in Data Translation**](https://www.ama.org/marketing-news/lost-in-data-translation/), [**Data Science and the Art of Persuasion**](https://hbr.org/2019/01/data-science-and-the-art-of-persuasion) |
+| 03-07-2022 | 11:00am - 3:30pm | TC.4.04 | Introduction | WIP | [**Lost in Data Translation**](https://www.ama.org/marketing-news/lost-in-data-translation/), [**R for Data Science**](https://r4ds.had.co.nz/index.html) |
+| 03-14-2022 | 11:00am - 3:30pm | TC.4.04 | | |  [**Data Science and the Art of Persuasion**](https://hbr.org/2019/01/data-science-and-the-art-of-persuasion) |
 | 03-21-2022 | 11:00am - 3:30pm | TC.4.04 | | | [**The Psychology behind Data Visualization Techniques**](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720) |
 | 03-28-2022 | 11:00am - 3:30pm | TC.4.04 | | | |
 | 04-04-2022 | 11:00am - 3:30pm | **TC.3.06** | | | | 
@@ -57,5 +57,5 @@ heart
 ## Additional Readings
 
 - [**ggplot2: Elegant Graphics for Data Analysis**](https://ggplot2-book.org/index.html)
-
+- [**You Don’t Have to Be a Data Scientist to Fill This Must-Have Analytics Role**](https://hbr.org/2018/02/you-dont-have-to-be-a-data-scientist-to-fill-this-must-have-analytics-role)
 

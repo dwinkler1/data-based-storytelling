@@ -1,0 +1,318 @@
+---
+title: 'Introduction<br><font size="5" color="black"> [SBWL H &amp; M: Data-based Storytelling](https://danielw2904.github.io/data-based-storytelling/)</font>'
+layout: true
+output:
+  xaringan::moon_reader:
+    pandoc_args: 
+      - "--wrap=preserve"
+    self_contained: true
+    includes:
+      after_body: insert-logo.html
+    css: [default, wu-rds.css]
+    lib_dir: libs
+    nature:
+      beforeInit: "macros.js"
+      ratio: '16:9'
+      titleSlideClass: [left]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: "%current%"
+---
+
+```{r xaringan-setup, echo=FALSE}
+xaringanExtra::use_panelset()
+xaringanExtra::use_animate_css()
+```
+
+```{r document-setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+```{r references-setup, include=FALSE, cache=FALSE}
+library(RefManageR)
+BibOptions(check.entries = FALSE,
+           bib.style = "authoryear",
+           cite.style = "authoryear",
+           style = "markdown",
+           hyperlink = FALSE,
+           dashed = TRUE)
+refs <- ReadBib("./data_storytelling.bib", check = FALSE)
+```
+
+```{r locale-setup, include=FALSE}
+Sys.setlocale("LC_ALL", "en_US.UTF-8")
+```
+
+
+# Lost in data Translation
+
+___
+
+--
+
+.center[
+> Hire as many data scientists as you can find -
+> you’ll still be lost without translators to connect analytics with real business value.
+>
+> `r tufte::quote_footer('- McKinsey and Company')`
+]
+
+---
+
+# Lost in data Translation
+
+___ 
+
+- [Teaching a computer to tell the difference between a puppy and a kitten](https://colab.research.google.com/github/fastai/fastbook/blob/master/01_intro.ipynb#scrollTo=7qeB_WUKhz86) is neat but...
+
+--
+
+.center[
+> By 2025 __Chief Data Officers__ and their teams function as a __business unit with profit-and-loss responsibilities__. The unit, in partnership with business teams, is responsible for ideating new ways to use data, __developing a holistic enterprise data strategy (and embedding it as part of a business strategy)__, and incubating new sources of revenue by __monetizing data services and data sharing__.
+>
+> `r tufte::quote_footer('- McKinsey and Company')`
+]
+
+---
+
+
+
+# Lost in data Translation
+
+___
+
+.pull-left[
+> you’ll [...] be __lost without translators to connect analytics with real business value__.
+>
+>By 2025 [data teams will be], __developing a holistic enterprise data strategy (and embedding it as part of a business strategy)__ [...].
+> `r tufte::quote_footer('- McKinsey and Company')`
+]
+
+.pull-right[![](Graphics/translators.png)]
+
+---
+
+# Lost in data Translation
+
+___
+
+.pull-left[
+Many data applications are:
+- New
+- Persuasive
+- Clear
+]
+--
+.pull-right[__What is needed__:
+
+- __Value__
+
+]
+---
+.center[
+![:scale 45%](Graphics/Dataanalytics.svgz)
+]
+
+---
+ 
+
+.center[
+![:scale 45%](Graphics/Dataanalytics_retail.png)
+]
+
+---
+ 
+
+# Goals of this course
+
+___
+
+- Move from _showing data_ to __telling stories with data__ `r Citep(refs, 'knaflic2015storytelling')`
+
+--
+
+.pull-left[
+```{r example-covid, message=FALSE,echo=FALSE,warning=FALSE, dpi=300,fig.asp=0.7, out.width = "100%"}
+library(colorspace)
+library(COVID19)
+library(dplyr)
+library(ggplot2)
+library(ggrepel)
+at_covid <- covid19(country = "Austria", level = 2, verbose=FALSE) %>% 
+  arrange(date) %>%
+  mutate(share_vaccinated = people_vaccinated / population)
+at_covid %>%
+  filter(date %in% as.Date(c("2021-11-14", "2021-12-14"))) %>%
+  ggplot(aes(x = administrative_area_level_2, y = share_vaccinated, 
+           fill = as.factor(date))) +
+  geom_bar(stat='identity', position='dodge') +
+  labs(fill = "Date", x = "", y = "Share of population") +
+  theme(axis.text.x = element_text(angle = -45, hjust=-0.02))
+```
+]
+
+--
+
+
+
+.pull-right[
+```{r plot_hl, message=FALSE,echo=FALSE,warning=FALSE, dpi=300,fig.asp=0.7, out.width = "100%"}
+at_covid_change = at_covid %>%
+  filter(date >= as.Date("2021-10-14"), date <= as.Date("2021-12-19")) %>%
+  group_by(administrative_area_level_2) %>%
+  summarize(change = last(share_vaccinated) - first(share_vaccinated),
+            share_vaccinated = last(share_vaccinated))
+
+at_covid_text = at_covid %>%
+  filter(date == as.Date("2021-10-14"))
+
+at_covid_total = at_covid %>% 
+  filter(date >= as.Date("2021-10-14"), date <= as.Date("2021-12-19")) %>%
+  group_by(date) %>%
+  summarize(share_vaccinated = sum(people_vaccinated) / sum(population)) 
+  
+plot_nice <- at_covid %>%
+  filter(date >= as.Date("2021-10-14"), date <= as.Date("2021-12-19")) %>%
+  ggplot(aes(x = date, y = share_vaccinated)) + 
+  geom_line(aes(linetype=administrative_area_level_2),color = 'gray') +
+  scale_x_date(expand = c(0.01,0), 
+               limits = c(as.Date("2021-10-05"), as.Date("2021-12-19")))  + 
+  annotate("curve",arrow=arrow(length = unit(0.03, "npc"), angle = 30), 
+           x = as.Date("2021-11-01"), xend = as.Date("2021-11-10"),
+           y = 0.71, 
+           yend=at_covid_total$share_vaccinated[at_covid_total$date == as.Date("2021-11-10")],
+           curvature = -0.2) +
+  annotate("text", x = as.Date("2021-11-01"), y = 0.71, 
+           label = "Austria", hjust="right", size = 9)+
+  geom_line(data = at_covid_total) +
+  geom_vline(xintercept= as.Date("2021-11-15")) +
+  annotate("text", y = 0.78, x = as.Date("2021-11-14"),
+           hjust = "right", label = "Lockdown for unvaccinated") +
+  geom_vline(xintercept= as.Date("2021-11-19")) +
+  annotate("text", y = 0.78, x = as.Date("2021-11-20"), 
+           hjust = "left", label = "Announcement of vaccine mandate") +
+  theme_bw() +
+  theme(legend.position='none',
+        panel.border = element_blank(),
+        axis.line = element_line(color = 'black')) +
+  labs(y = "Share of population vaccinated", 
+       title="COVID 19 Vaccination rates in Austria (Okt-Dez 2021)", 
+       subtitle = "changes in policy did not affect trajectory",
+       caption = paste0("Source: ", Citet(refs, 'covid19_data')))
+plot_hl <- plot_nice +
+  geom_text_repel(aes(x=date - as.difftime(1, unit="days"), 
+                      y = share_vaccinated, 
+                      label = administrative_area_level_2), 
+                  hjust='right', data = at_covid_text, direction = 'y', 
+                  color = 'gray')
+plot_hl
+```
+]
+
+---
+
+count: false    
+
+# Goals of this course
+
+___
+
+- Move from _showing data_ to __telling stories with data__ `r Citep(refs, 'knaflic2015storytelling')`
+
+```{r plot_out, message=FALSE, echo=FALSE, warning=FALSE, ref.label="plot_hl", dpi=300,fig.asp=0.72, out.width = "50%"}
+```
+
+---
+
+count: false    
+
+# Goals of this course
+
+___
+
+- Move from _showing data_ to __telling stories with data__ `r Citep(refs, 'knaflic2015storytelling')`
+
+```{r plot_out2, message=FALSE, echo=FALSE, warning=FALSE,  dpi=300,fig.asp=0.72, out.width = "50%"}
+plot_nice + geom_line(aes(linetype=administrative_area_level_2)) +
+    geom_text_repel(aes(x=date - as.difftime(1, unit="days"), 
+                      y = share_vaccinated, 
+                      label = administrative_area_level_2), 
+                  hjust='right', data = at_covid_text, direction = 'y')
+```
+
+---
+
+count: false    
+
+# Goals of this course
+
+___
+
+- Move from _showing data_ to __telling stories with data__ `r Citep(refs, 'knaflic2015storytelling')`
+- 
+
+---
+
+# Why R?
+
+___
+
+```{r message=FALSE,echo=FALSE,warning=FALSE, cache=TRUE}
+library(gganimate)
+library(ggthemes)
+  
+circle <- data.frame(position = seq(0, 2*pi, by = 0.001))
+circle$heart_x <- 16*sin(circle$position)^3 
+circle$heart_y <- 13*cos(circle$position) - 
+                   5*cos(2*circle$position) - 
+                   2*cos(3*circle$position) - 
+                     cos(4*circle$position)
+
+heart <- ggplot(circle, aes(heart_x, heart_y)) +
+  geom_line(color = 'firebrick') +
+  theme_void() + 
+  theme(title = element_text(size=3)) + 
+  transition_time(position) + 
+  shadow_wake(wake_length = 0.9, alpha = FALSE)
+animation <- animate(heart, width = 200, height = 200, res=300, fps=20, renderer = gifski_renderer(file = "heart.gif"))
+```
+
+- Extremely flexible
+--
+
+  - e.g., animations
+  
+.center[
+![](heart.gif)
+]
+---
+
+count: false
+
+# Why R?
+
+___
+
+- Extremely flexible
+
+
+
+---
+
+
+### Papers & Books
+
+```{r refs, echo=FALSE, results="asis"}
+PrintBibliography(refs)
+```
+
+### Links
+
+[Five Fifty: Lost in translation](https://www.mckinsey.com/business-functions/people-and-organizational-performance/our-insights/five-fifty-lost-in-translation#)
+
+[LEADERSHIP LAB: The Craft of Writing Effectively](https://www.youtube.com/watch?v=vtIzMaLkCaM)
+
+[The age of analytics: Competing in a data-driven world](https://www.mckinsey.com/business-functions/mckinsey-analytics/our-insights/the-age-of-analytics-competing-in-a-data-driven-world)
+
+[The data-driven enterprise of 2025](https://www.mckinsey.com/business-functions/mckinsey-analytics/our-insights/the-data-driven-enterprise-of-2025)
