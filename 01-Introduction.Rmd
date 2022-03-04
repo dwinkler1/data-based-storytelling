@@ -18,11 +18,19 @@ output:
       highlightLines: true
       countIncrementalSlides: false
       slideNumberFormat: "%current%"
+      includePresenterNotes: true
+      navigation:
+        scroll: false
 ---
 
 ```{r xaringan-setup, echo=FALSE}
-xaringanExtra::use_panelset()
 xaringanExtra::use_animate_css()
+xaringanExtra::use_clipboard()
+xaringanExtra::use_extra_styles(
+  hover_code_line = TRUE,         #<<
+  mute_unhighlighted_code = TRUE  #<<
+)
+xaringanExtra::use_panelset()
 ```
 
 ```{r document-setup, include=FALSE}
@@ -195,7 +203,7 @@ plot_nice <- at_covid %>%
   theme(legend.position='none',
         panel.border = element_blank(),
         axis.line = element_line(color = 'black')) +
-  labs(y = "Share of population vaccinated", 
+  labs(y = "Share of population vaccinated", x = "",
        title="COVID 19 Vaccination rates in Austria (Okt-Dez 2021)", 
        subtitle = "changes in policy did not affect trajectory",
        caption = paste0("Source: ", Citet(refs, 'covid19_data')))
@@ -231,14 +239,8 @@ count: false
 ___
 
 - Move from _showing data_ to __telling stories with data__ `r Citep(refs, 'knaflic2015storytelling')`
-
-```{r plot_out2, message=FALSE, echo=FALSE, warning=FALSE,  dpi=300,fig.asp=0.72, out.width = "50%"}
-plot_nice + geom_line(aes(linetype=administrative_area_level_2)) +
-    geom_text_repel(aes(x=date - as.difftime(1, unit="days"), 
-                      y = share_vaccinated, 
-                      label = administrative_area_level_2), 
-                  hjust='right', data = at_covid_text, direction = 'y')
-```
+- Translate raw data to actionable business cases   
+- Go beyond statistical jargon to explain real world phenomena 
 
 ---
 
@@ -249,7 +251,13 @@ count: false
 ___
 
 - Move from _showing data_ to __telling stories with data__ `r Citep(refs, 'knaflic2015storytelling')`
-- 
+- Translate raw data to actionable business cases 
+- Go beyond statistical jargon to explain real world phenomena 
+
+### What we need
+
+- Theoretical knowledge on storytelling and data-visualization 
+- Tools to present data: `R` with packages like `ggplot2`, `gt`, and `flextable`
 
 ---
 
@@ -294,12 +302,373 @@ count: false
 ___
 
 - Extremely flexible
+- $~19.000$ available packages ranging from 
+  - [visualization](https://ggplot2.tidyverse.org) to 
+  - [all](https://www.stat.berkeley.edu/~breiman/RandomForests/) [types](https://www.tidymodels.org) [of](https://google.github.io/CausalImpact/CausalImpact.html) [statistical](https://cran.r-project.org/web/views/Econometrics.html) [analyses](https://facebook.github.io/prophet/), 
+  - [web-scraping](https://rvest.tidyverse.org), or 
+  - ["data wrangling"](https://dplyr.tidyverse.org). 
+- Well documented and widely used
 
+---
+
+# Story time
+
+___
+
+.vertical-center[**Does someone know a story?**]
+
+---
+
+count: false
+
+# Story time
+
+___
+
+.center[
+<iframe width="737" height="415" src="https://www.youtube-nocookie.com/embed/xV9HnITo2C0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+]
 
 
 ---
 
+# Three-act structure
 
+___
+
+.pull-left[
+.dense[
+1. Setup - _Why should I pay attention?_
+  - Introduce __protagonist__
+  ]
+]
+
+.pull-right[
+```{r, out.height='30%', echo=FALSE}
+knitr::include_graphics("Graphics/story_setup.png")
+```
+]
+
+---
+
+count: false
+
+# Three-act structure
+
+___
+
+.pull-left[
+.dense[
+1. Setup - _Why should I pay attention?_
+  - Introduce protagonist
+  - Present the __problem__
+  ]
+]  
+.pull-right[
+```{r, out.height='30%', echo=FALSE}
+knitr::include_graphics("Graphics/setup_problem.png")
+```
+]
+
+---
+
+count: false
+
+# Three-act structure
+
+___
+
+.pull-left[
+.dense[
+1. Setup - _Why should I pay attention?_
+  - Introduce protagonist
+  - Present the problem
+  - Call to __action__
+  ]
+]
+.pull-right[
+```{r, out.height='30%', echo=FALSE}
+knitr::include_graphics("Graphics/setup_call.png")
+```
+]
+
+---
+
+count: false
+
+# Three-act structure
+
+___
+
+.pull-left[
+.dense[
+1. Setup - _Why should I pay attention?_
+  - Introduce protagonist
+  - Present the problem
+  - Call to action
+2. Confrontation - _Why should I endorse?_
+  - __Attempts__ to resolve the problem
+]
+]
+.pull-right[
+```{r, out.height='15%', echo=FALSE}
+knitr::include_graphics("Graphics/atempt.png")
+```
+]
+
+---
+
+count: false
+
+# Three-act structure
+
+___
+
+.pull-left[
+.dense[
+1. Setup - _Why should I pay attention?_
+  - Introduce protagonist
+  - Present the problem
+  - Call to action
+2. Confrontation - _Why should I endorse?_
+  - Attempts to resolve the problem
+  - "What has been done?"
+      * Build the problem / show __imbalance__
+      * Get __credibility__
+]
+]
+.pull-right[
+```{r, out.height='15%', echo=FALSE}
+knitr::include_graphics("Graphics/atempt2.png")
+```
+]
+---
+
+count: false
+
+# Three-act structure
+
+___
+
+.pull-left[
+.dense[
+1. Setup - _Why should I pay attention?_
+  - Introduce protagonist
+  - Present the problem
+  - Call to action
+2. Confrontation - _Why should I endorse?_
+  - Attempts to resolve the problem
+  - "What has been done?"
+  - Make clear why _your_ solution is needed and the __audience can drive action__
+]
+]
+.pull-right[
+```{r, out.height='15%', echo=FALSE}
+knitr::include_graphics("Graphics/failed.png")
+```
+]
+---
+
+count: false
+
+# Three-act structure
+
+___
+
+.pull-left[
+.dense[
+1. Setup - _Why should I pay attention?_
+  - Introduce protagonist
+  - Present the problem
+  - Call to action
+2. Confrontation - _Why should I endorse?_
+  - Attempts to resolve the problem
+  - "What has been done?"
+  - Make clear why _your_ solution is needed and the audience can drive action
+3. Resolution - _What can I do?_
+  - Present your __solution__
+  - Call to action
+]
+]
+.pull-right[
+```{r, out.height='15%', echo=FALSE}
+knitr::include_graphics("Graphics/success.png")
+```
+]
+---
+
+count: false
+
+# Three-act structure
+
+___
+
+.pull-left[
+.dense[
+1. Setup - _Why should I pay attention?_
+  - Introduce protagonist
+  - Present the problem
+  - **Call to action**
+2. Confrontation - _Why should I endorse?_
+  - Attempts to resolve the problem
+  - "What has been done?"
+  - Make clear why _your_ solution is needed and the __audience can drive action__
+3. Resolution - _What can I do?_
+  - Present your solution
+  - **Call to action**
+]
+]
+.pull-right[
+```{r, out.height='15%', echo=FALSE}
+knitr::include_graphics("Graphics/success.png")
+```
+]
+
+???
+- When to call for action depends on audience
+  - How knowledgeable?
+  - Relationship? Establish credibility?
+---
+
+# SUCCESS! 
+
+___
+
+.center[
+```{r, out.width='50%', echo=FALSE}
+knitr::include_graphics("Graphics/yaaay.png")
+```
+]
+
+---
+
+# Here's to the crazy ones!
+
+___
+
+.center[
+<iframe width="737" height="415" src="https://www.youtube-nocookie.com/embed/YBJAvi3A0H8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+]
+
+---
+
+class: dense logo-small hide-footer hide-logos-bottom
+
+
+__Setup__
+- Introduce "the crazy ones": Einstein, Dylan, MLK, Earhart...
+- "See things differently", "not fond of rules", "no respect for the status quo" 
+
+--
+
+__Confrontation__
+- "You can quote them, disagree with them, glorify, or vilify them"
+--
+
+- You should buy-in because: "the only thing you can't do is ignore them"
+--
+
+- "While some may see them as the crazy ones..."
+
+--
+
+__Resolution__
+- "We see genius."
+- "Because the people who are crazy enough to think they can change the world, are the ones who do."
+
+???
+This establishes two groups:
+  - Those who see them as the crazy ones $\Rightarrow$ boring
+  - Those who see genius $\Rightarrow$ cool
+  
+__Which group are you in?__
+---
+
+class: hide-footer hide-logo-bottom hide-logo
+
+background-color: #0F0F0F
+
+.center[
+```{r, echo=FALSE, out.height="100%"}
+knitr::include_graphics("Graphics/Think_Different.svg")
+```
+]
+
+--
+.center[<font color="white">Call to action</font>]
+
+---
+
+# Some recommendations
+
+___ 
+
+- Have a 1 min. elevator-pitch ready
+- Don't be afraid to cut material out
+  - What is relevant to the audience?
+--
+
+- In school: success is presenting knowledge both you and the teacher have
+--
+
+- In Life: success is presenting knowledge the audience wants to have
+
+---
+
+class: logo-small hide-footer
+
+# Data Visualization
+
+___ 
+`r NoCite(refs, "schwabish2021better")`
+
+.pull-largeleft[
+- Starting with `r Citet(refs, "cleveland1984graphics")` researchers have explored which types of graphs can be read accurately by humans
+]
+.pull-smallright[
+```{r, echo = FALSE, out.width="70%", fig.cap='<a href="https://www.gabrielaplucinska.com/blog/2017/8/7/pie-charts">source</a>'}
+knitr::include_graphics("Graphics/visual_accuracy.jpeg")
+```
+]
+---
+
+# Example 
+
+___
+
+```{r message=FALSE, warning=FALSE, dpi=300, include=FALSE, out.height="10%"}
+at_latest = at_covid[!is.na(at_covid$people_vaccinated),] 
+at_latest = at_latest[at_latest$date == max(at_latest$date),]
+ggplot(at_latest, 
+       aes(y = 0, 
+           x = administrative_area_level_2, 
+           size = share_vaccinated)) + 
+  geom_point() +
+  theme_minimal() +
+  theme(axis.text.y = element_blank(), 
+        axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank())+
+  scale_size_continuous(name = "Share vaccinated",range = c(0.1,10)) 
+ggsave("Graphics/bubble.png")
+
+```
+.vertical-center[![](Graphics/bubble.png)]
+
+---
+
+- However, accuracy is not always the (only) goal for data story telling
+- Graphs need to be engaging!
+
+--- 
+
+# References
+
+___
+
+.scrollable[
 ### Papers & Books
 
 ```{r refs, echo=FALSE, results="asis"}
@@ -315,3 +684,6 @@ PrintBibliography(refs)
 [The age of analytics: Competing in a data-driven world](https://www.mckinsey.com/business-functions/mckinsey-analytics/our-insights/the-age-of-analytics-competing-in-a-data-driven-world)
 
 [The data-driven enterprise of 2025](https://www.mckinsey.com/business-functions/mckinsey-analytics/our-insights/the-data-driven-enterprise-of-2025)
+
+[Think Different Logo](https://de.wikipedia.org/wiki/Think_Different#/media/Datei:Apple_logo_Think_Different_vectorized.svg)
+]

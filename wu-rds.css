@@ -3,6 +3,14 @@
   --rds-blue-hex: #5498d6;
 }
 
+/*-- CUSTOM CLASSES FOR TEXT EMPHASIS --*/
+/* from https://spcanelon.github.io/xaringan-basics-and-beyond */
+.blue       { color:   #005EB8 }
+.green      { color:   #009639 }
+.pink       { color:   #AE2573 }
+.red        { color:   #DA291C }
+.warmyellow { color:   #FFB81C }
+
 body { font-family: "Open Sans"; }
 
 /* link to index on title slide should be black*/
@@ -32,6 +40,19 @@ ul li::before {
     margin-right: 0.5em;
     margin-top: 1em;
     padding-top: -1em;
+
+}
+
+.dense ul li::before {
+    content: "▪";
+    color:  rgb(var(--rds-blue));
+    font-weight: bold;
+    display: inline-block;
+    width: 0.5em;
+    margin-left: -1em;
+    margin-right: 0.5em;
+    margin-top: 0.1em;
+    padding-top: 0em;
 
 }
 
@@ -136,3 +157,35 @@ div.footer span {
   border-radius: 5px;
 }
 
+.vertical-container {
+  height: 200px;
+  position: relative;
+  border: 3px solid green;
+}
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.scrollable {
+  height: 70%;
+  max-height: 70%;
+  overflow-y: scroll;
+} 
+.pull-smallright {
+  float: right;
+  width: 37%;
+}
+
+.pull-largeleft {
+  float: left;
+  width: 57%;
+}
+
+p.caption {
+  font-size: 0.6em;
+}
