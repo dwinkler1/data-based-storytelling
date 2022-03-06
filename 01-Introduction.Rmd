@@ -835,13 +835,7 @@ ___
 
 ---
 
-# Read data
-
-```{r}
-library(readr)
-charts <- read_csv("charts_global_at.csv")
-```
-
+# Go to [getting_started.html](./getting_started.html)
 
 
 ---
