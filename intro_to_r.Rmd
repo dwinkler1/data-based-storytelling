@@ -1,0 +1,1139 @@
+---
+title: |
+  | Marketing Research \small Kurs 3
+  | \small Introduction & R Programming
+subtitle: SBWL Service & Digital Marketing
+author: |
+  | \textbf{Institute for Interactive Marketing \& Social Media}
+  |
+  | \textbf{Service Marketing}
+#date: "02/03/2019"
+classoption: "aspectratio=1610"
+params:
+  print_address: FALSE # Set FALSE to remove last slide with contact info
+  student_copy: FALSE # Set TRUE to remove solutions to exercises. Optionally set file name in pandoc args
+header-includes:
+  - \usepackage{beamerthemewu2017} # Load WU theme
+  - \usepackage[misc, alpine]{ifsym} # Package for symbols in address
+  - \usepackage{booktabs}
+  - \usepackage{dirtree}
+  - \newcommand{\titleLength}{2} # Number of lines for title {1,2}
+  - \newcommand{\titleBackground}{1} # Picture on title 1 = D2
+  - \newcommand{\placementLogoFooter}{1} # Footer logos 1 = right, 2 = left
+  - \newcommand{\slideNumberLabelFooter}{} # Set text before page number
+  - \newcommand{\textFooter}{Marketing Research} # Set footer text
+  - \newcommand{\address}{\textbf{Daniel Winkler} \\ \vskip.5cm \Letter \hskip.3cm dwinkler@wu.ac.at \\ \vskip.5cm \Hut \hskip.4cm D2.1.548 (Entrance A)\\ \vskip.5cm \Telephone \hskip.2cm +43 1 31336 4888} # Set text for address box on last slide if print_address: TRUE (above)
+  - \newcommand{\affiliationText}{} # Set Affiliation
+  - \usenavigationsymbolstemplate{}
+  - \newcommand{\includeTocAtBeginSection}{} # Comment out with "#" to remove TOCs at beginning of sections
+output:
+  beamer_presentation:
+    slide_level: 3
+    pandoc_args: ["--output=intro_to_r_solution.pdf"]
+    keep_tex: false # set true for debugging
+#    fig_crop: false
+  tables: true
+---
+
+# About this class
+
+### Welcome to Marketing Research!
+```{r set-options, echo=FALSE, cache=FALSE}
+options(xtable.comment = FALSE, width = 60) # Width of slide
+knitr::opts_chunk$set(comment=NA, fig.width=6, fig.height=3.5, cache = TRUE, fig.align = 'center') # fits plot to page with axes labels visible
+knitr::opts_knit$set(root.dir="~/Documents/Teaching/SS21/") # Unfortunatelly have to set this
+```
+
+\centering
+![](./Graphics/logos.png)
+
+## Overview
+
+### Topics
+
+| Topic | Reading |
+| --- | --- |
+| Introduction & R Programming | Ch. 1 & 2 |
+| Statistical inference & Hypothesis testing | Ch. 3 & 4 |
+| $\chi^2$-test & Correlation | Ch. 5 & 6 |
+| t-test & ANOVA | Ch. 7 & 8 |
+| Regression | Ch. 9 |
+| Review session (optional) | |
+| Exam |
+
+Reading material is available at: [short.wu.ac.at/mresearch](https://short.wu.ac.at/mresearch)
+
+### Class structure
+
+- Sessions 1 & 2 are foundation for the remaining lectures
+
+- For each of the statistical tests:
+
+    1. Present & visualize appropriate Data in R
+
+    2. Pose a relevant research question
+
+    3. Present the appropriate test
+        - Implementation in R
+        - Checking test assumptions
+        - Interpretation of output
+
+    4. Exercise with similar data
+
+    5. Math toolbox
+
+### Goals of this class I
+
+1. Prepare for job market & MSc. in Marketing
+
+2. Learn data pre-processing and visualization
+
+3. Build a vocabulary for statistical testing & tests
+
+4. Implement and interpret statistical tests
+
+5. Gain confidence in our analyses
+
+### Goals of this class II
+
+\begin{block}{Statistics}
+\begin{itemize}
+\item Knowing appropriate tests
+\item Being able to choose test for given data and check its assumptions
+\item Being able to interpret the results
+\end{itemize}
+\end{block}
+
+\begin{block}{Programming}
+\begin{itemize}
+\item Being able to load and pre-process data
+\item Being able to visualize data
+\item Being able to implement tests
+\end{itemize}
+\end{block}
+
+### Why R
+
+- Pre-processing is the main advantage of R over SPSS, Stata, etc. since we have a full programming language for statistics and data analysis
+
+- Availability of packages that implement methods & facilitate data wrangling
+
+- Well established and extremely stable
+
+- Highly regarded in job market & necessary for M.Sc. in Marketing at WU (now top 10 in worldwide ranking!)
+
+- Free
+
+## How to get a "Sehr Gut"
+
+### Resources
+
+- Slides
+
+  - Main focus of class discussion $\Rightarrow$ Exam
+
+- R code files
+
+  - Implementation of visualization and statistical testing $\Rightarrow$ Homework
+
+- Website
+
+  - Preparation for class $\Rightarrow$ Exam & Homework
+
+### Requirements
+
+- **4 + 1 Assignments on statistics** ($4 \times 10\% = 40\%$, Individual)
+    - Worst result gets canceled    
+    - Assignments are uploaded to learn@WU & presented during live session
+    - Presentations should be structured similar to slides
+
+- **4 + 1 Coding exercises** ($4 \times 5\% = 20\%$, Individual)
+    - Worst result gets canceled
+    - Coding exercises are uploaded to learn@WU & discussed at the beginning of class
+    - Your result must be clear (i.e. ouput is in the document) & and reproducible using your code
+
+- **Exam** ($40\%$, Individual)
+    - Minimum requirement is $50\%$ on the exam i.e. 20/40 points
+
+Overall minimum is $60\%$ for a passing grade. Better grade with $10\%$pts increments.
+
+### Way to success I
+
+#### Assignments
+- Follow class structure for your presentation
+- Interpret the results and give an argument for the interpretation
+- Do them individually rather than copying
+
+#### Coding Exercises
+- R help files (later today) and google are your friends
+- There are more than one correct solutions
+- Code readability and program efficiency matter (trade-off)
+
+### Way to success II
+
+#### Exam
+- Understanding of foundations (next week) is essential for all questions
+
+- Know which test to use for which data situation
+
+- Interpretation of R output of tests and visualizations
+
+## Questions?
+
+# Introduction to R
+
+## Setup
+
+### Getting R & R-Studio
+
+0. Determine your operating system and get the appropriate versions of the software below
+
+1. Download & install R: [https://cran.r-project.org/](https://cran.r-project.org/)
+
+2. Download & install R-Studio: [https://www.rstudio.com/products/rstudio/download/#download](https://www.rstudio.com/products/rstudio/download/#download)
+
+Links also available at:
+[imsmwu.github.io/MarketingResearch/getting-started](https://imsmwu.github.io/MarketingResearch/getting-started.html)
+
+### Setting up a Project
+
+0. Open R-studio
+
+1. Click on "Project: (None)" in the top right corner & select "New Project"
+
+2. Select "New Directory"
+
+3. Select "New Project" as project type
+
+4. Enter project name e.g. "Marketing Research"
+
+5. Select location on your computer to save this folder to
+
+6. Click "Create Project"
+
+7. When you re-open R-studio you can open your project by clicking on "Project: (None)" and selecting your project
+
+## R programming
+
+### Reproducable Research I
+
+- Save your code in .R files (white sheet with plus sign in top left corner)
+
+- Use comments. A lot of comments!
+
+- After every coding session make sure your code runs from top to bottom (or comment clearly what doesn't work yet)
+
+    - Clear all variables with ```rm(list=ls())```
+    - Restart R session (Session - Restart R)
+    - Re-run code
+
+- Make requirements for running the code clear at the beginning of your file (e.g. loading packages, other code files, version requirements)
+
+### Reproducable Research II
+
+- Have a clear folder structure for each project e.g.:
+
+\dirtree{%
+.1 Marketing Research (Project directory).
+.2 Code.
+.3 ttest.R.
+.3 anova.R.
+.3 ....
+.2 Data.
+.3 playlists.csv.
+.3 ....
+.2 Presentations.
+.3 assignment1.Rmd.
+.3 assignemnt2.Rmd.
+.3 ....
+}
+
+### R as a calculator
+
+```{r calculator}
+# Our first calculation
+4 + 5 # Text after a "#" in a line is not interpreted
+10 /      2 # Spacing has no meaning to R
+2 * # If an operation requires more input R will search
+  2 # in subsequent lines
+2^2 + 15 %% 7 # "%%" calculates the remainder
+```
+
+### R output
+
+- The first element in each line of output is a number in square brackets (e.g. `[1]`).
+
+- It indicates the position of the first element in that line (e.g. the 15th element starts the second line $\Rightarrow$ `[15]`)
+
+```{r}
+letters
+```
+
+
+### Assigning variable names
+
+```{r objects}
+x <- 5 # "<-" is the assignment operator
+y <- 7
+x + 2
+x < 10 # we can perform logical operations
+x >= y
+x <- 10 # variables can be overwritten
+x
+```
+
+### Logical operations {.allowframebreaks} 
+
+| Operation | Description | Example | Result |
+| --- | --- | --- | --- |
+| `a==b` | a equal b | `8/2==4` | `r TRUE` |
+| `a!=b` | a not equal b | `8/2!=5` | `r TRUE` |
+| `a>b` | a greater b | `2*2>3` | `r TRUE` |
+| `a>=b` | a greater or equal b | `5>=10/2` | `r TRUE` |
+| `a<b` | a less b | `6/2 < 5` | `r TRUE` |
+| `a<=b` | a less or equal b | `5<=10/2` | `r TRUE` |
+
+Logical AND: `&&` e.g. `5>=4 && 7>5` $\Rightarrow$ `r TRUE`
+
+Logical OR: `||` e.g. `5>=4 || 7>10` $\Rightarrow$ `r TRUE`
+
+- `&` and `|`: element-wise; 
+- `&&` and `||`: only first element
+
+```{r}
+c(1 < 2, 2 < 3) & c(4 > 5, 5 > 4)
+c(1 < 2, 2 < 3) && c(4 > 5, 5 > 4)
+c(1 < 2, 2 < 3) && c(4 < 5, 5 < 4)
+```
+
+\framebreak
+
+```{r}
+c(1 < 2, 2 < 3) | c(4 > 5, 5 > 4)
+c(1 < 2, 2 < 3) || c(4 > 5, 5 > 4)
+```
+
+### Calling functions
+
+```{r functions}
+eulers <- exp(1)
+?exp # get help file of this function
+log(eulers)
+log(eulers^2) # nested function
+log(1) + eulers # multiple functions
+```
+
+### Data Types I
+
+Data type    | Description
+------------- | --------------------------------------------------------------------------
+Numeric (double) | Approximations of the real numbers,  $\normalsize\mathbb{R}$ (e.g., mileage a car gets: 23.6, 20.9, etc.)
+Integer  | Whole numbers,  $\normalsize\mathbb{Z}$ (e.g., number of sales: 7, 0, 120, 63, etc.)
+Character | Text data (strings, e.g., product names)
+Logical  | TRUE, FALSE
+|--- | --- |
+Factor  | Categorical data for classification (e.g., genre)
+Date  | Date variables (e.g., sales dates: 21-06-2015, 06-21-15, 21-Jun-2015, etc.)
+
+Variables can be converted using ```as.TYPE()``` e.g. ```as.numeric(x)```
+
+### Data Types II
+
+```{r types}
+x <- "5" # "" indicate character variables
+typeof(x) # determine data type of "x"
+x <- as.integer(x) # creates integer
+typeof(x)
+y <- "7.5"
+y <- as.numeric(y) # creates floating point number
+typeof(y)
+```
+
+### Data Types III
+
+```{r dates}
+date <- "01.01.2021"
+typeof(date)
+( date <- as.Date(date, format = "%d.%m.%Y") )
+typeof(date) # Days since 1st Jan. 1970
+# Classes give additional meaning to values
+class(date) # e.g. double -> Dates
+```
+
+### Exercise I
+
+1. Assign todays date to a variable of class "Date" called ```today```
+
+2. Make sure the class is correct. Why is the type ```double```?
+
+3. What is the output of ```Sys.Date() - today```?
+
+4. Get help for the ```Sys.Date()``` function.
+
+5. Overwrite ```today``` with the value ```"10"```.
+
+6. Convert ```today``` to a numeric (either integer or double) and print it to console.
+
+### Solution I
+
+```{r solution1, include=!params$student_copy, purl=FALSE}
+today <- as.Date("2021-03-01") # 1. Assign todays date
+class(today) # 2. check class
+Sys.Date() - today # 3. difference in days
+?Sys.Date # 4. help file (omitted)
+today <- "10" # 5. re-assign today
+( today <- as.numeric(today) ) # 6. convert to numeric
+```
+
+### Data Structures I
+
+![](./Graphics/datastructs.jpg)
+
+### Data Structures II
+
+```{r structs}
+( y <- c(1,2,3,4,5) ) # vector of numerics alternatively 1:5
+# vector of characters
+( names <- c("Alex", "Dan", "Martin") )
+( X <- matrix(c(0,2,3,4,5,6,7,8), nrow = 2,
+            byrow = TRUE) ) # matrix by row
+```
+
+### Data Structures III
+
+```{r df1}
+( students <- data.frame(names = names, grades = c(1,5,1),
+                         pass = c(TRUE, FALSE, TRUE)) )
+students$names
+class(students$names)
+```
+
+### Data Structures IV
+
+```{r df2}
+( students <- data.frame(names = names, grades = c(1,5,1),
+                         pass = c(TRUE, FALSE, TRUE),
+                         stringsAsFactors = FALSE) )
+students$names
+class(students$names)
+```
+
+### Data Structures V
+
+```{r df3}
+students$exam_pts <- c(50, 25, 57.5) # add new variable
+students
+ncol(students)
+nrow(students)
+```
+
+
+### Accessing data in data.frames
+```{r accessing data}
+students[ ,1] # All rows; First column
+students[1, ] # First row; All columns
+students[ ,c(1,3)] # All rows; 1st & 3rd column
+```
+
+### Subsetting with data.frames
+
+```{r subset}
+# Names and grades of students who passed
+students[students$pass == TRUE, c("names", "grades")]
+students[students$grades > 1, ] # All rows with grades > 1
+subset(students, students$grades > 1) # alternative
+```
+
+### Inspecting data.frames I
+
+```{r inspect dfs}
+students2 <- data.frame(
+  names = sample(names, 100, replace = TRUE),
+  grades = sample(1:5, 100, TRUE), stringsAsFactors = FALSE)
+students2$pass <- ifelse(students2$grades<5, TRUE, FALSE)
+str(students2)
+```
+
+### Inspecting data.frames II
+
+```{r inspect dfs2}
+head(students2) # return first 6 rows check ?head
+names(students2) # return columns names of df
+```
+
+### Exercise II
+
+1. Create a data.frame with the following variables of you and at least 2 of your classmates
+    - Name, age, favorite animal, boolean indicator if that animal is cat
+
+2. Print the rows of your data.frame that include observation with age greater than 21
+
+3. Add a variable that indicates whether the person is allowed to drink in the US
+
+4. Give a quick overview of the data.frame (i.e. print a couple of lines and show data types)
+
+### Solution II.I
+
+```{r solution2, include=!params$student_copy, purl=FALSE}
+# 1. Create the data.frame
+neighs <- data.frame(name = c("Alex", "Dan", "Martin"),
+                        age = c(20, 22, 25),
+                        fav_animal = c("Dog", "Cat", "Ant"),
+                        is_cat = c(FALSE, TRUE, FALSE),
+                        stringsAsFactors = FALSE)
+# 2. Subset by age
+neighs[neighs$age > 21, ]
+```
+
+### Solution II.II
+
+```{r solution2.2, include=!params$student_copy, purl=FALSE}
+# 3. Add drinking variable
+neighs$can_drink <- ifelse(neighs$age > 21, TRUE, FALSE)
+# 4. Get overview
+str(neighs)
+```
+
+
+### Scale Types
+
+Indicates type of variable and permissible statistics
+
+#### Categorial (Qualitative | Non-metric) $\Rightarrow$ ```factor```, ```logical```
+
+- Nominal (e.g., ID, genre, gender)
+
+- Ordinal (e.g., Grade {1,...,5}, Quality {Good, Bad})
+
+#### Continuous (Quantitative | Metric) $\Rightarrow$ ```double```, ```date```, $\dots$
+
+- Interval (e.g. temperature in Celsius/Farenheit) $\Rightarrow$ no absolute 0
+
+- Ratio (e.g. points, market share) $\Rightarrow$ 60pts twice as good as 30pts
+
+
+### Categorical Variables
+
+#### Nominal
+- Allowed operations: =, $\neq$
+- Descriptive statistics:
+    - counts, percentages
+    - mode
+- Inferential statistics: Chi-square test
+
+#### Ordinal
+- Allowed operations: =, $\neq$, <, >
+- Descriptive statistics: percentiles, median
+- Inferential statistics: non-parametric tests (extra session, master)
+
+### Nominal Variables
+
+```{r}
+# Create a factor
+genre <- factor(c("rap", "pop", "pop", "reggae", "rap"))
+# Get counts
+table(genre)
+# Get levels
+levels(genre)
+```
+
+### Ordinal Variables
+
+```{r}
+grade <- factor(c("satisfactory","excellent", "good", "good",
+                  "excellent", "good"),
+                levels = c("satisfactory", "good",
+                           "excellent"))
+prop.table(table(grade))
+## Cumulative sum of shares => percentile
+cumsum(prop.table(table(grade)))
+```
+
+
+### Continuous Variables I 
+
+#### Interval
+
+- Allowed operations: =, $\neq$, <, >, +, -
+
+#### Ratio
+
+- Allowed operations: =, $\neq$, <, >, +, -, ***, /**
+
+### Continuous Variables II
+
+#### Both
+- Descriptive statistics:
+    - mean (location)
+    - standard deviation (dispersion)
+- Inferential statistics:
+    - Correlations
+    - t-test, ANOVA 
+    - Regression
+
+### Continuous variables
+
+```{r}
+listening_time <- c(23.5, 10, 1, 0, 39)
+mean(listening_time)
+# Standard deviation
+sd(listening_time)
+```
+
+### Overview
+
+OK to compute....    | Nominal   | Ordinal   | Interval  | Ratio
+------------- | ------------- | ------------- | --- | ---
+frequency distribution  | **Yes**  | **Yes**  | **Yes**  | **Yes**
+median and percentiles  | No  | **Yes**  | **Yes**  | **Yes**
+mean, standard deviation | No  | No  | **Yes**  | **Yes**
+ratio, or coefficient of variation  | No  | No  | No  | **Yes**
+
+### Running code conditionally I
+
+Check condition and only run code in `{}` if condition is `r TRUE`.
+
+```{r ifelse1}
+x <- TRUE
+y <- TRUE
+if(x){ # TRUE -> print text and end if statement
+  print("x is true")
+}else if(y) {
+  print("y is true but x is not true")
+}else{
+  print("Neither x nor y are true")
+}
+```
+
+### Running code conditionally II
+
+```{r ifelse2}
+x <- FALSE
+y <- TRUE
+if(x){ # FALSE -> go to next statement
+  print("x is true")
+}else if(y) { # TRUE -> print and end
+  print("y is true but x is not true")
+}else{
+  print("Neither x nor y are true")
+}
+```
+
+
+### Running code conditionally III
+
+```{r ifelse3}
+x <- FALSE
+y <- FALSE
+if(x){
+  print("x is true")
+}else if(y) {
+  print("y is true but x is not true")
+}else{
+  print("Neither x nor y are true")
+}
+```
+
+
+### Running code conditionally IV
+
+```{r ifelse4}
+x <- FALSE
+y <- FALSE
+if(x && y){ # FALSE -> go to next statement
+  print("x and y are true")
+}else if(y) { # FALSE -> go to next statement
+  print("y is true but x is not true")
+}else if(x){ # FALSE -> go to next statement
+  print("x is true but y is not true")
+}else{ # All of the above FALSE -> run
+  print("Neither x nor y are true")
+}
+```
+
+### Running code conditionally V
+
+```{r ifelse5}
+x <- TRUE
+y <- TRUE
+if(x && y){ # TRUE -> run and end
+  print("x and y are true")
+}else if(y) {
+  print("y is true but x is not true")
+}else if(x){
+  print("x is true but y is not true")
+}else{
+  print("Neither x nor y are true")
+}
+```
+
+### Running code conditionally VI
+
+```{r ifelse6}
+x <- TRUE
+y <- FALSE
+if(x && y){ # FALSE -> next statement
+  print("x and y are true")
+}else if(y) { # FALSE -> next statement
+  print("y is true but x is not true")
+}else if(x){ # TRUE -> run and end
+  print("x is true but y is not true")
+}else{
+  print("Neither x nor y are true")
+}
+```
+
+### Loops I
+
+Runs code within loop multiple times according to loop's argument
+
+```{r for1}
+for(i in 1:3){ # insert 1,2,3 for i
+  print("The square is:")
+  print(i^2) # print with current value of i
+  # repeat if 3 is not yet reached
+}
+```
+
+### Loops II
+
+```{r for2}
+x <- c(2, 5, 1)
+y <- matrix(0, ncol = length(x))
+for(i in seq_along(x)){ # enumerate elements in x
+  # write the squared ith value of x
+  y[,i] <- x[i]^2 # into ith column of y
+}
+y
+```
+
+### Vectorization
+
+```{r for3}
+x^2 # elemente wise square of values in x
+
+y <- matrix(0, ncol = length(x))
+# write squares into first row of y
+( y[1,] <- x^2 )
+```
+
+### Combining vectors/matrices
+
+```{r}
+comb <- cbind(x, x^2, x^3)
+colnames(comb) <- c("x", "x^2", "x^3")
+comb
+rbind(x, "x^2" = x^2, "x^3" = x^3)
+```
+
+
+
+### Exercise III
+
+Fizz-Buzz Test: If `x` is divisible by 3 print "Fizz", if `x` is divisible by 5 print "Buzz", if `x` is divisible by 3 and 5 print "FizzBuzz". If neither condition applies print "No Fizz no Buzz!".
+Write a program that does the Fizz-Buzz Test for the values x = \{10, 11, 12, 13, 14, 15\}.
+
+Hint 1:
+`%%` is the modulo operator which returns $0$ for ```x%%y``` if ```x``` is divisible by ```y```.
+
+Hint 2:
+```{r hint ex3}
+for(x in 10:12){print(x)}
+```
+
+
+### Solution III.I
+
+```{r solution3, include=!params$student_copy, purl=FALSE}
+for(x in 10:15){
+  if(x%%3==0 && x%%5==0){print("FizzBuzz")}
+  else if(x%%3==0){print("Fizz")}
+  else if(x%%5==0){print("Buzz")}
+  else{print("No Fizz no Buzz!")}
+}
+```
+
+### Solution III.II
+
+```{r solution3.2, include=!params$student_copy, purl=FALSE}
+for(x in 10:15){
+  if(x%%3==0){part1 <- "Fizz"}else{part1<-""}
+  if(x%%5==0){part2 <- "Buzz"}else{part2<-""}
+  # || is logical "or"; paste0 combines 2 strings
+  if(x%%3==0 || x%%5 == 0){print(paste0(part1, part2))
+  } else{print("No Fizz no Buzz!")}
+}
+```
+
+### Extending R with Packages
+
+- R has a huge number of libraries for all types of analyses
+
+- See Task Views: [cran.r-project.org/web/views/](https://cran.r-project.org/web/views/)
+
+
+
+```{r libs, eval=FALSE}
+# Install new packages
+install.packages("readr")
+# Load package
+library(readr)
+# See functionality
+help(package="readr")
+vignette("readr")
+```
+
+```{r libs_notshow, messages=FALSE, echo=FALSE}
+library(readr)
+```
+
+- New package appears in the "Packages" tab of the lower right quarter
+
+### Loading the data
+
+- R needs to know where the dataset is located on your computer
+
+
+```{r load df, message=FALSE, warning=FALSE}
+# Determine where R's working directory is
+setwd("/home/daniel/Documents/Teaching/SS21")
+getwd()
+list.dirs(".", recursive = FALSE)
+# Load data with relative path to make sharing projects easy
+music_data <- read_csv("./data/music_data.csv")
+```
+
+### Quick overview I
+
+```{r}
+names(music_data)[1:26]
+```
+
+### Quick overview II
+
+```{r}
+names(music_data)[27:length(names(music_data))]
+```
+
+### Quick overview III
+
+```{r echo = FALSE}
+music_data <- data.frame(music_data)
+```
+
+```{r}
+str(music_data[,1:10])
+```
+
+### Make sure the data type is correct!
+
+e.g.
+
+```{r}
+music_data$explicit <- factor(music_data$explicit,
+                              levels = c(1, 0),
+                              labels = c("Yes", "No"))
+str(music_data$explicit)
+```
+
+
+### Measures of location
+
+- **Mean**: $\bar x = \sum_{i=1}^N x_i / N$
+
+&nbsp;
+
+- **Mode**: most frequent value
+
+&nbsp;
+
+- **Median (50th percentile)**: $50\%$ of values are lower, $50\%$ are higher
+
+### Measures of location in R
+
+```{r}
+# Mode = most frequent value
+which.max(table(music_data$explicit))
+# Mean = Average
+mean(music_data$mstreams, na.rm=TRUE)
+# Media = 50% of values below/above
+median(music_data$mstreams, na.rm=TRUE)
+```
+
+### Measures of dispersion I
+
+**Range**: maximum - minimum
+
+&nbsp;
+
+**Interquartile Range**: 75th percentile - 25th percentile
+
+\centering
+
+![](./Graphics/iqr.png){height=1.5cm}
+
+### Measures of dispersion II
+
+**Variance**: Mean squared deviation from the mean $$\sigma^2 = \frac{1}{n-1} \sum_{i=1}^N(x_i - \bar x)^2$$
+
+
+**Standard deviation**: Square root of variance $$\sigma = \sqrt{\sigma^2}$$
+
+### Visualizing dispersion
+
+\vskip-1.5cm
+```{r hist_dispersion, fig.height=4, fig.width = 6, echo = FALSE}
+set.seed(42)
+hist(rnorm(1000, mean = 0, sd = 100), col = "green", main = "", xlab = "")
+hist(rnorm(1000, mean = 0, sd = 10), add = TRUE, col = "red")
+legend("topright", legend = c(expression("large"~sigma^2),
+                              expression("small"~sigma^2)),
+       fill = c("green", "red"))
+```
+
+
+### Measures of dispersion in R I
+
+```{r}
+# Range: Largest - Smallest
+diff(range(music_data$mstreams, na.rm = TRUE))
+# Interquartile range 75th percentile - 25th percentile
+IQR(music_data$mstreams, na.rm = TRUE)
+# or
+diff(quantile(music_data$mstreams, c(0.25, 0.75),
+              na.rm = TRUE))
+```
+
+### Measures of dispersion in R II
+
+```{r}
+# Variance: mean squared deviation from mean
+var(music_data$mstreams, na.rm=TRUE)
+# Standard deviation: square root of variance
+sd(music_data$mstreams, na.rm = TRUE)
+# or
+sqrt(var(music_data$mstreams, na.rm = TRUE))
+```
+
+
+### Visualizing categorical variables
+
+```{r barplot, fig.height=3}
+barplot(table(music_data$explicit), col = c("red", "green"),
+        ylab = "count")
+```
+
+### Visualizing continuous data I
+
+```{r histo, fig.height=3.2}
+hist(music_data$mstreams, xlab = "Streams",
+     main = "Histogram of Streams")
+```
+
+
+### Visualizing continuous data II
+
+```{r, include=FALSE}
+xloc <- c(1,1,2,2)
+yloc <- unlist(tapply(music_data$popularity, music_data$explicit, quantile, c(0.25, 0.75), na.rm = TRUE)) + c(-1.5, 1, -1.5, 1)*3.5
+```
+
+```{r, eval = FALSE}
+boxplot(music_data$popularity ~ music_data$explicit,
+        na.rm = TRUE,
+        xlab = "Explicit", ylab = "Popularity")
+```
+
+\vskip-3cm
+
+```{r boxplot_expl, echo=FALSE, fig.height=3.5, fig.widht=4.5}
+boxplot(music_data$popularity ~ music_data$explicit,
+        na.rm = TRUE,
+         ylab = "Popularity", xlab = "", width =c(1, 2)) 
+mtext(side = 1, "Explicit", padj = 1)
+text(x = xloc, y = yloc, labels = rep(c("25th percentile", "75th percentile"), 2), cex = 0.9)
+text(x = 1, y = median(music_data$popularity[music_data$explicit=="Yes"], na.rm = TRUE), labels = "Median", pos = 2, offset =2.5, cex = 0.9)
+#text(x = 2, y = median(music_data$popularity[music_data$explicit=="No"], na.rm = TRUE) + 5, labels = "Median", pos = 4, offset = 3.5, cex = 0.9)
+text(x = c(1,2), y = c(15, 4), labels = rep("Outliers", 2), pos = c(2,4), offset = 1)
+```
+
+### Saving plots
+
+```{r}
+png(filename = "./plots/my_boxplot.png")
+boxplot(music_data$popularity ~ music_data$explicit,
+        na.rm = TRUE,
+        xlab = "Explicit", ylab = "Popularity")
+dev.off()
+list.files("./plots")
+```
+
+
+### Saving results
+
+**Option 1**: csv
+
+```{r}
+write_csv(music_data, path = "./data/my_music.csv")
+```
+
+**Option 2**: RData
+
+```{r}
+save(music_data, file = "./data/my_music.RData")
+list.files("./data/")
+# Load it back in:
+load("./data/my_music.RData")
+```
+
+### Exercise IV
+
+1. Create a new `data.frame` that includes only **pop** and **rap** songs
+    - make sure the variable `top.genre` is a `factor`
+2. Plot the share of (non-)explicit songs for the two genres
+    - first calculate the shares with `prop.table(table(...))`
+    - combine them into one table using `cbind`
+3. Create a boxplot that shows whether pop or rap is more popular
+4. Save the boxplot into your `plots` folder
+5. Calculate the overall variance and the interquartile range by genre
+    - Bonus: use `tapply` (see `?tapply`) to do so
+    - Compare with your boxplot. Do you see the difference in dispersion?
+
+
+### Solution IV.I
+
+```{r, include=!params$student_copy, purl=FALSE}
+# 1. Create a new `data.frame` that includes only 
+# **pop** and **rap** songs
+pop_rap <- subset(
+  music_data,
+  music_data$top.genre %in% c("pop", "rap"))
+# make sure the variable `top.genre` is a `factor`
+pop_rap$top.genre <- factor(pop_rap$top.genre, 
+                            levels = c("pop", "rap"))
+```
+
+### Solution IV.II
+
+
+```{r, echo = FALSE, eval = TRUE, include=!params$student_copy, purl=FALSE}
+# 2. Plot the number of explicit songs for the two genres
+## Get the shares
+freqs_rap <- prop.table(table(
+  pop_rap$explicit[pop_rap$top.genre == 'rap']))
+freqs_pop <- prop.table(table(
+  pop_rap$explicit[pop_rap$top.genre == 'pop']))
+# Combine them
+freqs <- cbind(freqs_pop, freqs_rap)
+```
+
+```{r sol4.2, eval=FALSE, include=!params$student_copy, purl=FALSE}
+# 2. Plot the number of explicit songs for the two genres
+## Get the shares
+freqs_rap <- prop.table(table(
+  pop_rap$explicit[pop_rap$top.genre == 'rap']))
+freqs_pop <- prop.table(table(
+  pop_rap$explicit[pop_rap$top.genre == 'pop']))
+# Combine them
+freqs <- cbind(freqs_pop, freqs_rap)
+# Add column names
+colnames(freqs) <- c("Pop", "Rap")
+barplot(freqs, beside = TRUE, col = c("red", "green"))
+# Add a legend
+legend("topright", legend = c("Explicit", "Not Explicit"),
+       fill = c("red", "green"))
+```
+
+
+### Solution IV.III
+
+```{r sol4.3, echo=FALSE, fig.height = 4, include=!params$student_copy, purl=FALSE}
+# Add column names
+colnames(freqs) <- c("Pop", "Rap")
+barplot(freqs, beside = TRUE, col = c("red", "green"))
+# Add a legend
+legend("topright", legend = c("Explicit", "Not Explicit"),
+       fill = c("red", "green"))
+```
+
+### Solution IV.IV
+
+```{r, eval = FALSE, include=!params$student_copy, purl=FALSE}
+png(filename = "./plots/exercise_boxplot.png")
+barplot(freqs, beside = TRUE, col = c("red", "green"))
+# Add a legend
+legend("topright", legend = c("Explicit", "Not Explicit"),
+       fill = c("red", "green"))
+dev.off()
+```
+
+### Solution IV.V
+
+```{r sol4.5, eval=FALSE, include=!params$student_copy, purl=FALSE}
+boxplot(pop_rap$popularity~pop_rap$top.genre,
+        ylab = "popularity", xlab = "")
+text(2, 10, labels = paste("IQR:",
+      IQR(pop_rap$popularity[pop_rap$top.genre=='rap'],
+          na.rm = T)))
+text(1, 30, labels = paste("IQR:",
+      IQR(pop_rap$popularity[pop_rap$top.genre=='pop'],
+          na.rm = T)))
+```
+
+### Solution IV.VI
+
+```{r sol4.6, fig.height=3.2, echo=FALSE, include=!params$student_copy, purl=FALSE}
+boxplot(pop_rap$popularity~pop_rap$top.genre,
+        ylab = "popularity", xlab = "")
+text(2, 10, labels = paste("IQR:",
+      IQR(pop_rap$popularity[pop_rap$top.genre=='rap'],
+          na.rm = T)))
+text(1, 30, labels = paste("IQR:",
+      IQR(pop_rap$popularity[pop_rap$top.genre=='pop'],
+          na.rm = T)))
+
+
+```
+
+```{r include=!params$student_copy, purl=FALSE}
+
+tapply(pop_rap$popularity, pop_rap$top.genre, IQR)
+
+```
+
+
+```{r, include = FALSE}
+#knitr::opts_chunk$set(eval = FALSE)
+```
+
+## Questions?
+
+<!-- Do not Edit below here. Set print_address in yaml header -->
+
+```{r lastSlide, results="asis",echo=FALSE, purl=FALSE}
+if(params$print_address){
+cat(
+  "### Contact me if you have further questions!
+
+\\ifthenelse{\\isundefined{\\address}}{}
+{
+	\\setbeamertemplate{endpage}{
+ 	\\addtocounter{framenumber}{1}
+
+		\\begin{tikzpicture}
+  	
+			\\useasboundingbox (\\paperwidth*.07,\\paperheight*.1) rectangle(\\paperwidth*.9,\\paperheight*.45);
+			\\draw [wugrey, thick] (\\paperwidth*.07,\\paperheight*.0) rectangle (\\paperwidth * .55,\\paperheight *.45);
+			\\node at (\\paperwidth*.11,\\paperheight*.22) {\\includegraphics[width=0.95cm]{Graphics/WU_Logo2}};
+			\\node[text width=\\paperwidth*.33,font=\\scriptsize,anchor=west, right] at (\\paperwidth*.18,\\paperheight*.32){\\address};
+
+  		\\end{tikzpicture}
+	}
+
+}
+
+
+\\usebeamertemplate{endpage}"
+)
+}
+```

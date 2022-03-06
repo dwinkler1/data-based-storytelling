@@ -121,6 +121,8 @@ content: "";
   color: rgb(137,137,137);
   left: 2%;
   background-color: rgba(255,255,255, 0.1);
+  width: 3%;
+  text-align: center;
 }
 
 .title-slide .remark-slide-number {
@@ -188,4 +190,8 @@ div.footer span {
 
 p.caption {
   font-size: 0.6em;
+}
+
+.scaled {
+  transform: scale(0.5);
 }

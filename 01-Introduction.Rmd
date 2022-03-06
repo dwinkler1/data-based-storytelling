@@ -34,7 +34,7 @@ xaringanExtra::use_panelset()
 ```
 
 ```{r document-setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
+options(htmltools.dir.version = FALSE, knitr.table.format = "html")
 ```
 
 ```{r references-setup, include=FALSE, cache=FALSE}
@@ -50,6 +50,10 @@ refs <- ReadBib("./data_storytelling.bib", check = FALSE)
 
 ```{r locale-setup, include=FALSE}
 Sys.setlocale("LC_ALL", "en_US.UTF-8")
+```
+
+```{r knitr-setup, include = FALSE}
+knitr::opts_chunk$set(error=FALSE, warning = FALSE, message = FALSE)
 ```
 
 
@@ -632,31 +636,17 @@ knitr::include_graphics("Graphics/visual_accuracy.jpeg")
 ]
 ---
 
-# Example 
-
+## Share of population vaccinated 
 ___
 
-```{r, fig.cap="Share of population vaccinated", message=FALSE, warning=FALSE, dpi=300, include=FALSE, out.height="10%"}
+```{r, fig.cap="Share of population vaccinated", echo=FALSE, message=FALSE, warning=FALSE, dpi=300}
 at_latest = at_covid[!is.na(at_covid$people_vaccinated),] 
 at_latest = at_latest[at_latest$date == max(at_latest$date),]
-# ggplot(at_latest, 
-#        aes(y = 0, 
-#            x = administrative_area_level_2, 
-#            size = share_vaccinated)) + 
-#   geom_point() +
-#   theme_minimal() +
-#   theme(axis.text.y = element_blank(), 
-#         axis.title.y = element_blank(),
-#         axis.title.x = element_blank(),
-#         axis.text.x = element_blank(),
-#         panel.grid.major = element_blank(),
-#         panel.grid.minor = element_blank())+
-#   scale_size_continuous(name = "Share vaccinated",range = c(0.1,10)) 
-# ggsave("Graphics/bubble.png")
+
 symbols(seq(0, 70, length.out = 9), 
         rep(0, nrow(at_latest)), 
-        squares = at_latest$share_vaccinated, xlim = c(-1,71),inches=0.6,
-         xaxt='n', ann=FALSE, yaxt='n', axes = FALSE, 
+        squares = at_latest$share_vaccinated, xlim = c(-1,71), ylim= c(-0.1,0.01),inches=0.6,
+         xaxt='n', ann=FALSE,axes = FALSE
         )
 text(seq(0, 70, length.out = 9), 
         rep(0, nrow(at_latest)), c("Tir", "NÖ", "Kä", "Stm", "OÖ", "Vbg", "Bgl", "Sbg", "W"), axes = F)
@@ -665,15 +655,199 @@ text(seq(0, 70, length.out = 9),
 
 ---
 
-- However, accuracy is not always the (only) goal for data story telling
-- Graphs need to be engaging!
+## Share of population vaccinated
+___
+```{r, echo = FALSE, fig.height=5, fig.width=12, dpi = 300}
+library(forcats)
+at_latest %>%
+  mutate(admin_area = fct_reorder(administrative_area_level_2, share_vaccinated)) %>%
+  ggplot(aes(x= admin_area, y = share_vaccinated)) +
+    geom_bar(stat = "identity", fill = NA, color = 'black') +
+    labs(y = "Share of population vaccinated") +
+    theme_bw() +
+    theme(axis.title.x = element_blank())
+```
+???
+How can this plot be improved?
+- Currently: Showing data, no story
+- Needs: Add context - what do we want?
+---
+## Share of population vaccinated
+___
 
---- 
+```{r echo = FALSE, fig.height=5, fig.width=12, dpi = 300}
+at_latest %>%
+  mutate(admin_area = fct_reorder(administrative_area_level_2, share_vaccinated)) %>%
+  ggplot(aes(x= admin_area, y = share_vaccinated)) +
+    geom_bar(stat = "identity", fill = NA, color = 'black') +
+    geom_hline(yintercept = 0.8, color = 'red') +
+    annotate('text', x = 2, y = 0.82, label = "Target min. vaccination rate", color = 'red') +
+    labs(y = "Share of population vaccinated", title = "Vaccination rates in Austrian states mostly below target") +
+    theme_bw() +
+    theme(axis.title.x = element_blank())
+    
+```
+---
 
-# References
+# Length of price promotion
 
 ___
 
+<br>
+<br>
+
+```{r, echo = FALSE}
+library(tibble)
+library(kableExtra)
+promos <- tribble(
+  ~length, ~product, ~start, ~end, ~type,
+  "7 days", "Chocolate", as.Date("2022-03-07"), as.Date("2022-03-13"), "buy 1, get 1 free",
+  "12 days", "Leberkäse", as.Date("2022-03-10"), as.Date("2022-03-21"), "1€",
+  "30 days", "Energydrink", as.Date("2022-02-28"), as.Date("2022-03-30"),  "Coupon (30% off)"
+)
+promos %>%
+  kbl() %>%
+  kable_material(c("striped", "hover"), full_width= TRUE) %>%
+  column_spec(1:2, 
+              color = "white",
+              background = spec_color(as.numeric(difftime(promos$end, promos$start, units = 'days')), end = 0.7, option = "D"))
+  
+```
+
+
+---
+
+# Length of price promotions
+___
+
+```{r, echo = FALSE, fig.height=6, fig.width=14}
+library(vistime)
+library(colorspace)
+library(plotly)
+promos$color <- sequential_hcl(30, palette = "viridis")[c(1,5, 23)]
+promos$fontcolor <- "white"
+promos$tooltip <- paste0(promos$type, " (", promos$start, " - ", promos$end, ")")
+plt <- vistime(promos, 
+               col.event = "length", 
+               col.group= "product",
+              # col.tooltip = "type",
+               title = "Current and planned price promotions")
+p_plt <- plotly_build(plt)
+p_plt$x$layout$xaxis <- c(p_plt$x$layout$xaxis,  list(range = c(as.Date("2022-03-06"), as.Date("2022-04-01"))))
+p_plt
+```
+
+---
+class: hide-footer
+# Data Visualization
+
+___ 
+`r NoCite(refs, "schwabish2021better")`
+
+.pull-largeleft[
+- Starting with `r Citet(refs, "cleveland1984graphics")` researchers have explored which types of graphs can be read accurately by humans
+- However, accuracy is not always the (only) goal for data story telling
+- Graphs need to be engaging!
+]
+.pull-smallright[
+```{r, echo = FALSE, out.width="70%", fig.cap='<a href="https://www.gabrielaplucinska.com/blog/2017/8/7/pie-charts">source</a>'}
+knitr::include_graphics("Graphics/visual_accuracy.jpeg")
+```
+]
+---
+class: hide-footer    
+## Focus: preattentive attributes
+___
+
+.center[
+```{r echo = FALSE, out.width="55%", fig.cap='<a href="http://www.perceptualedge.com/articles/ie/visual_perception.pdf">source</a>'}
+knitr::include_graphics("Graphics/preattent.png")
+```
+]
+---
+
+## Focus: preattentive attributes
+
+___
+
+```{r, fig.width = 12, fig.height = 4, echo = FALSE, dpi = 600}
+set.seed(1)
+xy = expand.grid(seq(0,1, length.out = 5), seq(0,1, length.out = 5))
+text = sample(c("a", "b", "c", "d", "e"), 25, replace = TRUE)
+par(mar = c(0.1,0,0,0))
+plot(c(0, 1), c(0, 1), ann = F, bty = 'n',type = 'n', xaxt = 'n', yaxt = 'n')
+text(xy[,1], xy[,2], text, cex = 3)
+```
+
+.pull-left[<iframe src="https://beepmyclock.com/widget/stopwatch" frameborder="0" style="border:0;height:100px;-moz-transform: scale(0.5, 0.5); 
+  -webkit-transform: scale(0.5, 0.5); 
+  -o-transform: scale(0.5, 0.5);
+  -ms-transform: scale(0.5, 0.5);
+  transform: scale(0.5, 0.5); 
+  -moz-transform-origin: top left;
+  -webkit-transform-origin: top left;
+  -o-transform-origin: top left;
+  -ms-transform-origin: top left;
+  transform-origin: top left;" ></iframe>]
+.pull-right[Adapted from `r Citet(refs, 'knaflic2015storytelling')`]
+
+---
+
+## Focus: preattentive attributes
+  ___
+
+```{r, fig.width = 12, fig.height = 4, echo = FALSE, dpi = 600}
+par(mar = c(0,0,0,0))
+plot(c(0, 1), c(0, 1), ann = F, bty = 'n',type = 'n',  xaxt = 'n', yaxt = 'n')
+text(xy[,1], xy[,2], text, cex = 3, col = ifelse(text == "b", "black", "gray"))
+```
+.pull-left[<iframe src="https://beepmyclock.com/widget/stopwatch" frameborder="0" style="border:0;height:100px;-moz-transform: scale(0.5, 0.5); 
+  -webkit-transform: scale(0.5, 0.5); 
+  -o-transform: scale(0.5, 0.5);
+  -ms-transform: scale(0.5, 0.5);
+  transform: scale(0.5, 0.5); 
+  -moz-transform-origin: top left;
+  -webkit-transform-origin: top left;
+  -o-transform-origin: top left;
+  -ms-transform-origin: top left;
+  transform-origin: top left;" ></iframe>]
+.pull-right[Adapted from `r Citet(refs, 'knaflic2015storytelling')`]
+
+---
+
+
+## Focus: preattentive attributes
+
+___
+
+```{r, echo = FALSE, fig.width=12, fig.height=5, dpi = 300}
+plot_hl
+```
+
+---
+
+# Getting started with R
+
+___
+.center[
+<iframe width="737" height="415"     src="https://www.youtube.com/embed/SAxhoYIt7pk" title="Getting started with R" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+]
+
+---
+
+# Read data
+
+```{r}
+library(readr)
+charts <- read_csv("charts_global_at.csv")
+```
+
+
+
+---
+
+# References
+___
 .scrollable[
 ### Papers & Books
 
@@ -692,4 +866,6 @@ PrintBibliography(refs)
 [The data-driven enterprise of 2025](https://www.mckinsey.com/business-functions/mckinsey-analytics/our-insights/the-data-driven-enterprise-of-2025)
 
 [Think Different Logo](https://de.wikipedia.org/wiki/Think_Different#/media/Datei:Apple_logo_Think_Different_vectorized.svg)
+
+[Preattentive attributes](http://www.perceptualedge.com/articles/ie/visual_perception.pdf)
 ]
