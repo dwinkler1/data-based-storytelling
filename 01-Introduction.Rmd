@@ -636,26 +636,32 @@ knitr::include_graphics("Graphics/visual_accuracy.jpeg")
 
 ___
 
-```{r message=FALSE, warning=FALSE, dpi=300, include=FALSE, out.height="10%"}
+```{r, fig.cap="Share of population vaccinated", message=FALSE, warning=FALSE, dpi=300, include=FALSE, out.height="10%"}
 at_latest = at_covid[!is.na(at_covid$people_vaccinated),] 
 at_latest = at_latest[at_latest$date == max(at_latest$date),]
-ggplot(at_latest, 
-       aes(y = 0, 
-           x = administrative_area_level_2, 
-           size = share_vaccinated)) + 
-  geom_point() +
-  theme_minimal() +
-  theme(axis.text.y = element_blank(), 
-        axis.title.y = element_blank(),
-        axis.title.x = element_blank(),
-        axis.text.x = element_blank(),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank())+
-  scale_size_continuous(name = "Share vaccinated",range = c(0.1,10)) 
-ggsave("Graphics/bubble.png")
+# ggplot(at_latest, 
+#        aes(y = 0, 
+#            x = administrative_area_level_2, 
+#            size = share_vaccinated)) + 
+#   geom_point() +
+#   theme_minimal() +
+#   theme(axis.text.y = element_blank(), 
+#         axis.title.y = element_blank(),
+#         axis.title.x = element_blank(),
+#         axis.text.x = element_blank(),
+#         panel.grid.major = element_blank(),
+#         panel.grid.minor = element_blank())+
+#   scale_size_continuous(name = "Share vaccinated",range = c(0.1,10)) 
+# ggsave("Graphics/bubble.png")
+symbols(seq(0, 70, length.out = 9), 
+        rep(0, nrow(at_latest)), 
+        squares = at_latest$share_vaccinated, xlim = c(-1,71),inches=0.6,
+         xaxt='n', ann=FALSE, yaxt='n', axes = FALSE, 
+        )
+text(seq(0, 70, length.out = 9), 
+        rep(0, nrow(at_latest)), c("Tir", "NÖ", "Kä", "Stm", "OÖ", "Vbg", "Bgl", "Sbg", "W"), axes = F)
 
 ```
-.vertical-center[![](Graphics/bubble.png)]
 
 ---
 
