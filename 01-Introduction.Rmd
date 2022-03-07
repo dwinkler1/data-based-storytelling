@@ -837,6 +837,7 @@ ___
 
 # Go to [getting_started.html](./getting_started.html)
 
+- [Palmer Penguins](https://allisonhorst.github.io/palmerpenguins/index.html#meet-the-palmer-penguins)
 
 ---
 

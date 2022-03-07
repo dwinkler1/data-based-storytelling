@@ -231,7 +231,7 @@ FtoC(70)
 An example Icecream sales:
 
 ```{r}
-data("Icecream", package = "Ecdat")
+Icecream <- read.csv("icecream.csv")
 skim(Icecream)
 ```
 
@@ -563,6 +563,8 @@ plt_streams +
                      labels = scales::comma) # add commas to the number of streams
 ```
 
+
+Let's try to clean this plot up together:
 
 ```{r global-streams}
 charts %>%
