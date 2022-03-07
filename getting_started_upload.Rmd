@@ -231,7 +231,7 @@ FtoC(70)
 An example Icecream sales:
 
 ```{r}
-data("Icecream", package = "Ecdat")
+Icecream <- read.csv("icecream.csv")
 skim(Icecream)
 ```
 
