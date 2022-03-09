@@ -22,7 +22,7 @@ When you click the **Knit** button a document will be generated.
 ```{r charts}
 # Read CSV files <- Everything after a # is a comment and not evaluated
 library(tidyverse) # Load a library that provides more functions
-charts <- read_csv("charts_global_at.csv") # Read the data; '<-' is the assignment operator, notice that 'charts' appears on the right  
+charts <- read_csv("data/charts_global_at.csv") # Read the data; '<-' is the assignment operator, notice that 'charts' appears on the right  
 charts # View some of the data
 ```
 
