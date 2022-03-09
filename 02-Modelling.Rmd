@@ -1,0 +1,87 @@
+---
+title: 'Modelling<br><font size="5" color="black"> [SBWL H &amp; M: Data-based Storytelling](https://danielw2904.github.io/data-based-storytelling/)</font>'
+layout: true
+output:
+  xaringan::moon_reader:
+    pandoc_args: 
+      - "--wrap=preserve"
+    self_contained: true
+    includes:
+      after_body: insert-logo.html
+    css: [default, wu-rds.css]
+    lib_dir: libs
+    nature:
+      beforeInit: "macros.js"
+      ratio: '16:9'
+      titleSlideClass: [left]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: "%current%"
+      includePresenterNotes: true
+      navigation:
+        scroll: false
+---
+
+```{r xaringan-setup, echo=FALSE}
+xaringanExtra::use_animate_css()
+xaringanExtra::use_clipboard()
+xaringanExtra::use_extra_styles(
+  hover_code_line = TRUE,         #<<
+  mute_unhighlighted_code = TRUE  #<<
+)
+xaringanExtra::use_panelset()
+```
+
+```{r document-setup, include=FALSE}
+options(htmltools.dir.version = FALSE, knitr.table.format = "html")
+```
+
+```{r references-setup, include=FALSE, cache=FALSE}
+library(RefManageR)
+BibOptions(check.entries = FALSE,
+           bib.style = "authoryear",
+           cite.style = "authoryear",
+           style = "markdown",
+           hyperlink = FALSE,
+           dashed = TRUE)
+refs <- ReadBib("./data_storytelling.bib", check = FALSE)
+```
+
+```{r locale-setup, include=FALSE}
+Sys.setlocale("LC_ALL", "en_US.UTF-8")
+```
+
+```{r knitr-setup, include = FALSE}
+knitr::opts_chunk$set(error=FALSE, warning = FALSE, message = FALSE)
+```
+
+# Getting into modelling!
+.center[
+![:scale 70%](Graphics/ModelsCatwalk.jpg)
+]
+[source](https://commons.wikimedia.org/wiki/File:ModelsCatwalk.jpg#/media/Archivo:ModelsCatwalk.jpg)
+---
+# 
+
+---
+# References
+___
+`r NoCite(refs, "cunningham2021causal")`
+`r NoCite(refs, "morgan2015counterfactuals")`
+`r NoCite(refs, "imbens_causal")`
+.scrollable[
+### Papers & Books
+
+```{r refs, echo=FALSE, results="asis"}
+PrintBibliography(refs)
+```
+
+### Links
+
+[Data Science and the Art of Persuasion](https://hbr.org/2019/01/data-science-and-the-art-of-persuasion)
+
+[Descriptive, Predictive, Prescriptive, and Diagnostic Analytics: A Quick Guide](https://www.sigmacomputing.com/blog/descriptive-predictive-prescriptive-and-diagnostic-analytics-a-quick-guide/)
+
+[Causal Salad (link to lecture at the bottom)](https://github.com/rmcelreath/causal_salad_2021)
+]
