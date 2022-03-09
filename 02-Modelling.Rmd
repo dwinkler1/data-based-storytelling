@@ -53,7 +53,7 @@ Sys.setlocale("LC_ALL", "en_US.UTF-8")
 ```
 
 ```{r knitr-setup, include = FALSE}
-knitr::opts_chunk$set(error=FALSE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(error=FALSE, warning = FALSE, message = FALSE, cache = TRUE,echo =FALSE, fig.height=5, fig.width=12, dpi = 300)
 ```
 
 # Getting into modelling!
@@ -62,7 +62,91 @@ knitr::opts_chunk$set(error=FALSE, warning = FALSE, message = FALSE)
 ]
 [source](https://commons.wikimedia.org/wiki/File:ModelsCatwalk.jpg#/media/Archivo:ModelsCatwalk.jpg)
 ---
-# 
+# Required skills
+___
+
+- Data-science teams have different skill requirements:
+
+.center[
+![](Graphics/talents.png)
+
+[Data Science and the Art of Persuasion](https://hbr.org/2019/01/data-science-and-the-art-of-persuasion)
+]
+---
+# What are we doing?
+___
+.center[
+<iframe src="https://giphy.com/embed/Z45gyFc4vcgzgS9wkw" width="380" height="380" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/parksandrec-season-4-parks-and-recreation-rec-Z45gyFc4vcgzgS9wkw">via GIPHY</a></p>]
+---
+# What are we doing?
+___
+- Four types of data stories:
+  - Descriptive - *What has happened?*
+  - Predictive - *What will happen?*
+  - Diagnostic - *Why does it happen?*
+  - Prescriptive - *What actions should be taken?*
+---
+# What are we doing?
+___
+- Four types of data stories:
+  - Descriptive - *What has happened?*
+  - Predictive - *What will happen?*
+  - **Causal Inference:** Diagnostic - *Why does it happen?* 
+  - **Causal Inference:** Prescriptive - *What actions should be taken?*
+---
+# Descriptive
+___
+
+```{r}
+library(readr)
+library(stringr)
+library(tidyverse)
+options(scipen = 99999)
+charts <- read_csv("charts_global_at.csv")
+ts <- str_detect(tolower(charts$artistName), "taylor swift")
+charts_ts <- charts[ts, ]
+filter(charts_ts, format(day, "%Y") == "2019" & region=='global') %>%
+  group_by( day) %>%
+  mutate(streams = sum(streams)) %>%
+  ggplot(aes(x = day, y = streams)) +
+  geom_line() +
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_date(breaks= seq(as.Date("2019-01-01"), as.Date("2019-12-31"), "month"),
+               date_labels = "%b") +
+  theme_bw()+
+  theme(axis.title.x = element_blank(),
+        panel.border = element_blank(),
+        axis.line = element_line(color = 'black')) +
+  geom_vline(xintercept = as.Date("2019-08-23"), color="red") +
+  annotate('text',x=as.Date("2019-08-20"), label="Release of 'Lover'", y=40000000, colour="red", angle=90, text=element_text(size=14)) +
+  ggtitle("Taylor Swift Streams", subtitle = "Songs in top 200 - 2019")
+```
+
+---
+# Predictive
+___
+
+```{r}
+library(zoo)
+library(prophet)
+total_streams <- charts %>% 
+  filter(region == "global") %>% 
+  group_by(day) %>% 
+  summarize(y = sum(streams)) %>% 
+  rename(ds = day)
+
+mod <- prophet(total_streams, holidays = data.frame(holiday = "christmas", ds = c(as.Date("2019-12-25"),as.Date("2020-12-25"),as.Date("2021-12-25")), lower_window = -1, upper_window = 0),
+               daily.seasonality = FALSE)
+future <- make_future_dataframe(mod, periods = 365)
+forecast <- predict(mod, future)
+plot(mod, forecast) +
+  scale_y_continuous(labels = scales::comma) +
+  theme_bw()+
+  theme(axis.title.x = element_blank(),
+        panel.border = element_blank(),
+        axis.line = element_line(color = 'black')) +
+  labs(y = "Streams", title = "Prediction of total global streams of top 200", subtitle = "Observed: 2019-2020, forecast: 2021")
+```
 
 ---
 # References
