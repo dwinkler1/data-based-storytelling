@@ -8,7 +8,7 @@
             "type": "shell",
             "command": "R",
             "args": [
-                "-e", 
+                "-e",
                 "rmarkdown::render(\"${file}\",  encoding = 'UTF-8');"
             ],
             "problemMatcher": [],
@@ -24,7 +24,8 @@
             "args": [
                 "-e",
                 "'styler::style_file(\"${file}\");'"
-            ]
+            ],
+            "problemMatcher": []
         }
     ]
 }
