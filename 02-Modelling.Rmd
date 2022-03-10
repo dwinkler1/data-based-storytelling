@@ -27,8 +27,8 @@ output:
 xaringanExtra::use_animate_css()
 xaringanExtra::use_clipboard()
 xaringanExtra::use_extra_styles(
-  hover_code_line = TRUE,         #<<
-  mute_unhighlighted_code = TRUE  #<<
+  hover_code_line = TRUE, #<<
+  mute_unhighlighted_code = TRUE #<<
 )
 xaringanExtra::use_panelset()
 ```
@@ -39,12 +39,14 @@ options(htmltools.dir.version = FALSE, knitr.table.format = "html")
 
 ```{r references-setup, include=FALSE, cache=FALSE}
 library(RefManageR)
-BibOptions(check.entries = FALSE,
-           bib.style = "authoryear",
-           cite.style = "authoryear",
-           style = "markdown",
-           hyperlink = FALSE,
-           dashed = TRUE)
+BibOptions(
+  check.entries = FALSE,
+  bib.style = "authoryear",
+  cite.style = "authoryear",
+  style = "markdown",
+  hyperlink = FALSE,
+  dashed = TRUE
+)
 refs <- ReadBib("./data_storytelling.bib", check = FALSE)
 ```
 
@@ -53,7 +55,16 @@ Sys.setlocale("LC_ALL", "en_US.UTF-8")
 ```
 
 ```{r knitr-setup, include = FALSE}
-knitr::opts_chunk$set(error=FALSE, warning = FALSE, message = FALSE, cache = TRUE,echo =FALSE, fig.height=5, fig.width=12, dpi = 300)
+knitr::opts_chunk$set(
+  error = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  cache = TRUE,
+  echo = FALSE,
+  fig.height = 5,
+  fig.width = 12,
+  dpi = 300
+)
 ```
 
 # Getting into modelling!
@@ -105,20 +116,24 @@ options(scipen = 99999)
 charts <- read_csv("charts_global_at.csv")
 ts <- str_detect(tolower(charts$artistName), "taylor swift")
 charts_ts <- charts[ts, ]
-filter(charts_ts, format(day, "%Y") == "2019" & region=='global') %>%
-  group_by( day) %>%
+filter(charts_ts, format(day, "%Y") == "2019" & region == "global") %>%
+  group_by(day) %>%
   mutate(streams = sum(streams)) %>%
   ggplot(aes(x = day, y = streams)) +
   geom_line() +
   scale_y_continuous(labels = scales::comma) +
-  scale_x_date(breaks= seq(as.Date("2019-01-01"), as.Date("2019-12-31"), "month"),
-               date_labels = "%b") +
-  theme_bw()+
-  theme(axis.title.x = element_blank(),
-        panel.border = element_blank(),
-        axis.line = element_line(color = 'black')) +
-  geom_vline(xintercept = as.Date("2019-08-23"), color="red") +
-  annotate('text',x=as.Date("2019-08-20"), label="Release of 'Lover'", y=40000000, colour="red", angle=90, text=element_text(size=14)) +
+  scale_x_date(
+    breaks = seq(as.Date("2019-01-01"), as.Date("2019-12-31"), "month"),
+    date_labels = "%b"
+  ) +
+  theme_bw() +
+  theme(
+    axis.title.x = element_blank(),
+    panel.border = element_blank(),
+    axis.line = element_line(color = "black")
+  ) +
+  geom_vline(xintercept = as.Date("2019-08-23"), color = "red") +
+  annotate("text", x = as.Date("2019-08-20"), label = "Release of 'Lover'", y = 40000000, colour = "red", angle = 90) +
   ggtitle("Taylor Swift Streams", subtitle = "Songs in top 200 - 2019")
 ```
 
@@ -129,35 +144,69 @@ ___
 ```{r}
 library(zoo)
 library(prophet)
-total_streams <- charts %>% 
-  filter(region == "global") %>% 
-  group_by(day) %>% 
-  summarize(y = sum(streams)) %>% 
+total_streams <- charts %>%
+  filter(region == "global") %>%
+  group_by(day) %>%
+  summarize(y = sum(streams)) %>%
   rename(ds = day)
 
-mod <- prophet(total_streams, holidays = data.frame(holiday = "christmas", ds = c(as.Date("2019-12-25"),as.Date("2020-12-25"),as.Date("2021-12-25")), lower_window = -1, upper_window = 0),
-               daily.seasonality = FALSE)
+mod <- prophet(total_streams,
+  holidays = data.frame(
+    holiday = "christmas",
+    ds = c(as.Date("2019-12-25"), as.Date("2020-12-25"), as.Date("2021-12-25")),
+    lower_window = -1, upper_window = 0
+  ),
+  daily.seasonality = FALSE
+)
 future <- make_future_dataframe(mod, periods = 365)
 forecast <- predict(mod, future)
 plot(mod, forecast) +
   scale_y_continuous(labels = scales::comma) +
-  theme_bw()+
-  theme(axis.title.x = element_blank(),
-        panel.border = element_blank(),
-        axis.line = element_line(color = 'black')) +
+  theme_bw() +
+  theme(
+    axis.title.x = element_blank(),
+    panel.border = element_blank(),
+    axis.line = element_line(color = "black")
+  ) +
   labs(y = "Streams", title = "Prediction of total global streams of top 200", subtitle = "Observed: 2019-2020, forecast: 2021")
 ```
+---
+# Causal?
+___
+![](Graphics/corr_cause.svg)
+---
+# Causal Inference vs. prediction
+___
+- Variables can be *predictive* without a causal relationship
+    - Arcade revenue predicts CS doctorates (and vice versa)
+- Variables can not be *predictive* but have a causal relationship
+    - Fuel used and speed on cruise control (uphill vs. flat)
+---
+# Causal Inference
+___
 
+.pull-left[
+- **Can we predict the effects of an intervention?**
+    - We all go to the arcade $\Rightarrow$ more CS doctorates?
+    - Classic example: supply and demand `r Citep(refs, "wright1928tariff", before = "e.g., ")`
+    - If we increase marketing spending, will sales go up and by how much?]
+--
+.pull-right[
+- **Can we impute counterfactuals?**
+    - A customer was not targeted by a social media campaign and did not buy the product (observed)?
+    - Would that customer buy the product if they had been targeted (unobserved)?
+]
 ---
 # References
 ___
 `r NoCite(refs, "cunningham2021causal")`
 `r NoCite(refs, "morgan2015counterfactuals")`
 `r NoCite(refs, "imbens_causal")`
+`r NoCite(refs, "pearl2009causal")`
 .scrollable[
 ### Papers & Books
 
-```{r refs, echo=FALSE, results="asis"}
+```{r refs, echo=FALSE, results="asis", cache=FALSE}
 PrintBibliography(refs)
 ```
 
@@ -169,3 +218,5 @@ PrintBibliography(refs)
 
 [Causal Salad (link to lecture at the bottom)](https://github.com/rmcelreath/causal_salad_2021)
 ]
+
+[Correlation does not even imply correlation](https://statmodeling.stat.columbia.edu/2014/08/04/correlation-even-imply-correlation/)

@@ -16,6 +16,15 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "style",
+            "type": "shell",
+            "command": "R",
+            "args": [
+                "-e",
+                "'styler::style_file(\"${file}\");'"
+            ]
         }
     ]
 }
