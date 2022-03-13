@@ -15,7 +15,7 @@ date: "Updated: `r Sys.Date()`"
 | **Date** | **Time** | **Room** | **Topics** | **Slides** | **Readings** |
 | :---: | :---: | :---: | :---: | :---: | :---: |
 | 03-07-2022 | 11:00am - 3:30pm | TC.4.04 | Introduction | [Introduction](./01-Introduction.html) | [**Lost in Data Translation**](https://www.ama.org/marketing-news/lost-in-data-translation/), [**R for Data Science**](https://r4ds.had.co.nz/index.html) |
-| 03-14-2022 | 11:00am - 3:30pm | TC.4.04 | | |  [**Data Science and the Art of Persuasion**](https://hbr.org/2019/01/data-science-and-the-art-of-persuasion) |
+| 03-14-2022 | 11:00am - 3:30pm | TC.4.04 | Modelling | [Modelling](./02-Modelling.html) |  [**Data Science and the Art of Persuasion**](https://hbr.org/2019/01/data-science-and-the-art-of-persuasion) |
 | 03-21-2022 | 11:00am - 3:30pm | TC.4.04 | | | [**The Psychology behind Data Visualization Techniques**](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720) |
 | 03-28-2022 | 11:00am - 3:30pm | TC.4.04 | | | |
 | 04-04-2022 | 11:00am - 3:30pm | **TC.3.06** | | | | 
