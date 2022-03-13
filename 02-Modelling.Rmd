@@ -67,6 +67,18 @@ knitr::opts_chunk$set(
 )
 ```
 
+```{r ggplot-setup, include = FALSE}
+ggstyle <- list(
+  scale_y_continuous(labels = scales::comma),
+  theme_bw(),
+  theme(
+    axis.title.x = element_blank(),
+    panel.border = element_blank(),
+    axis.line = element_line(color = "black")
+  )
+)
+```
+
 # Getting into modelling!
 .center[
 ![:scale 70%](Graphics/ModelsCatwalk.jpg)
@@ -92,18 +104,18 @@ ___
 # What are we doing?
 ___
 - Four types of data stories:
-  - Descriptive - *What has happened?*
-  - Predictive - *What will happen?*
-  - Diagnostic - *Why does it happen?*
-  - Prescriptive - *What actions should be taken?*
+- Descriptive - *What has happened?*
+- Predictive - *What will happen?*
+- Diagnostic - *Why does it happen?*
+- Prescriptive - *What actions should be taken?*
 ---
 # What are we doing?
 ___
 - Four types of data stories:
-  - Descriptive - *What has happened?*
-  - Predictive - *What will happen?*
-  - **Causal Inference:** Diagnostic - *Why does it happen?* 
-  - **Causal Inference:** Prescriptive - *What actions should be taken?*
+- Descriptive - *What has happened?*
+- Predictive - *What will happen?*
+- **Causal Inference:** Diagnostic - *Why does it happen?* 
+- **Causal Inference:** Prescriptive - *What actions should be taken?*
 ---
 # Descriptive
 ___
@@ -151,12 +163,12 @@ total_streams <- charts %>%
   rename(ds = day)
 
 mod <- prophet(total_streams,
-  holidays = data.frame(
-    holiday = "christmas",
-    ds = c(as.Date("2019-12-25"), as.Date("2020-12-25"), as.Date("2021-12-25")),
-    lower_window = -1, upper_window = 0
-  ),
-  daily.seasonality = FALSE
+               holidays = data.frame(
+                 holiday = "christmas",
+                 ds = c(as.Date("2019-12-25"), as.Date("2020-12-25"), as.Date("2021-12-25")),
+                 lower_window = -1, upper_window = 0
+               ),
+               daily.seasonality = FALSE
 )
 future <- make_future_dataframe(mod, periods = 365)
 forecast <- predict(mod, future)
@@ -168,7 +180,11 @@ plot(mod, forecast) +
     panel.border = element_blank(),
     axis.line = element_line(color = "black")
   ) +
-  labs(y = "Streams", title = "Prediction of total global streams of top 200", subtitle = "Observed: 2019-2020, forecast: 2021")
+  labs(
+    y = "Streams",
+    title = "Prediction of total global streams of top 200",
+    subtitle = "Observed: 2019-2020, forecast: 2021"
+  )
 ```
 ---
 # Causal?
@@ -177,25 +193,644 @@ ___
 ---
 # Causal Inference vs. prediction
 ___
-- Variables can be *predictive* without a causal relationship
-    - Arcade revenue predicts CS doctorates (and vice versa)
+.dense[
+- Variables can be *predictive* without a causal relationship 
+- *Correlation does not imply causation*
+- Arcade revenue predicts CS doctorates (and vice versa)
+]
+--
+.dense[
 - Variables can not be *predictive* but have a causal relationship
-    - Fuel used and speed on cruise control (uphill vs. flat)
+- *No correlation does not imply no causation*
+- Fuel used and speed on cruise control (uphill vs. flat)
+- What about the correlation of speed and slope?
+]
+--
+.dense[
+- Variables can be predictive while not being *predictive*
+> - [*Correlation does not even imply correlation*](https://statmodeling.stat.columbia.edu/2014/08/04/correlation-even-imply-correlation/)
+> `r tufte::quote_footer('- Andrew Gelman')`
+]
+---
+# Causal Inference vs. prediction
+___
+.dense[
+- Variables can be *predictive* without a causal relationship 
+- *Correlation does not imply causation*
+- Arcade revenue predicts CS doctorates (and vice versa)
+]
+.dense[
+- Variables can not be *predictive* but have a causal relationship
+- *No correlation does not imply no causation*
+- Fuel used and speed on cruise control (uphill vs. flat)
+- What about the correlation of speed and slope?
+]
+.dense[
+- Variables can be predictive (in sample) while not being *predictive* (in population)
+- [*Correlation does not even imply correlation*](https://statmodeling.stat.columbia.edu/2014/08/04/correlation-even-imply-correlation/)
+- There might be a correlation in the data but not in the population 
+]
+---
+class: logo-small
+# Example: Causal but no correlation 
+___
+```{r}
+set.seed(123)
+xy <- data.frame(x = rnorm(100000))
+xy$y <- 0.5 * xy$x^2 + 2 * xy$x^4
+ggplot(xy, aes(x = x, y = y)) +
+geom_line() +
+geom_smooth(method = "lm", color = "blue") +
+labs(title = expression(y == 0.5 * x^2 + 2 * x^4), subtitle = "Non-linear surjective but not injective function") +
+annotate("text",
+x = 2.51, y = 8,
+label = paste0(
+"Best linear fit\nCorrelation: ",
+round(cor(xy$x, xy$y), 3)
+), hjust = 0, color = "blue"
+) +
+ggstyle
+```
+---
+# Always visualize!
+___
+.pull-left[
+```{r}
+library(datasauRus)
+library(kableExtra)
+suppressPackageStartupMessages(library(dplyr))
+data <- datasaurus_dozen %>%
+filter(dataset %in% c(
+"away",
+"bullseye",
+"circle",
+"dino",
+"high_lines",
+"wide_lines",
+"x_shape",
+"star"
+))
+data %>%
+group_by(dataset) %>%
+summarize(
+mean_x    = round(mean(x), 2),
+mean_y    = round(mean(y), 2),
+std_dev_x = round(sd(x), 2),
+std_dev_y = round(sd(y), 2),
+corr_x_y  = round(cor(x, y), 2)
+) %>%
+mutate(dataset = stringr::str_replace(dataset, "_", " ")) %>%
+kbl(
+col.names =
+c("data", "mean x", "mean y", "sd x", "sd y", "corr x,y"),
+format = "html", table.attr = "style='width:110%;'"
+) %>%
+column_spec(1, width = "5cm")
+```
+]
+--
+.pull-right[
+```{r, fig.height=11}
+library(ggplot2)
+library(colorspace)
+ggplot(data, aes(x = x, y = y, colour = dataset)) +
+geom_point() +
+theme_void() +
+theme(
+legend.position = "none",
+strip.text.x = element_text(size = 30)
+) +
+facet_wrap(~dataset, nrow = 4) +
+scale_color_discrete_qualitative(palette = "Dynamic")
+```
+]
+
+---
+# Example: Family size
+___
+- Data: Pairs of moms and daughters
+- Family size
+- Birth order
+- Question: Causal effect of mom's family size on daughter's?
+
+---
+# Simulation: No effect
+___
+```{r}
+# From https://github.com/rmcelreath/causal_salad_2021/blob/main/1_causal_salad.r
+library(rethinking)
+
+####################################################
+# TWO MOMS
+
+# first without confound
+set.seed(1)
+N <- 500 # number of pairs
+# birth order and family sizes
+BirthOrd.M <- rbinom(N, size = 1, prob = 0.5) # 50% first borns
+FamSize.M <- rnorm(N, 2 * BirthOrd.M)
+BirthOrd.D <- rbinom(N, size = 1, prob = 0.5)
+FamSize.D <- rnorm(N, 2 * BirthOrd.D + 0 * FamSize.M)
+
+plot(coeftab(
+  lm(FamSize.D ~ FamSize.M),
+  lm(FamSize.D ~ FamSize.M + BirthOrd.M),
+  lm(FamSize.D ~ FamSize.M + BirthOrd.D),
+  lm(FamSize.D ~ FamSize.M + BirthOrd.M + BirthOrd.D)
+),
+pars = "FamSize.M", main = "Family size only depends on birth order of D",
+xlab = "Coefficient of mom's family size"
+)
+abline(v = 0, col = "gray")
+text(
+  x = 0.001, y = 11, pos = 4,
+  labels = "True parameter value",
+  col = "gray"
+)
+text(
+  x = 0.001, y = 1.7, pos = 4,
+  labels = "Best predictive model - correlation is not causation!"
+)
+```
+---
+# Example: Sales and Marketing spending
+___
+- Data: Sales and marketing spending
+- Question: Causal effect of marketing spending on sales
+- Additional knowledge: Marketing budget is based on economic outlook
+- Customers base spending on economic outlook
+---
+# Simulation: Confounds 
+___
+```{r}
+set.seed(1)
+N <- 100
+economy <- rnorm(N, 0.2*sqrt(1:N))
+marketing <- rnorm(N, 2 * economy)
+sales <- rnorm(N, 2 * economy + 0 * marketing)
+plot(
+  coeftab(
+    lm(sales ~ marketing),
+    lm(sales ~ marketing + economy)),
+  pars = "marketing",
+  xlab = "Coefficient of marketing spending"
+)
+abline(v = 0, col = "gray")
+text(
+  x = 0.001, y = 5, pos = 4,
+  labels = "True parameter value",
+  col = "gray"
+)
+```
+---
+# Take-Aways
+___
+- Theoretical knowledge about the subject at hand (data being modelled) is crucial
+- Before a statistical model we need a causal model
+- Causal model: Selection of variables (analysis of missing data problems)
+- Statistical model: Functional form, method, ... $\Rightarrow$ suitable for data
+- *Sometimes* its good to add more (control) variables, *sometimes* it is not
+- Predictive power does not help us in deciding which variables to add
+- p-values are liars!
 ---
 # Causal Inference
 ___
 
 .pull-left[
 - **Can we predict the effects of an intervention?**
-    - We all go to the arcade $\Rightarrow$ more CS doctorates?
-    - Classic example: supply and demand `r Citep(refs, "wright1928tariff", before = "e.g., ")`
-    - If we increase marketing spending, will sales go up and by how much?]
+- We all go to the arcade $\Rightarrow$ more CS doctorates?
+- Classic example: supply and demand `r Citep(refs, "wright1928tariff", before = "e.g., ")`
+- If we increase marketing spending, will sales go up and by how much?]
 --
 .pull-right[
 - **Can we impute counterfactuals?**
-    - A customer was not targeted by a social media campaign and did not buy the product (observed)?
-    - Would that customer buy the product if they had been targeted (unobserved)?
+- A customer was not targeted by a social media campaign and did not buy the product (observed)?
+- Would that customer buy the product if they had been targeted (unobserved)?
 ]
+---
+class: logo-small hide-footer 
+## Causal Inference: two approaches <font size="3">`r Citep(refs, "imbens_causal", before = "see ")`</font>
+___
+.pull-left[
+.dense[
+- **Directed Acyclic Graphs (DAGs)**
+- Concerned with identification of causal relationships
+- Shows direction of causality and important variables
+- Graphical representation:
+```{r first-merm, fig.width=5, fig.height=2.5}
+library(ggdag)
+library(dagitty)
+library(tidyverse)
+dagify(y ~ x, x ~ z, exposure = "x", outcome = "y",
+       coords = list(x = c(x = 1, y = 1.5, z = 1), y = c(x=1, y = 1, z=0))
+) %>% 
+  tidy_dagitty() %>%
+  ggdag(text_size = 8, node_size = 10) +
+  geom_dag_edges() +
+  annotate("text", x = 1.2, y = 1, vjust=1, label= "x causes y", size=5 ) + 
+  annotate("text", x = 1, y = 0.5, hjust=-0.1, label="z causes x", size = 5) +
+  theme_dag()
+```
+]
+]
+--
+.pull-right[
+.dense[
+- **Potential Outcome**
+- Multiple Treatments / Causes <br>
+<font size="3">e.g., exposure to ad</font>
+- Potential outcomes f. treatments <br>
+<font size="3">e.g., Purchase given exposure / no exposure</font>
+- Multiple observations with different treatments <br>
+<font size="3">e.g., A/B test</font>
+- Focus on assignment of treatment <br>
+<font size="3">e.g., randomized experiment, selection on (un)observables</font>
+]
+]
+---
+# DAGs
+___
+.pull-left[
+- Our focus:<br> **Identification of causal relationships**
+- Identification of data requirements
+- Improvement of Models 
+- Interpretation of Models
+- Correct use for business decision making
+]
+--
+.pull-right[
+- Not our focus: Types of relationships
+- Functional form
+- Sign of relationship
+- Take (micro)econometrics/ML classes!
+- Read [Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/)
+]
+---
+# DAG Examples
+___
+```{r test, fig.height=3.5}
+dagify(
+  y ~ x, 
+  z ~ y,
+  f ~ x,
+  coords = list(x = c(x = 0, y = 1, z = 2), y = c(x = 0, y = 0, z = 0)),
+  labels = c(
+    x = "Walk up 4th floor",
+    y = "Out of breath",
+    z = "Talk funny",
+    f = "Thristy"
+  )
+) %>% 
+  tidy_dagitty() %>%
+  ggdag(use_labels = "label", text = FALSE, node_size=5) +
+  theme_dag()
+```
+
+---
+# DAG Examples
+___
+
+```{r test2, fig.height=3.5}
+dagify(
+  y ~ x, 
+  z ~ y,
+  f ~ x,
+  coords = list(x = c(x = 0, y = 1, z = 2, f = 1), y = c(x = 0, y = 0, z = 0, f = -1)),
+  labels = c(
+    x = "Walk up 4th floor",
+    y = "Out of breath",
+    z = "Talk funny",
+    f = "Thristy"
+  )
+) %>% 
+  tidy_dagitty() %>%
+  ggdag(use_labels = "label", text = FALSE, node_size=5) +
+  theme_dag()
+```
+
+---
+# DAG Examples
+___
+
+```{r fig.height=3.5}
+dagify(
+  y ~ x + w, 
+  z ~ y,
+  f ~ x,
+  x ~ w,
+  coords = list(x = c(x = 0, y = 1, z = 2, f = 1, w = 0.5), y = c(x = 0, y = 0, z = 0, f = -1, w = 1)),
+  labels = c(
+    x = "Walk up 4th floor",
+    y = "Out of breath",
+    z = "Talk funny",
+    f = "Thristy",
+    w = "Never working out"
+  )
+) %>% 
+  tidy_dagitty() %>%
+  mutate(fill = ifelse(name == "w", "unboserved", "observed")) %>% 
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_dag_point(size=5, aes(color = fill)) + 
+  geom_dag_edges(show.legend = FALSE)+
+  geom_dag_label_repel(aes(label= label)) +
+  theme_dag() + theme(legend.title  = element_blank(),
+        legend.position = "top") 
+```
+
+---
+class: hide-footer hide-logo-bottom
+# Analyzing DAGs: **d-separation** 
+___
+.dense[
+- Necessary to decide which variables to use in model
+- "d" stands for "directional"
+- Usually we are dealing with more than two variables
+- Complication: causation flows only directed - association might flow against 
+]
+--
+```{r, fig.height=1.8, fig.width=6}
+dagify(z ~ x, y2 ~ z, a ~ x, a ~ y3, x ~ d, y1 ~ d,
+       coords = list(x = c(x = 1, z = 1.5, y2 = 2, a = 1.5, y3 = 2, d = 1.5, y1 = 2), 
+                     y = c(x = 1, y2 = 1, z = 1, a = 0, y3 = 0, d = 2, y1 = 2))
+) %>% 
+  tidy_dagitty() %>%
+  ggdag(text_size = 3, node_size = 5) +
+  geom_dag_edges() +
+  theme_dag() +
+  labs(title= "Causal Pitchfork", subtitle = "x and y2 are d-connected but x and y1/y3 are not") +
+  theme(title = element_text(size = 8))
+```
+
+---
+class: hide-footer
+# Analyzing DAGs: Fork
+___
+.pull-left[
+```{r, fig.width=5, fig.height=3}
+med <- dagify( x ~ d, y1 ~ d,
+       coords = list(x = c(x = 1, z = 1.5, y = 2, a = 1.5, b = 2, d = 1.5, y1 = 2), 
+                     y = c(x = 1, y = 1, z = 1, a = 0, b = 0, d = 2, y1 = 2))
+) %>% 
+  tidy_dagitty() %>%
+  mutate(fill = ifelse(name == "d", "Confounder", "variables of interest")) %>% 
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_dag_point(size=7, aes(color = fill)) + 
+  geom_dag_edges(show.legend = FALSE)+
+  geom_dag_text() +
+  theme_dag() +
+  theme(legend.title  = element_blank(),
+        legend.position = "top") 
+med
+```
+]
+.pull-right[
+.dense[
+- d causes both x and y1
+- Arrows pointing to x are called "back-door" paths 
+- Eliminated by randomized experiment! Why?
+- Controlling for d "blocks" the non-causal association x $\rightarrow$ y1
+]
+]
+---
+# Analyzing DAGs: Pipe
+___
+```{r, fig.width=6, fig.height=2}
+med <- dagify(z ~ x, y2 ~ z,
+       coords = list(x = c(x = 1, z = 1.5, y2 = 2), y = c(x=1, y2 = 1, z=1))
+) %>% 
+  tidy_dagitty() %>%
+  mutate(fill = ifelse(name == "z", "Mediator", "variables of interest")) %>% 
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_dag_point(size=7, aes(color = fill)) + 
+  geom_dag_edges(show.legend = FALSE)+
+  geom_dag_text() +
+  theme_dag() +
+  theme(legend.title  = element_blank(),
+        legend.position = "top") 
+med
+```
+.dense[
+- x causes y through z
+- Controlling for z blocks the causal association x $\rightarrow$ y2
+]
+
+---
+class: hide-footer
+# Analyzing DAGS: Colliders
+___
+```{r fig.width=6, fig.height=2.2}
+dagify(a ~ x, a ~ y3,
+      coords = list(x = c(x = 1, z = 1.5, y = 2, a = 1.5, y3 = 2), y = c(x=1, y = 1, z=1, a = 0, y3 = 0))
+) %>% 
+  tidy_dagitty() %>%
+  mutate(fill = ifelse(name == "a", "Collider", "variables of interest")) %>% 
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_dag_point(size=7, aes(color = fill)) + 
+  geom_dag_edges(show.legend = FALSE)+
+  geom_dag_text() +
+  theme_dag() +
+  theme(legend.title  = element_blank(),
+        legend.position = "top")
+```
+
+.dense[
+- x and y3 cause a (bot not each other)
+- Controlling for a opens the non-causal association x $\rightarrow$ y3
+]
+---
+# Colliders: What is happening?
+___
+
+```{r, fig.width=6, fig.height=1.5}
+dagify(
+  a ~ x + b,
+  coords = list(x = c(x = 0, a = 1, b = 2), y = c(x = 0, a = 0, b = 0)),
+  labels = c(
+    x = "Education",
+    a = "Income",
+    b = "Hours"
+  )
+) %>% 
+  tidy_dagitty() %>%
+  mutate(fill = ifelse(name == "a", "Collider", "variables of interest")) %>% 
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_dag_point(size=5, aes(color = fill)) + 
+  geom_dag_edges()+
+  geom_dag_label_repel(aes(label= label, fill = fill), show.legend = FALSE, vjust=0.9) +
+  theme_dag() +
+  theme(legend.title  = element_blank(),
+        legend.position = "top")
+```
+--    
+.dense[
+- If I know the amount of hours you work and your income, I can guess your level of education
+- Given just the hours you work I have no idea about your education
+]
+---
+# Multiple paths
+___
+
+```{r, fig.height=4}
+dagify(y ~ x + a,
+       a ~ x,
+       b ~ x + y,
+      coords = list(x = c(x = 1, y = 2, a = 1.5, b = 1.5), y = c(x=1, y = 1,  a = 2, b = 0))
+) %>% 
+  tidy_dagitty() %>%
+  #mutate(fill = ifelse(name == "a", "Collider", "variables of interest")) %>% 
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_dag_point(size=7, 
+                 #aes(color = fill)
+                 ) + 
+  geom_dag_edges(show.legend = FALSE)+
+  geom_dag_text() +
+  theme_dag() +
+  theme(legend.title  = element_blank(),
+        legend.position = "top")
+```
+- Treat each one separately!
+
+---
+# Multiple paths
+___
+
+```{r}
+dagify(y ~ x + d + a + b,
+       a ~ c + d,
+       x ~ c + a + b,
+      coords = list(x = c(x = 1, y = 2, a = 1.5, b = 1.5, c = 1, d = 2), y = c(x=1, y = 1,  a = 2, b = 0, c = 2, d= 2))
+) %>% 
+  tidy_dagitty() %>%
+  #mutate(fill = ifelse(name == "a", "Collider", "variables of interest")) %>% 
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_dag_point(size=7, 
+                 #aes(color = fill)
+                 ) + 
+  geom_dag_edges(show.legend = FALSE)+
+  geom_dag_text() +
+  theme_dag() +
+  theme(legend.title  = element_blank(),
+        legend.position = "top")
+```
+---
+class: logo-small
+# Common bad controls <font size="5">`r Citep(refs, "cinelli2020crash")`</font>
+___
+
+```{r}
+library(ggpubr)
+p1 <- dagify(y ~ x + U2,
+       a ~ U1 + U2,
+       x ~ U1,
+      coords = list(x = c(x = 1, y = 2, a = 1.5, b = 1.5, U1 = 1, U2 = 2), y = c(x=1, y = 1,  a = 1.5, b = 0, U1 = 2, U2 = 2))
+) %>% 
+  tidy_dagitty() %>%
+  mutate(fill = ifelse(name %in% c("U1", "U2"), "Unobserved", "Observed")) %>% 
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_dag_point(size=7, 
+                 aes(color = fill)
+                 ) + 
+  geom_dag_edges(show.legend = FALSE)+
+  geom_dag_text() +
+  theme_dag() +
+  theme(legend.title  = element_blank(),
+        legend.position = "bottom") +
+  labs(title = "M-Bias")
+p2 <- dagify(y ~ a + U,
+       a ~ x + U,
+      coords = list(x = c(x = 1, y = 2, a = 1.5, b = 1.5, U = 1.7, U2 = 2), y = c(x=1, y = 1,  a = 1, b = 0, U = 2, U2 = 2))
+) %>% 
+  tidy_dagitty() %>%
+  mutate(fill = ifelse(name %in% c("U"), "Unobserved", "Observed")) %>% 
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_dag_point(size=7, 
+                 aes(color = fill)
+                 ) + 
+  geom_dag_edges(show.legend = FALSE)+
+  geom_dag_text() +
+  theme_dag() +
+  theme(legend.title  = element_blank(),
+        legend.position = "bottom") +
+  labs(title = "Post-treatment Bias")
+ggarrange(p1, p2)
+```
+---
+# Common bad controls
+___
+
+```{r}
+p1 <- dagify(y ~ x ,
+       a ~ x + y,
+      coords = list(x = c(x = 1, y = 2, a = 1.5, b = 1.5, U1 = 1, U2 = 2), y = c(x=1, y = 1,  a = 1.5, b = 0, U1 = 2, U2 = 2))
+) %>% 
+  tidy_dagitty() %>%
+  #mutate(fill = ifelse(name %in% c("U1", "U2"), "Unobserved", "Observed")) %>% 
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_dag_point(size=7, 
+                 #aes(color = fill)
+                 ) + 
+  geom_dag_edges(show.legend = FALSE)+
+  geom_dag_text() +
+  theme_dag() +
+  theme(legend.title  = element_blank(),
+        legend.position = "bottom") +
+  labs(title = "Selection Bias")
+p2 <-  dagify(y ~ x ,
+       a ~ y,
+      coords = list(x = c(x = 1, y = 2, a = 1.5, b = 1.5, U1 = 1, U2 = 2), y = c(x=1, y = 1,  a = 1.5, b = 0, U1 = 2, U2 = 2))
+) %>% 
+  tidy_dagitty() %>%
+  #mutate(fill = ifelse(name %in% c("U1", "U2"), "Unobserved", "Observed")) %>% 
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_dag_point(size=7, 
+                 #aes(color = fill)
+                 ) + 
+  geom_dag_edges(show.legend = FALSE)+
+  geom_dag_text() +
+  theme_dag() +
+  theme(legend.title  = element_blank(),
+        legend.position = "bottom") +
+  labs(title = "Case-control Bias")
+ggarrange(p1, p2)
+```
+
+---
+# Take-aways for causal analysis
+___
+.dense[
+- Variable selection should be based on DAG
+  - Not statistical criteria (R-squared, AIC, p-values)
+- Models are designed for one specific causal effect
+  - No causal interpretation for confounding variables!
+  - Each causal question needs a model!
+  - see `r Citet(refs, "westreich2013table")`
+- Think about things you do not observe
+- This is essential for *correct* decision making in a business setting
+- The fanciest methodology will not tell you how to model!
+  - Finding association does not mean we can predict the effect of intervention
+]
+---
+# Revisiting: bad Marketing
+___
+
+```{r}
+dagify(y ~ a,
+       x ~ a,
+      coords = list(x = c(x = 0, y = 2, a = 1), y = c(x = 0, y = 0, a = 1)),
+      labels = c(x = "Marketing", a = "Economy", y = "Sales")
+) %>% 
+  tidy_dagitty() %>%
+  #mutate(fill = ifelse(name %in% c("U1", "U2"), "Unobserved", "Observed")) %>% 
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_dag_point(size=7, 
+                 #aes(color = fill)
+                 ) + 
+  geom_dag_edges(show.legend = FALSE)+
+  geom_dag_label_repel(aes(label = label), vjust = 0.1) +
+  theme_dag() 
+```
+
+
 ---
 # References
 ___
@@ -203,6 +838,10 @@ ___
 `r NoCite(refs, "morgan2015counterfactuals")`
 `r NoCite(refs, "imbens_causal")`
 `r NoCite(refs, "pearl2009causal")`
+`r NoCite(refs, "datasaurus")`
+`r NoCite(refs, "cinelli2020crash")`
+`r NoCite(refs, "pearl2000models")`
+`r NoCite(refs, "mcelreath2020statistical")`
 .scrollable[
 ### Papers & Books
 
@@ -217,6 +856,11 @@ PrintBibliography(refs)
 [Descriptive, Predictive, Prescriptive, and Diagnostic Analytics: A Quick Guide](https://www.sigmacomputing.com/blog/descriptive-predictive-prescriptive-and-diagnostic-analytics-a-quick-guide/)
 
 [Causal Salad (link to lecture at the bottom)](https://github.com/rmcelreath/causal_salad_2021)
-]
+
+[Milton Friedman's Thermostat](https://themonkeycage.org/2012/07/milton-friedmans-thermostat/)
 
 [Correlation does not even imply correlation](https://statmodeling.stat.columbia.edu/2014/08/04/correlation-even-imply-correlation/)
+
+[d-SEPARATION WITHOUT TEARS](http://bayes.cs.ucla.edu/BOOK-2K/d-sep.html)
+
+]
