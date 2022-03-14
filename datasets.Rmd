@@ -1,0 +1,31 @@
+---
+title: "Data Sources"
+author: "Daniel Winkler"
+date: "3/14/2022"
+output: html_document
+---
+
+- [Climate change](https://data.giss.nasa.gov/gistemp/)
+
+- [Open Data Austria](https://www.data.gv.at)
+
+- [Open Data USA](https://catalog.data.gov/dataset)
+
+- [World Bank](https://data.worldbank.org)
+  - [R package](http://vincentarelbundock.github.io/WDI/)
+
+- [COVID 19 Data](https://covid19datahub.io)
+  - [R package](https://covid19datahub.io/articles/r.html)
+
+- [R Data](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/00Index.html)
+
+- [538 Data](https://data.fivethirtyeight.com)
+
+- [FRED](https://fred.stlouisfed.org/docs/api/fred/)
+
+- [Scrape Twitter](https://docs.ropensci.org/rtweet/)
+
+- [Music Data](https://api.chartmetric.com/apidoc/)
+
+- [List of public data](https://github.com/awesomedata/awesome-public-datasets)
+
