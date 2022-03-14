@@ -49,7 +49,7 @@ heart
 - [**Syllabus**](https://learn.wu.ac.at/dotlrn/classes/pool/6157.22s/syllabus/)
 - [**Getting started with R**](./getting_started.html)
 - [**Institute for Retailing & Data Science (RDS)**](https://www.wu.ac.at/retail)
-- [**Current job offer at RDS**](https://www.wu.ac.at/karriere/arbeiten-an-der-wu/jobangebote?yid=1310)
+- [**List of Datasets**](./datasets.html)
 
 
 
