@@ -1,0 +1,11 @@
+setwd("Datascience_in_R/")
+library(tidyverse)
+food <- read_csv("data/food.csv")
+food$Customer_ID <- 1:nrow(food)
+food_demographics <- select(food, Customer_ID, Income:Teenhome, Age, marital_Divorced:education_PhD)
+food_customer <- select(food, Customer_ID, Recency:Response, Customer_Days, MntTotal:AcceptedCmpOverall)
+set.seed(1)
+sample_customer <- sample(1:nrow(food), nrow(food)-10)
+food_customer <- food_customer[sample_customer,]
+write_csv(food_demographics,"data/food_demographics.csv")
+write_csv(food_customer, "data/food_customer.csv")
