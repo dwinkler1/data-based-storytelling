@@ -30,3 +30,4 @@ anti_join(data1, data2, by = c("group" = "group2"))
 ### 2. Join the two files (note that we have demographics but no customer data for 10 households)
 ### 2.1. Which variable should you choose for merging?
 ### 2.2. What type of join do you prefer in this situation? Why?
+### 3. Remove all rows with missings in the variable "Recency" (see 02-data_prep.R)

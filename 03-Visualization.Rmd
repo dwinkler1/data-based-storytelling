@@ -1,0 +1,269 @@
+---
+title: 'Visualization<br><font size="5" color="black"> [SBWL H &amp; M: Data-based Storytelling](https://danielw2904.github.io/data-based-storytelling/)</font>'
+layout: true
+output:
+  xaringan::moon_reader:
+    pandoc_args: 
+      - "--wrap=preserve"
+    self_contained: true
+    includes:
+      after_body: insert-logo.html
+    css: [default, wu-rds.css]
+    lib_dir: libs
+    nature:
+      beforeInit: "macros.js"
+      ratio: '16:9'
+      titleSlideClass: [left]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: "%current%"
+      includePresenterNotes: true
+      navigation:
+        scroll: false
+---
+
+```{r xaringan-setup, echo=FALSE}
+xaringanExtra::use_animate_css()
+xaringanExtra::use_clipboard()
+xaringanExtra::use_extra_styles(
+  hover_code_line = TRUE,         #<<
+  mute_unhighlighted_code = TRUE  #<<
+)
+xaringanExtra::use_panelset()
+```
+
+```{r document-setup, include=FALSE}
+options(htmltools.dir.version = FALSE, knitr.table.format = "html")
+```
+
+```{r references-setup, include=FALSE, cache=FALSE}
+library(RefManageR)
+BibOptions(check.entries = FALSE,
+           bib.style = "authoryear",
+           cite.style = "authoryear",
+           style = "markdown",
+           hyperlink = FALSE,
+           dashed = TRUE)
+refs <- ReadBib("./data_storytelling.bib", check = FALSE)
+```
+
+```{r locale-setup, include=FALSE}
+Sys.setlocale("LC_ALL", "en_US.UTF-8")
+```
+
+```{r knitr-setup, include = FALSE}
+knitr::opts_chunk$set(
+  error = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  cache = TRUE,
+  echo = FALSE,
+  fig.height = 5,
+  fig.width = 12,
+  dpi = 300
+)
+```
+
+---
+
+class: logo-small hide-footer
+
+# Recap: Data Interpretation
+
+___ 
+`r NoCite(refs, "schwabish2021better")`
+
+.pull-largeleft[
+- Starting with `r Citet(refs, "cleveland1984graphics")` researchers have explored which types of graphs can be read accurately by humans
+- However, accuracy is not always the (only) goal for data story telling
+- Graphs need to be engaging!
+]
+.pull-smallright[
+```{r, echo = FALSE, out.width="70%", fig.cap='<a href="https://www.gabrielaplucinska.com/blog/2017/8/7/pie-charts">source</a>'}
+knitr::include_graphics("Graphics/visual_accuracy.jpeg")
+```
+]
+---
+class: hide-logo-bottom
+# Bertin's Visual Variables 
+___
+.center[
+![:scale 90%](Graphics/visual_variables.png)
+]
+[source](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720)
+
+---
+# Bertin's Visual Variables
+___
+
+- **Selective**: easy to distinguish categories of symbols <br> e.g., red dots, blue dots but not shape
+- **Associative**: no difference in importance/ does not change visibility <br> e.g., red dots, blue dots
+- **Ordered**: Shows an ordering <br> e.g., large dot, small dot but not shape
+- **Quantitative**: Can express ratios <br> large dot, small dot 
+---
+class: logo-small
+.pull-left[
+
+**Not Selective**
+![:scale 90%](Graphics/shape_visual.png)
+**Associative**
+![:scale 90%](Graphics/associative.png)
+]
+.pull-right[
+**Ordered**
+![](Graphics/ordered.png)
+**Quantitative**
+![](Graphics/size_quantitative.png)
+]
+[source](https://www.axismaps.com/guide/visual-variables)
+---
+# Rules
+___
+
+- Avoid encoding patterns with shapes (not selective)
+- Non-associative variables can break perception of "sameness" (e.g., size)
+- Avoid ordered visuals when the data is not ordered
+> “We must remember that quantitative perception represents an accurate approximation but not a precise measurement”
+`r tufte::quote_footer("Bertin")`
+
+---
+class: hide-footer
+# Gestalt Principles: Proximity
+___
+.pull-left[
+```{r, fig.width = 5.5}
+library(palmerpenguins)
+library(tidyverse)
+ggplot(penguins, aes(x = species, fill = fct_infreq(sex))) + 
+  geom_bar(position = 'dodge') +
+  theme_minimal()+
+  theme(legend.title = element_blank())
+```
+]
+.pull-right[
+```{r, fig.width = 5.5}
+ggplot(penguins, aes(x = sex, fill = fct_infreq(species))) + 
+  geom_bar(position = 'dodge') +
+  theme_minimal() +
+  theme(legend.title = element_blank())
+```
+]
+???
+Proximity is primary grouping aesthetic
+---
+class: hide-logo-bottom
+# Gestalt principles: Closure
+___
+.pull-left[
+```{r, fig.width=5.5}
+options(scipen = 99999)
+charts <- read_csv("charts_global_at.csv")
+ts <- str_detect(tolower(charts$artistName), "taylor swift")
+charts_ts <- charts[ts, ]
+ts_data <- filter(charts_ts, format(day, "%Y") == "2019" & region == "global") %>%
+  group_by(day) %>%
+  mutate(streams = sum(streams))
+ts_data_missing <- ts_data
+ts_data_missing$streams[ts_data_missing$day >= as.Date("2019-08-20") & ts_data_missing$day <= as.Date("2019-09-20")] <- NA
+ggplot(ts_data_missing, aes(x = day, y = streams)) +
+  geom_line() +
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_date(
+    breaks = seq(as.Date("2019-01-01"), as.Date("2019-12-31"), "month"),
+    date_labels = "%b"
+  ) +
+  theme_bw() +
+  theme(
+    axis.title.x = element_blank(),
+    panel.border = element_blank(),
+    axis.line = element_line(color = "black")
+  ) +
+  scale_y_continuous(labels = scales::comma) +
+  ggtitle("Taylor Swift Streams", subtitle = "Songs in top 200 - 2019")
+```
+]
+--
+.pull-right[
+```{r, fig.width=5.5}
+ggplot(ts_data, aes(x = day, y = streams)) +
+  geom_line() +
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_date(
+    breaks = seq(as.Date("2019-01-01"), as.Date("2019-12-31"), "month"),
+    date_labels = "%b"
+  ) +
+  theme_bw() +
+  theme(
+    axis.title.x = element_blank(),
+    panel.border = element_blank(),
+    axis.line = element_line(color = "black")
+  ) +
+  geom_vline(xintercept = as.Date("2019-08-23"), color = "red") +
+  annotate("text", x = as.Date("2019-08-20"), label = "Release of 'Lover'", y = 41500000, colour = "red", hjust=1) +
+  ggtitle("Taylor Swift Streams", subtitle = "Songs in top 200 - 2019")
+```
+]
+---
+# Gestalt principles: Similarity
+___
+
+.pull-left[
+```{r, fig.width=5.5}
+ggplot(penguins, aes(x = bill_length_mm, y = bill_depth_mm)) + 
+  geom_point() +
+  labs(x = "Bill length (mm)", y = "Bill depth (mm)") +
+  theme_minimal()
+```
+]
+.pull-right[
+```{r, fig.width=5.5}
+ggplot(penguins, aes(x = bill_length_mm, y = bill_depth_mm, color = species)) + 
+  geom_point() +
+  labs(x = "Bill length (mm)", y = "Bill depth (mm)") +
+  theme_minimal() + theme(legend.title = element_blank())
+```
+]
+---
+# Gestalt principles: Continuity
+___
+
+.pull-left[
+```{r, fig.width=5.5}
+ggplot(penguins, aes(x = sex, fill = species)) + 
+  geom_bar(position = 'dodge') +
+  theme_minimal() +
+  theme(legend.title = element_blank())
+```
+]
+.pull-right[
+```{r, fig.width=5.5}
+ggplot(penguins, aes(x = sex, fill = fct_infreq(species))) + 
+  geom_bar(position = 'dodge') +
+  theme_minimal() +
+  theme(legend.title = element_blank())
+```
+]
+
+
+---
+# References
+___
+`r NoCite(refs, "morrison1974theoretical")`
+.scrollable[
+### Papers & Books
+
+```{r refs, echo=FALSE, results="asis"}
+PrintBibliography(refs)
+```
+
+### Links
+
+[The Psychology behind Data Visualization Techniques](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720)
+
+[Adding Value with Graphics](https://www.cedricscherer.com/slides/BiB_2022_EffectiveDataCommunication.pdf)
+
+[Visual variable](http://wiki.gis.com/wiki/index.php/Visual_variable)
+
+[GIS Book](https://volaya.github.io/gis-book/en/Visualization.html)
+]
