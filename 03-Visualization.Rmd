@@ -65,12 +65,10 @@ knitr::opts_chunk$set(
 )
 ```
 
----
 
 class: logo-small hide-footer
 
 # Recap: Data Interpretation
-
 ___ 
 `r NoCite(refs, "schwabish2021better")`
 
