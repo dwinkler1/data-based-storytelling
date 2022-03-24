@@ -48,6 +48,7 @@ heart
 
 - [**Syllabus**](https://learn.wu.ac.at/dotlrn/classes/pool/6157.22s/syllabus/)
 - [**Getting started with R**](./getting_started.html)
+- [**Causal Pitchfork Visualization**](./CausalPitchfork.html)
 - [**Institute for Retailing & Data Science (RDS)**](https://www.wu.ac.at/retail)
 - [**List of Datasets**](./datasets.html)
 
