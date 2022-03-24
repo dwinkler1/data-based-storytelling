@@ -5,7 +5,7 @@ output:
   xaringan::moon_reader:
     pandoc_args: 
       - "--wrap=preserve"
-    self_contained: true
+    self_contained: false 
     includes:
       after_body: insert-logo.html
     css: [default, wu-rds.css]
@@ -69,7 +69,7 @@ knitr::opts_chunk$set(
 class: logo-small hide-footer
 
 # Recap: Data Interpretation
-___ 
+___
 `r NoCite(refs, "schwabish2021better")`
 
 .pull-largeleft[
