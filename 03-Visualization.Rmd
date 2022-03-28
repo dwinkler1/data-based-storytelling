@@ -110,9 +110,9 @@ class: logo-small
 ]
 .pull-right[
 **Ordered**
-![](Graphics/ordered.png)
+![:scale 90%](Graphics/ordered.png)
 **Quantitative**
-![](Graphics/size_quantitative.png)
+![:scale 90%](Graphics/size_quantitative.png)
 ]
 [source](https://www.axismaps.com/guide/visual-variables)
 ---
@@ -127,7 +127,7 @@ ___
 
 ---
 class: hide-footer
-# Gestalt Principles: Proximity
+# Gestalt principles: Proximity
 ___
 .pull-left[
 ```{r, fig.width = 5.5}
