@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
 This document deals with a fundamental question of causal inference: **Which variables should be included in a causal model?** To answer this question two points need to be clear:
 
 1. In general each causal model only investigates the causal effect of a single independent variable, $x_k$, on the dependent variable $y$. The coefficients associated with all other variables, $x_{j\neq k}$, cannot (automatically) be interpreted as causal relationships. As regression coefficients are commonly presented in a single table, it is often unclear to the reader which coefficients can be interpreted as causal [see @westreich2013table].
-2. Statistical significance (or any other statistical test) does not give us any idea about the causal model. To illustrate this, the following figure shows three statistically significant relationships between the variables $x$ and $y$ (all t-stats $> 9$). However, by construction there is no causal relationship between them in two of these examples. Even more concerning: In some cases the exclusion of a control variable leads to spurious correlation (leftmost plot) while in other cases the inclusion of the control variable does the same (rightmost plot).
+2. Statistical significance (or any other statistical test) does not give us any idea about the causal model. To illustrate this, the following figure shows three statistically significant relationships between the variables $x$ and $y$ (all t-stats $> 9$). However, by construction there is no causal relationship between them in two of these examples. Even more concerning: In one case the _exclusion_ of a control variable leads to spurious correlation (leftmost plot) while in the other the _inclusion_ of the control variable does the same (rightmost plot).
 
 
 ```{r intro}
@@ -262,7 +262,88 @@ lm(y ~ x + a, data_collider) |>
 
 ## Omitted Variable Bias (OVB)
 
-[Recall](https://wu-rds.github.io/MA2022/regression.html#omitted-variables) that variables that influence both the outcome and other independent variables will bias the coefficients of those other independent variables if left out of a model. This bias is referred to as "Omitted Variable Bias" (short OVB) since it occurs due to the omission of a crucial variable. OVB occurs whenever a confounder (see [The Fork](#the-fork-good-control)) is left out of the model 
+[Recall](https://wu-rds.github.io/MA2022/regression.html#omitted-variables) that variables that influence both the outcome and other independent variables will bias the coefficients of those other independent variables if left out of a model. This bias is referred to as "Omitted Variable Bias" (short OVB) since it occurs due to the omission of a crucial variable. OVB occurs whenever a confounder (see [The Fork](#the-fork-good-control)) is left out of the model. 
+
+## Mediation analysis
+
+Notable changes to [The Pipe](#the-pipe-bad-control): 
+
+- We have both direct and indirect effects of $x$ on $y$
+- The mediator $m$ is continuous instead of binary
+
+
+```{r}
+#| fig-height: 2.5
+med2 <- dagify(m ~ x, y ~ m + x,
+  coords = list(x = c(x = 1, m = 1.5, y = 2), y = c(x = 1, y = 1, m = 1.5))
+) |>
+  tidy_dagitty() |>
+  mutate(fill = ifelse(name == "m", "Mediator", "variables of interest")) |>
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
+  geom_dag_point(size = 7, aes(color = fill)) +
+  geom_dag_edges(show.legend = FALSE) +
+  geom_dag_text() +
+  theme_dag() +
+  theme(
+    legend.title = element_blank(),
+    legend.position = "top"
+  )
+med2
+```
+
+
+```{r}
+#| code-fold: false
+set.seed(11)
+X <- 100 * rnorm(n)
+M <- 10 + 0.5 * X + 5 * rnorm(n)
+Y <- -25 + 4 * X + 3 * M + rnorm(n)
+total_effect <- lm(Y ~ X)
+summary(total_effect)
+avg_direct_effect <- lm(Y ~ X + M)
+summary(avg_direct_effect)
+X_on_M <- lm(M ~ X)
+summary(X_on_M)
+avg_causal_mediation_effect <- coef(X_on_M)['X'] * coef(avg_direct_effect)['M']
+cat("Average Causal Mediation Effect (ACME):", avg_causal_mediation_effect)
+cat("Average Direct Effect (ADE):", coef(avg_direct_effect)['X'])
+cat("Total Effect:", coef(total_effect)['X'])
+cat("Also Total Effect:", coef(avg_direct_effect)['X'] + avg_causal_mediation_effect)
+cat("Proportion Mediated:", avg_causal_mediation_effect / coef(total_effect)['X'])
+```
+
+
+```{r}
+#| message: false
+library(mediation)
+mediation_result <- mediate(X_on_M, avg_direct_effect, 
+                            treat = 'X', mediator = 'M',
+                            boot = TRUE, sims = 1000)
+summary(mediation_result)
+```
+
+Equivalent to PROCESS model 4 (requires sourcing the `process.R` file that can be downloaded [here](https://haskayne.ucalgary.ca/CCRAM/resource-hub)):
+
+```{r}
+#| eval: false
+#| code-fold: false
+process(data.frame(Y, X, M), y = 'Y', x = 'X', m = 'M', model = 4)
+```
+
+Alternatively the following code _should_ download and source the macro for you but will definitely break in the future (try changing the `v42` part of the link to `v43` or `v44` etc. or obtain a new link from [the website](https://haskayne.ucalgary.ca/CCRAM/resource-hub) if it does):
+
+```{r}
+#| eval: false
+#| code-fold: false
+temp <- tempfile()
+download.file("https://www.afhayes.com/public/processv42.zip",temp)
+files <- unzip(temp, list = TRUE)
+fname <- files$Name[endsWith(files$Name, "process.R")]
+source(unz(temp, fname))
+unlink(temp)
+```
+
+
 
 # Appendix: How the sausage is made
 
