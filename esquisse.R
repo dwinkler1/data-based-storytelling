@@ -4,9 +4,11 @@ library(esquisse)
 library(palmerpenguins)
 # comment
 # load covid data for austrian states
-covid_at <- covid19("AT", level = 2) # comment
+covid_at <- covid19(country = "AT", level = 2) # comment
 sum(covid_at$tests, na.rm = TRUE)
 data("penguins") 
+saveRDS(covid_at, "covid_at.RDS")
+covid_at <- readRDS("covid_at.RDS")
 
 esquisser(data = penguins, viewer = "browser")
 ?esquisser
