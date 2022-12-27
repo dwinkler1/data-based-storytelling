@@ -1,0 +1,249 @@
+---
+title: "Causal Pitchfork - The Data"
+subtitle: "Data-based storytelling"
+author: "Daniel Winkler"
+output: 
+  html_document:
+    df_print: paged
+date: "Updated: `r Sys.Date()`"
+---
+
+```{r include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warnings = FALSE,
+fig.width = 6, fig.height = 6, fig.align = "center")
+```
+
+# The Fork (Good control)
+
+```{r fork, fig.height = 2.5}
+library(ggdag)
+library(dagitty)
+library(tidyverse)
+med <- dagify(x ~ d, y ~ d,
+    coords = list(
+        x = c(x = 1, z = 1.5, y = 2, a = 1.5, b = 2, d = 1.5, y = 2),
+        y = c(x = 1, y = 2, z = 1, a = 0, b = 0, d = 2, y1 = 2)
+    )
+) %>%
+    tidy_dagitty() %>%
+    mutate(fill = ifelse(name == "d", "Confounder", "variables of interest")) %>%
+    ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
+    geom_dag_point(size = 7, aes(color = fill)) +
+    geom_dag_edges(show.legend = FALSE) +
+    geom_dag_text() +
+    theme_dag() +
+    theme(
+        legend.title = element_blank(),
+        legend.position = "top"
+    )
+med
+```
+
+A typical dataset with a confounder will exhibit correlation between the treatment $X$ and outcome $y$. This relationship is not causal! In the example below we have a binary confounder $d$ (Yes/No) that is d-connected with both $X$ and $y$ ($X$ and $y$ are not d-connected) 
+
+```{r fork_no}
+set.seed(11)
+n <- 500
+d <- rbinom(n, 1, 0.5)
+x <- 2 * d + rnorm(n)
+y <- 0.4 + 2.5 * d + rnorm(n)
+data_fork <- data.frame(x, y, d = factor(d, levels = c(0, 1), labels = c("Yes", "No")))
+ggplot(data_fork, aes(x, y)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = FALSE) +
+    theme_minimal()
+lm(y ~ x) %>%
+    broom::tidy() %>%
+ mutate(p.value = round(p.value, 5))
+```
+
+However once we take the confounder into account the association vanishes which reflects the lack of a causal relationship in this case (note that for simplicity the regression lines in the plot are not the same as the model output shown). 
+
+```{r fork_yes}
+#options(scipen = 10)
+ggplot(data_fork, aes(x, y, color = d)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = FALSE) +
+    theme_minimal() +
+    theme(legend.position = "top")
+lm(y ~ x + d, data_fork) %>%
+    broom::tidy() %>%
+    mutate(p.value = round(p.value, digits = 5))
+```
+
+# The Pipe (Bad control)
+
+```{r pipe, fig.height = 2}
+med <- dagify(z ~ x, y ~ z,
+    coords = list(x = c(x = 1, z = 1.5, y = 2), y = c(x = 1, y = 1, z = 1))
+) %>%
+    tidy_dagitty() %>%
+    mutate(fill = ifelse(name == "z", "Mediator", "variables of interest")) %>%
+    ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
+    geom_dag_point(size = 7, aes(color = fill)) +
+    geom_dag_edges(show.legend = FALSE) +
+    geom_dag_text() +
+    theme_dag() +
+    theme(
+        legend.title = element_blank(),
+        legend.position = "top"
+    )
+med
+```
+
+If we have a mediator in our data the picture looks very similar to the previous one. In addition, taking the mediator into account also has a similar effect: we remove the association between $X$ and $y$. However, in this case that is not what we want since $X$ and $y$ are d-connected. $X$ causes $y$ through $z$ (note that for simplicity the regression lines in the second plot are not the same as the model output shown).
+
+
+```{r pipe_no}
+library(boot)
+x <- 1 * rnorm(n)
+z <- rbinom(n, 1, inv.logit(2 * x + rnorm(n)))
+y <- 2 * z + rnorm(n)
+data_pipe <- data.frame(x, z = factor(z, levels = c(0,1), labels = c("Yes", "No")), y)
+ggplot(data_pipe, aes(x, y)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = FALSE) +
+    theme_minimal()
+lm(y ~ x) %>%
+    broom::tidy() %>%
+    mutate(p.value = round(p.value, digits = 5))
+```
+
+
+```{r pipe_yes}
+ggplot(data_pipe, aes(x, y, color = z)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = FALSE) +
+    theme_minimal() +
+    theme(legend.position = "top")
+lm(y ~ x + z) %>%
+    broom::tidy() %>%
+    mutate(p.value = round(p.value, digits = 5))
+```
+
+# The Collider (Bad control)
+
+```{r, fig.height = 2.5}
+dagify(a ~ x, a ~ y,
+      coords = list(x = c(x = 1, z = 1.5, y = 2, a = 1.5, y = 2), y = c(x=1, y = 0, z=1, a = 0, y3 = 0))
+) %>% 
+  tidy_dagitty() %>%
+  mutate(fill = ifelse(name == "a", "Collider", "variables of interest")) %>% 
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_dag_point(size=7, aes(color = fill)) + 
+  geom_dag_edges(show.legend = FALSE)+
+  geom_dag_text() +
+  theme_dag() +
+  theme(legend.title  = element_blank(),
+        legend.position = "top")
+```
+
+The collider is a special case. There is no association between $X$ and $y$ as long as we do **not** account for the collider in the model. However, by accounting for the collider we implicitly learn about $y$ as well (we use $X$ as the predictor). Since the collider is caused by $X$ and $y$, we can figure out what $y$ must be once we know $X$ and the collider similar to solving a simple equation you would see in high-school.
+
+```{r}
+x <- rnorm(n)
+y <- rnorm(n)
+a <- rbinom(n, 1, inv.logit(9 * x - 9 * y + rnorm(n)))
+data_collider <- data.frame(x,y, a = factor(a, levels = c(0,1), labels = c("No", "Yes")))
+ggplot(data_collider, aes(x,y)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = FALSE) +
+    theme_minimal()
+lm(y ~ x) %>% broom::tidy() %>%
+ mutate(p.value = round(p.value, 5))
+```
+
+```{r}
+data_collider$x_a <- resid(lm(x ~ 0 + a))
+data_collider$y_a <- resid(lm(y ~ 0 + a))
+ggplot(data_collider, aes(x_a, y_a)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = FALSE) +
+    theme_minimal() + 
+    labs(x = "x after accounting for a", y = "y after accounting for a") +
+    theme(legend.position = "top")
+lm(y ~ x + a, data_collider) %>%
+ broom::tidy() %>%
+ mutate(p.value = round(p.value, 5))
+```
+
+# Appendix: How the sausage is made
+
+The fork, mediator, and collider were generated as binary variables to make visualization easier. Binary variables can be drawn from a so-called Bernoulli distribution which is a special case of the binomial distribution with size = 1.
+The distribution takes the probability of getting a $1$ as input.
+
+## The Fork
+
+```{r echo = TRUE}
+## Make code reproducable
+set.seed(11)
+## Number of observations
+n <- 1500
+## Random draw from Bernoulli with p(1) = 0.5, p(0) = 0.5
+d <- rbinom(n, 1, 0.5)
+## X is caused by d
+x <- 2 * d + rnorm(n)
+## y is caused by d
+y <- 0.4 + 2.5 * d + rnorm(n)
+fork <- data.frame(x, y, d = factor(d, 
+    levels = c(0,1), 
+    labels = c("No", "Yes")))
+ggplot(fork, aes(x, y, color = d)) +
+    geom_point() + 
+    theme_minimal() +
+    theme(legend.position = "top")
+```
+
+## The Pipe
+
+```{r, echo = TRUE, fig.height = 4}
+## Generate random X
+x <- rnorm(n)
+## inv.logit ensures that values are between 0 and 1
+ggplot(data.frame()) +
+    stat_function(fun = inv.logit, xlim = c(-10,10)) +
+    theme_minimal() +
+    labs(title = "Inverse Logit function", x = "x", y = "inv.logit(x)")
+```
+
+```{r, echo = TRUE}
+## z is caused by X
+z <- rbinom(n, 1, inv.logit(2 * x + rnorm(n)))
+## y is caused by z
+y <- 2 * z + rnorm(n)
+pipe <- data.frame(x, y, z = factor(z,
+    levels = c(0,1),
+    labels = c("Yes", "No")))
+ggplot(pipe, aes(x, y, color=z)) +
+    geom_point() +
+    theme_minimal() +
+    theme(legend.position = "top")
+```
+
+## The Collider
+
+```{r, echo = TRUE}
+## Generate random x 
+x <- rnorm(n)
+## Generate random y
+y <- rnorm(n)
+## a is caused by both X and y
+a <- rbinom(n, 1, inv.logit(9 * x - 9 * y + rnorm(n)))
+collider <- data.frame(x,y, a = factor(a, 
+    levels = c(0,1), 
+    labels = c("No", "Yes")))
+ggplot(collider, aes(x, y)) +
+    geom_point() + 
+    theme_minimal() 
+```
+
+In order to get the partial correlation of $X$ and $y$ after accounting for $a$ we first regress both $X$ and $y$ on $a$ and use the unexplained part (residual) in the plot. This is equivalent to a regression that has both $X$ and $a$ as explanatory variables.
+
+```{r, echo = TRUE, fig.width=7, fig.height=7}
+collider$x_a <- residuals(lm(x ~ 0 + a))
+collider$y_a <- residuals(lm(y ~ 0 + a))
+ggplot(collider, aes(x_a, y_a)) +
+    geom_point() +
+    theme_minimal() + 
+    labs(x = "x after accounting for a", y = "y after accounting for a")
+```

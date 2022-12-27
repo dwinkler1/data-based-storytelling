@@ -1,3 +1,4 @@
+*.RDS
 .Rproj.user
 .Rhistory
 .RData
@@ -8,4 +9,8 @@ pdfs/**
 **.xlsx
 **.sav
 **/data/**
-*.RDS
+Graphics/followers_streams.png
+Graphics/followerscentrality.png
+Graphics/zzz_marketsharetop.png
+Graphics/music_industry_revenue.png
+Graphics/path.pdf
