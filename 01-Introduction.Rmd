@@ -1,5 +1,5 @@
 ---
-title: 'Introduction<br><font size="5" color="black"> [SBWL H &amp; M: Data-based Storytelling](https://danielw2904.github.io/data-based-storytelling/)</font>'
+title: 'Introduction<br><font size="5" color="black"> [Data-based Storytelling](https://danielw2904.github.io/data-based-storytelling/)</font>'
 layout: true
 output:
   xaringan::moon_reader:
@@ -110,9 +110,11 @@ ___
 
 .pull-left[
 Many data applications are:
-- New
-- Persuasive
-- Clear
+- New: `ChatGPT` et al.
+- Persuasive (but possibly wrong): 
+![:scale 50%](Graphics/batball.png)
+- Complex: 
+> With its 175 billion parameters, its hard to narrow down what GPT-3 does. ([BBC Science Focus](https://www.sciencefocus.com/future-technology/gpt-3/))
 ]
 --
 .pull-right[__What is needed__:

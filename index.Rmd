@@ -5,7 +5,7 @@ output:
       includes:
         after_body: index_header.html
 title: "Data-based Storytelling"
-author: '<a href="https://www.wu.ac.at/en/retail/about-us/team/daniel-winkler">Daniel Winkler</a>'
+author: '<a href="https://www.wu.ac.at/en/retail/about-us/team/daniel-winkler">Daniel Winkler</a> &amp; <a href="https://www.wu.ac.at/en/retail/about-us/team/prof-nils-wloemert/">Nils Wlömert</a>'
 date: "Updated: `r Sys.Date()`"
 ---   
 
@@ -14,11 +14,11 @@ date: "Updated: `r Sys.Date()`"
 
 | **Date** | **Time** | **Room** | **Topics** | **Slides** | **Readings** |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-| 03-07-2022 | 11:00am - 3:30pm | TC.4.04 | Introduction | [Introduction](./01-Introduction.html) | [**Lost in Data Translation**](https://www.ama.org/marketing-news/lost-in-data-translation/), [**R for Data Science**](https://r4ds.had.co.nz/index.html) |
-| 03-14-2022 | 11:00am - 3:30pm | TC.4.04 | Modelling | [Modelling](./02-Modelling.html) |  [**Data Science and the Art of Persuasion**](https://hbr.org/2019/01/data-science-and-the-art-of-persuasion) |
-| 03-21-2022 | 11:00am - 3:30pm | TC.4.04 | Visualization/Datascience in R | [Visualization](./03-Visualization.html) | [**The Psychology behind Data Visualization Techniques**](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720) |
-| 03-28-2022 | 11:00am - 3:30pm | Online (see [learn\@wu](https://learn.wu.ac.at/dotlrn/classes/pool/6157.22s/zoom/)) | Review | [Causal Pitchfork Visualization](./CausalPitchfork.html) | [**A Crash Course in Good and Bad Controls**](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf) |
-| 04-04-2022 | 11:00am - 3:30pm | **TC.3.06** | Presentations / Exam | | | 
+| 01-09-2023 | 1:00pm - 6:00pm | LC.2.064 | Introduction | [Introduction](./01-Introduction.html) | [**Lost in Data Translation**](https://www.ama.org/marketing-news/lost-in-data-translation/), [**R for Data Science**](https://r4ds.had.co.nz/index.html) |
+| 01-11-2023 |  1:00pm - 6:00pm | **LC.1.038** | Modelling | <!--[Modelling](./02-Modelling.html) --> |  [**Data Science and the Art of Persuasion**](https://hbr.org/2019/01/data-science-and-the-art-of-persuasion) |
+| 01-16-2023 |  1:00pm - 6:00pm | LC.2.064 | Visualization/Datascience in R | <!--[Visualization](./03-Visualization.html) --> | [**The Psychology behind Data Visualization Techniques**](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720) |
+| 01-18-2023 |  1:00pm - 6:00pm | LC.2.064 | Review | [Causal Pitchfork Visualization](./CausalPitchfork.html) | [**A Crash Course in Good and Bad Controls**](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf) |
+| 01-20-2023 | 1:00pm - 6:00pm | LC.2.064 | Presentations / Exam | | | 
 
 ```{r  echo = FALSE, output='asis', fig.width=0.5, fig.height=0.6, fig.margin=TRUE, dpi=500} 
 library(ggplot2)
@@ -46,7 +46,7 @@ heart
 
 # Links
 
-- [**Syllabus**](https://learn.wu.ac.at/dotlrn/classes/pool/6157.22s/syllabus/)
+- [**Syllabus**](https://learn.wu.ac.at/dotlrn/classes/pool/2346.22w/syllabus/)
 - [**Getting started with R**](./getting_started.html)
 - [**Causal Pitchfork Visualization**](./CausalPitchfork.html)
 - [**Institute for Retailing & Data Science (RDS)**](https://www.wu.ac.at/retail)
