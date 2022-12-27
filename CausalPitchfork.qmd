@@ -23,12 +23,57 @@ knitr::opts_chunk$set(
 # Introduction
 
 
-This document deals with a fundamental question of causal inference: **Which variables should be included in a causal model?** To  
+This document deals with a fundamental question of causal inference: **Which variables should be included in a causal model?** To answer this question two points need to be clear:
+
+1. In general each causal model only investigates the causal effect of a single independent variable, $x_k$, on the dependent variable $y$. The coefficients associated with all other variables, $x_{j\neq k}$, cannot (automatically) be interpreted as causal relationships. As regression coefficients are commonly presented in a single table, it is often unclear to the reader which coefficients can be interpreted as causal [see @westreich2013table].
+2. Statistical significance (or any other statistical test) does not give us any idea about the causal model. To illustrate this, the following figure shows three statistically significant relationships between the variables $x$ and $y$ (all t-stats $> 9$). However, by construction there is no causal relationship between them in two of these examples. Even more concerning: In some cases the exclusion of a control variable leads to spurious correlation (leftmost plot) while in other cases the inclusion of the control variable does the same (rightmost plot).
 
 
-```{r}
+```{r intro}
+#| fig-width: 12
 library(tidyverse)
 library(patchwork)
+set.seed(11)
+## Fork
+# n ... number of observations
+n <- 500
+# d ... binary confounder
+d <- rbinom(n, 1, 0.5)
+x <- 1.5 * d + rnorm(n)
+y <- 0.4 + 2 * d + rnorm(n)
+data_fork <- data.frame(x, y, d = factor(d, levels = c(0, 1), labels = c("Yes", "No")))
+plt_fork <- ggplot(data_fork, aes(x, y)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  theme_minimal() +
+  ggtitle("Relation due to omitted confounder")
+## Pipe
+set.seed(11)
+x <- 1 * rnorm(n)
+z <- rbinom(n, 1, boot::inv.logit(2 * x + rnorm(n)))
+y <- 2 * z + rnorm(n)
+data_pipe <- data.frame(x, z = factor(z, levels = c(0, 1), labels = c("Yes", "No")), y)
+plt_pipe <- ggplot(data_pipe, aes(x, y)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  theme_minimal() +
+  ggtitle("Relation through mediator")
+## Collider
+set.seed(11)
+x <- rnorm(n)
+y <- rnorm(n)
+a <- rbinom(n, 1, boot::inv.logit(9 * x - 9 * y + rnorm(n)))
+data_collider <- data.frame(x, y, a = factor(a, levels = c(0, 1), labels = c("No", "Yes")))
+data_collider$x_a <- resid(lm(x ~ 0 + a))
+data_collider$y_a <- resid(lm(y ~ 0 + a))
+plt_collider <- ggplot(data_collider, aes(x_a, y_a)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  theme_minimal() +
+  labs(x = "x", y = "y") +
+  theme(legend.position = "top") +
+  ggtitle("Relation due to included collider")
+plt_fork + plt_pipe + plt_collider
 ```
 
 
@@ -68,8 +113,8 @@ set.seed(11)
 n <- 500
 # d ... binary confounder
 d <- rbinom(n, 1, 0.5)
-x <- 2 * d + rnorm(n)
-y <- 0.4 + 2.5 * d + rnorm(n)
+x <- 1.5 * d + rnorm(n)
+y <- 0.4 + 2 * d + rnorm(n)
 data_fork <- data.frame(x, y, d = factor(d, levels = c(0, 1), labels = c("Yes", "No")))
 ggplot(data_fork, aes(x, y)) +
   geom_point() +
