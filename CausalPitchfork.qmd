@@ -276,13 +276,13 @@ However, we might be unaware of the confounder $d$ but still be interested in th
 $$
 y = \gamma_0 + \gamma_1 x + \epsilon_y
 $$
-We know (based on the equations above) that the true effect of $x$ on $y$ is $0$. In order to investigate the magnitude of the OVB we mistakenly view $d$ as a function of $x$:
+We know (based on the equations above) that the true effect of $x$ on $y$ is $0$ as it is entirely caused by $d$. In order to investigate the magnitude of the OVB we mistakenly view $d$ as a function of $x$ (see [Mediation analysis](#mediation-analysis)):
 
 $$
-d = \theta_0 + \theta_1 x + \varepsilon_d
+d = \theta_0 + \theta_1 x + \varepsilon_d,
 $$
 
-And next plug the incorrectly specified model for $d$ into the correctly specified model for $y$ and take the derivative with respect to $x$:
+plug the incorrectly specified model for $d$ into the correctly specified model for $y$, and take the derivative with respect to $x$:
 
 $$
 \begin{aligned}
@@ -302,16 +302,30 @@ set.seed(11)
 d <- 100 * rnorm(n)
 x <- -4 + 0.5 * d + 10 * rnorm(n)
 y <- 25 + 10 * d + 10 * rnorm(n)
-stargazer(lm(y ~ d + x),lm(y ~ x), lm(y ~ d), lm(d ~ x), type = 'html')
-coef(lm(y~d))['d'] * coef(lm(d~x))['x']
+stargazer(
+  lm(y ~ d + x),
+  lm(y ~ x), ## gamma
+  lm(y ~ d), ## beta
+  lm(d ~ x), ## theta
+  type = 'html')
+## See coef of regression y ~ x
+beta1 <- coef(lm(y~d))['d']
+theta1 <- coef(lm(d~x))['x']
+beta1 * theta1
 ```
 
-Notice that without theoretical knowledge about the data it is not clear which variable should be the "outcome" and which the "independent" variable since we could estimate either direction using OLS. In the example above we know ("from theory") that $d$ causes $x$ and $y$ but we estimate models where $x$ is the explanatory variable. As one might guess there is a clear relationship between coefficients estimated with one or the other variable on the left hand side. To be exact we have to adjust for the respective variances of the variables:
+Notice that without theoretical knowledge about the data it is not clear which variable should be the "outcome" and which the "independent" variable since we could estimate either direction using OLS. In the example above we know ("from theory") that $d$ causes $x$ and $y$ but we estimate models where $x$ is the explanatory variable. As one might guess there is a clear relationship between coefficients estimated with one or the other variable on the left hand side. 
 
 ```{r}
 #| code-fold: false
 theta_1 <- coef(lm(d~x))['x']
 alpha_1 <- coef(lm(x~d))['d']
+```
+
+To be exact we have to adjust for the respective variances of the variables:
+
+```{r}
+#| code-fold: false
 alpha_1 * var(d)/var(x)
 theta_1
 ```
@@ -388,7 +402,11 @@ Y <- -25 + 4 * X + 3 * M + 10 * rnorm(n)
 X_on_M <- lm(M ~ X)
 avg_direct_effect <- lm(Y ~ X + M)
 total_effect <- lm(Y ~ X)
-stargazer(X_on_M, avg_direct_effect, total_effect, type = 'html')
+stargazer(
+  X_on_M, 
+  avg_direct_effect, 
+  total_effect, 
+  type = 'html')
 ```
 
 ```{r}
@@ -396,6 +414,9 @@ stargazer(X_on_M, avg_direct_effect, total_effect, type = 'html')
 avg_causal_mediation_effect <- coef(X_on_M)['X'] * coef(avg_direct_effect)['M']
 total_effect_alternative <- coef(avg_direct_effect)['X'] + avg_causal_mediation_effect
 proportion_mediated <- avg_causal_mediation_effect / total_effect_alternative
+```
+
+```{r}
 mediation_effects <- tribble(
         ~effect,                                  ~value,
         "Average Causal Mediation Effect (ACME):", avg_causal_mediation_effect,
