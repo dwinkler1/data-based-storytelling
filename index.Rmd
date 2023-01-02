@@ -14,11 +14,11 @@ date: "Updated: `r Sys.Date()`"
 
 | **Date** | **Time** | **Room** | **Topics** | **Slides** | **Readings** |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-| 01-09-2023 | 1:00pm - 6:00pm | LC.2.064 | Introduction | [Introduction](./01-Introduction.html) | [**Lost in Data Translation**](https://www.ama.org/marketing-news/lost-in-data-translation/), [**R for Data Science**](https://r4ds.had.co.nz/index.html) |
+| 01-09-2023 | 1:00pm - 6:00pm | LC.2.064 | Introduction | [Introduction](./01-Introduction_MA.html) | [**Lost in Data Translation**](https://www.ama.org/marketing-news/lost-in-data-translation/), [**R for Data Science**](https://r4ds.had.co.nz/index.html) |
 | 01-11-2023 |  1:00pm - 6:00pm | **LC.1.038** | Modelling | <!--[Modelling](./02-Modelling.html) --> |  [**Data Science and the Art of Persuasion**](https://hbr.org/2019/01/data-science-and-the-art-of-persuasion) |
 | 01-16-2023 |  1:00pm - 6:00pm | LC.2.064 | Visualization/Datascience in R | <!--[Visualization](./03-Visualization.html) --> | [**The Psychology behind Data Visualization Techniques**](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720) |
 | 01-18-2023 |  1:00pm - 6:00pm | LC.2.064 | Review | [Causal Pitchfork Visualization](./CausalPitchfork.html) | [**A Crash Course in Good and Bad Controls**](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf) |
-| 01-20-2023 | 1:00pm - 6:00pm | LC.2.064 | Presentations / Exam | | | 
+| 01-20-2023 | 1:00pm - 3:30pm | LC.2.064 | Presentations / Exam | | | 
 
 ```{r  echo = FALSE, output='asis', fig.width=0.5, fig.height=0.6, fig.margin=TRUE, dpi=500} 
 library(ggplot2)

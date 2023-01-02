@@ -1,0 +1,108 @@
+---
+title: 'Introduction'
+subtitle: '[Data-based Storytelling](https://danielw2904.github.io/data-based-storytelling/)'
+title-slide-attributes: 
+  data-background-image: Graphics/D2.jpg
+author: 
+- Daniel Winkler
+- Nils Wlömert
+institute: 'Institute for Retailing & Data Science'
+bibliography: data_storytelling.bib  
+format: 
+    revealjs:
+        theme: [simple, rds_theme.scss]
+        logo: Graphics/WU_logo.png
+        footer: "[Data-based Storytelling](https://danielw2904.github.io/data-based-storytelling/)"
+        height: 1080
+        width: 1920
+        center-title-slide: false
+        center: false
+        progress: false
+        embed-resources: true # slower compile -> activate later
+        code-link: true
+        code-overflow: wrap
+---
+
+# Preliminaries
+
+<h3>Welcome to Data-based Storytelling!</h3>
+
+::: {layout="[0.99,-0.1,1]" layout-valign="bottom"}
+![](Graphics/WU_Logo.png)
+
+![](Graphics/rds_logo.jpg)
+:::
+
+## Lectures
+
+| **Date** | **Time** | **Room** | **Topics** | **Slides** | **Readings** |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| 01-09-2023 | 1:00pm - 6:00pm | LC.2.064 | Introduction | [Introduction](./01-Introduction_MA.html) | [**Lost in Data Translation**](https://www.ama.org/marketing-news/lost-in-data-translation/), [**R for Data Science**](https://r4ds.had.co.nz/index.html) |
+| 01-11-2023 |  1:00pm - 6:00pm | **LC.1.038** | Modelling | <!--[Modelling](./02-Modelling.html) --> |  [**Data Science and the Art of Persuasion**](https://hbr.org/2019/01/data-science-and-the-art-of-persuasion) |
+| 01-16-2023 |  1:00pm - 6:00pm | LC.2.064 | Visualization/Datascience in R | <!--[Visualization](./03-Visualization.html) --> | [**The Psychology behind Data Visualization Techniques**](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720) |
+| 01-18-2023 |  1:00pm - 6:00pm | LC.2.064 | Review | [Causal Pitchfork Visualization](./CausalPitchfork.html) | [**A Crash Course in Good and Bad Controls**](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf) |
+| 01-20-2023 | 1:00pm - 3:30pm | LC.2.064 | Presentations / Exam | | | 
+
+## Goals
+
+**Gain the ability to create & communicate valuable insight from data**
+
+:::: {.columns}
+
+::: {.column width="60%"}
+:::{.incremental}
+1. Develop a Data Science Toolbox
+    - Knowledge on data analysis and presentation
+    - `R` programming skills to help implementation
+2. Gain confidence in our analysis
+    - Learn (currently) common techniques
+    - Cultivate a mindset for developing skills
+    - Learn about common pitfalls
+3. Work hard and have a good time
+    - Be open to question everything
+    - Study to understand not to repeat
+    - Master marketable skills for your career
+:::
+:::
+
+::: {.column width="40%"} 
+:::{.fragment}
+> [...] associate “winning” with the effort process itself. That’s the holy grail of dopamine management for success. It won’t make you dull or unhappy; it will make everything easier and more pleasurable [...].
+>
+
+[Andrew Huberman](https://hubermanlab.com/tools-to-manage-dopamine-and-improve-motivation-and-drive/)
+:::
+:::
+
+::::
+
+## Lost in data Translation
+
+<iframe class="stretch" src="https://giphy.com/embed/l0IylOPCNkiqOgMyA" width="1920" heigth="1080" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/fx-charlie-always-sunny-l0IylOPCNkiqOgMyA"></a></p>
+
+
+## Lost in data Translation
+
+<h3>Industry</h3>
+
+::: {style="text-align: center"}
+> Hire as many data scientists as you can find you’ll still be lost without translators to connect analytics with real business value. [...]
+> By 2025 __Chief Data Officers__ and their teams function as a __business unit with profit-and-loss responsibilities__. The unit, in partnership with business teams, is responsible for ideating new ways to use data, __developing a holistic enterprise data strategy (and embedding it as part of a business strategy)__, and incubating new sources of revenue by __monetizing data services and data sharing__.
+::: 
+[McKinsey and Company](https://www.mckinsey.com/business-functions/mckinsey-analytics/our-insights/the-data-driven-enterprise-of-2025)
+
+. . .
+
+<h3>Academia</h3>
+
+. . .
+
+::: {style="text-align: center"}
+> The __empirics-first approach__ is not antagonistic to theory but rather can serve as a stepping-stone to theory. The approach lends itself well to __today’s data-rich environment__, which can __reveal novel research questions__ untethered to theory. [...] we argue that [empirics first] has a natural arc that bends more easily back to __real-world implications__.
+:::
+@golderLearningDataEmpiricsFirst2022
+
+::: {.notes}
+Show Theory->Research question->Research design->Hypotheses->Data cycle before academia quote
+:::
+## References {.scrollable}
