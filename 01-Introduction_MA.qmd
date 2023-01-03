@@ -21,6 +21,7 @@ format:
         embed-resources: true # slower compile -> activate later
         code-link: true
         code-overflow: wrap
+        incremental: true
 ---
 
 # Preliminaries
@@ -41,7 +42,7 @@ format:
 | 01-11-2023 |  1:00pm - 6:00pm | **LC.1.038** | Modelling | <!--[Modelling](./02-Modelling.html) --> |  [**Data Science and the Art of Persuasion**](https://hbr.org/2019/01/data-science-and-the-art-of-persuasion) |
 | 01-16-2023 |  1:00pm - 6:00pm | LC.2.064 | Visualization/Datascience in R | <!--[Visualization](./03-Visualization.html) --> | [**The Psychology behind Data Visualization Techniques**](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720) |
 | 01-18-2023 |  1:00pm - 6:00pm | LC.2.064 | Review | [Causal Pitchfork Visualization](./CausalPitchfork.html) | [**A Crash Course in Good and Bad Controls**](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf) |
-| 01-20-2023 | 1:00pm - 3:30pm | LC.2.064 | Presentations / Exam | | | 
+| 01-20-2023 | 1:00pm - 3:30pm | LC.2.064 | createations / Exam | | | 
 
 ## Goals
 
@@ -52,7 +53,7 @@ format:
 ::: {.column width="60%"}
 :::{.incremental}
 1. Develop a Data Science Toolbox
-    - Knowledge on data analysis and presentation
+    - Knowledge on data analysis and createation
     - `R` programming skills to help implementation
 2. Gain confidence in our analysis
     - Learn (currently) common techniques
@@ -106,4 +107,412 @@ format:
 ::: {.notes}
 Show Theory->Research question->Research design->Hypotheses->Data cycle before academia quote
 :::
+
+## Shifting the paradigm 
+
+
+:::: {.columns}
+::: {.column width="70%"}
+![](Graphics/The-young-girl-old-woman-illusion-otherwise-known-as-My-Wife-and-My-Mother-in-Law-is.png){fig-align="center"}
+:::
+::: {.column width="25%"}
+::: {layout="[[-1], [1], [-1]]"}
+::: {style="text-align: center"}
+::: {.fragment}
+**How old is this person?**
+:::
+:::
+:::
+:::
+::::
+
+## Shifting the paradigm
+
+::: {data-id="graph"}
+
+::: {style="text-align: center"}
+**Thinking in school**
+:::
+
+
+
+```{dot}
+digraph g {
+    {
+        rank=max
+        world thinking
+    }
+    {
+        rank=same
+//        create presentation
+    }
+//   {rank=min audience}
+    thinking -> world[label="about",dir="none"]
+}
+```
+
+:::
+
+## Shifting the paradigm
+
+::: {style="text-align: center"}
+**Thinking in school**
+:::
+
+
+::: {data-id="graph"}
+
+
+```{dot}
+digraph g {
+    {
+        rank=max
+        world thinking
+    }
+    {
+        rank=same
+        create presentation
+    }
+#    {rank=min audience}
+    thinking -> world[label="about",dir="none"]
+    thinking -> create
+    create -> presentation
+#    audience -> presentation
+#    presentation -> create
+}
+```
+
+:::
+
+## Shifting the paradigm
+
+::: {data-id="graph"}
+
+::: {style="text-align: center"}
+**Thinking in school**
+:::
+
+
+```{dot}
+digraph g {
+    {
+        rank=max
+        world thinking
+    }
+    {
+        rank=same
+        create presentation
+    }
+    {rank=min audience}
+    thinking -> world[label="about",dir="none"]
+    thinking -> create
+    create -> presentation
+    audience -> presentation
+#    presentation -> create
+}
+```
+
+:::
+
+## Shifting the paradigm
+
+::: {data-id="school"}
+::: {style="text-align: center"}
+**Thinking in school**
+:::
+
+```{dot}
+digraph g {
+    {
+        rank=max
+        world thinking
+    }
+    {
+        rank=same
+        create presentation
+    }
+    {rank=min audience}
+    thinking -> world[label="about",dir="none"]
+    thinking -> create
+    create -> presentation
+    audience -> presentation
+    presentation -> create
+}
+```
+
+:::
+
+## Shifting the paradigm
+
+
+
+:::: {.columns}
+::: {.column width="50%"}
+::: {data-id="school"}
+::: {style="text-align: center"}
+**Thinking in school**
+:::
+```{dot}
+digraph g {
+    {
+        rank=max
+        world thinking
+    }
+    {
+        rank=same
+        create presentation
+    }
+    {rank=min audience}
+    thinking -> world[label="about",dir="none"]
+    thinking -> create
+    create -> presentation
+    audience -> presentation[penwidth=3, arrowsize=.5]
+    presentation -> create[penwidth=3, arrowsize=.5]
+}
+```
+:::
+:::
+::: {.column width="50%"}
+::: {style="text-align: center"}
+**Thinking in life**
+:::
+```{dot}
+digraph g {
+    {
+        rank=max
+        world 
+    }
+    {
+        rank=same
+        presentation "create and think" 
+    }
+    {rank=min audience}
+    "create and think" -> world[label="about",dir="none"]
+    #thinking -> create
+    "create and think" -> presentation
+    audience -> presentation[penwidth=3, arrowsize=.5]
+    presentation -> world[penwidth=3, arrowsize=.5]
+}
+```
+:::
+::::
+
+## Shifting the paradigm
+
+:::: {.columns}
+::: {.column width="50%"}
+::: {data-id="school"}
+::: {style="text-align: center"}
+**Thinking in school**
+:::
+```{dot}
+digraph g {
+    {
+        rank=max
+        world thinking
+    }
+    {
+        rank=same
+        create presentation
+    }
+    {rank=min audience}
+    thinking -> world[label="about",dir="none"]
+    thinking -> create
+    create -> presentation
+    audience -> presentation[penwidth=3, arrowsize=.5]
+    presentation -> create[penwidth=3, arrowsize=.5]
+}
+```
+:::
+:::
+::: {.column width="50%"}
+::: {style="text-align: center"}
+**Thinking in life**
+:::
+```{dot}
+digraph g {
+    {
+        rank=max
+        world 
+    }
+    {
+        rank=same
+        presentation "create and think" 
+    }
+    {rank=min audience}
+    "create and think" -> world[label="about",dir="none"]
+    #thinking -> create
+    "create and think" -> presentation
+    audience -> presentation[penwidth=3, arrowsize=.5]
+    presentation -> world[penwidth=3, arrowsize=.5, label="VALUE"]
+}
+```
+
+::: {style="text-align: center"}
+"Who does what better now?"
+:::
+:::
+::::
+
+## Creating Value with Data
+
+::: footer
+:::
+
+::: {style="text-align: center"}
+![](Graphics/Dataanalytics.png){.r-stretch}
+:::
+
+## Creating Value with Data
+
+::: {style="text-align: center"}
+![@golderLearningDataEmpiricsFirst2022](Graphics/empirics_first_value.png)
+:::
+
+## Creating Value with Data
+
+:::: {.columns}
+::: {.column width="32%"}
+1. **Identify Opportunity**
+
+::: {.incremental}
+- Theory is in short supply
+- Observations do not align with theory
+- Literature is equivocal
+- Intuition leads to multiple plausible and conflicting outcomes
+- Newly emergent data allows scantly-/un-examined relationships to be probed
+- Find consequential DVs and actionable IVs
+:::
+:::
+::: {.column width="32%"}
+::: {.fragment}
+
+2. **Explore Terrain**
+:::
+
+::: {.incremental}
+- Start with open ended research question
+- Scope re-definition based on empirical findings
+- Risk: "scope creep"
+- Valuable: Limited analyses that lead to follow-up studies
+- Not valuable: Limited analyses that cannot be replicated
+- Listen to the data
+- Generate robust and meaningful findings
+:::
+:::
+
+::: {.column width="32%"}
+3. **Advance Understanding**
+          
+:::
+
+::::
+
+::: {.notes}
+2. Listen to data
+- Validate data
+- Model free evidence
+- Causality?
+- Robustness to modelling approach/ methods/ samples
+    - Honestly atempt to falsify!
+- Breadth of investigation (industries, countries)
+- Depth of investigation (moderators, mediators)
+:::
+
+## {.center}
+
+> **Failed robustness checks should be viewed as learning opportunities that lead to an even broader exploration that considers why a finding obtains in one context but not another**
+
+@golderLearningDataEmpiricsFirst2022
+
+## Listen to the Data
+
+- Reliability and credibility of sources
+- Visualization
+    - e.g., @bermanValueDescriptiveAnalytics2022 study the adoption of retail analytics dashboards and "find an increase of 4%–10% in average weekly revenues postadoption"
+
+::: {.fragment}
+::: {style="text-align: center"}
+![](Graphics/retail1.png){height="600"}
+:::
+:::
+
+## Listen to the Data 
+
+::: {.nonincremental}
+- Robust findings
+:::
+
+::: {.fragment}
+:::: {.columns}
+::: {.column width="60%"}
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+library(ggplot2)
+library(modelsummary)
+set.seed(42)
+x <- sort(runif(150, 0, 10))
+y1 <- 4 + 0.5 * x + 2*rnorm(150)
+y2 <- 0.45*x + 2*rnorm(150)
+df <- data.frame(x, y = c(y1[1:75],y2[41:115]), g = c(rep(' A', 75), rep(' B', 75)))
+ggplot(df, aes(x=x,y=y)) +
+    geom_point() +
+    geom_smooth(method = 'lm', se = FALSE) +
+    theme_minimal()
+```
+
+
+:::
+::: {.column width="40%"}
+
+```{r}
+modelsummary(list(`OLS 1` = lm(y~x, df)), 
+    stars = TRUE,
+    output = 'gt',
+    statistic = NULL,
+    gof_map = NA)
+```
+
+:::
+::::
+:::
+## Listen to the Data 
+
+::: {.nonincremental}
+- Robust findings
+:::
+
+:::: {.columns}
+::: {.column width="60%"}
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+ggplot(df, aes(x=x,y=y,color=g)) +
+    geom_point() +
+    geom_smooth(method = 'lm', se = FALSE) +
+    theme_minimal() +
+    theme(
+        legend.position = c(0.8,0.9),
+        legend.title = element_blank()
+    )
+```
+
+
+:::
+::: {.column width="40%"}
+
+```{r}
+modelsummary(list(`OLS 2` = lm(y~x + g, df)), 
+    stars = TRUE,
+    output = 'gt',
+    statistic = NULL,
+    gof_map = NA)
+```
+
+:::
+::::
+
 ## References {.scrollable}
