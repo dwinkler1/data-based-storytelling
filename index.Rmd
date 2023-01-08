@@ -50,13 +50,8 @@ heart
 - [**Getting started with R**](./getting_started.html)
 - [**Causal Pitchfork Visualization**](./CausalPitchfork.html)
 - [**Institute for Retailing & Data Science (RDS)**](https://www.wu.ac.at/retail)
-- [**List of Datasets**](./datasets.html)
 
 ## Additional Readings
 
 - [**ggplot2: Elegant Graphics for Data Analysis**](https://ggplot2-book.org/index.html)
 - [**You Don’t Have to Be a Data Scientist to Fill This Must-Have Analytics Role**](https://hbr.org/2018/02/you-dont-have-to-be-a-data-scientist-to-fill-this-must-have-analytics-role)
-
-## Data
-
-- [**Movies data**](https://raw.githubusercontent.com/fivethirtyeight/data/master/bechdel/movies.csv)
