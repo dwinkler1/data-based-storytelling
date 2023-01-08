@@ -43,10 +43,10 @@ charts
 ```
 ````
 
-```{r charts_no_messages, message=FALSE, warning=FALSE}
+```{r charts_no_messages, echo=TRUE, message=FALSE, warning=FALSE}
 # Read CSV files
 library(tidyverse)
-charts <- read_csv("charts_global_at.csv")
+charts <- read_csv("data/charts_global_at.csv")
 charts
 ```
 
@@ -64,7 +64,7 @@ charts
 ```{r charts_no_code, message=FALSE, warning=FALSE, echo=FALSE}
 # Read CSV files
 library(tidyverse)
-charts <- read_csv("charts_global_at.csv")
+charts <- read_csv("/home/daniel/Rcode/data/charts_global_at.csv")
 charts
 ```
 
