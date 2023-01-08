@@ -21,7 +21,7 @@ format:
         embed-resources: true # slower compile -> activate later
         code-link: true
         code-overflow: wrap
-        incremental: true
+        incremental: false
 ---
 
 # Preliminaries
@@ -51,19 +51,26 @@ format:
 :::: {.columns}
 
 ::: {.column width="60%"}
-:::{.incremental}
+:::{.fragment}
 1. Develop a Data Science Toolbox
     - Knowledge on data analysis and createation
     - `R` programming skills to help implementation
+:::
+
+::: {.fragment}
 2. Gain confidence in our analysis
     - Learn (currently) common techniques
     - Cultivate a mindset for developing skills
     - Learn about common pitfalls
+:::
+
+::: {.fragment}
 3. Work hard and have a good time
     - Be open to question everything
     - Study to understand not to repeat
     - Master marketable skills for your career
 :::
+
 :::
 
 ::: {.column width="40%"} 
@@ -144,9 +151,7 @@ digraph g {
     }
     {
         rank=same
-//        create presentation
     }
-//   {rank=min audience}
     thinking -> world[label="about",dir="none"]
 }
 ```
@@ -173,12 +178,9 @@ digraph g {
         rank=same
         create presentation
     }
-#    {rank=min audience}
     thinking -> world[label="about",dir="none"]
     thinking -> create
     create -> presentation
-#    audience -> presentation
-#    presentation -> create
 }
 ```
 
@@ -208,7 +210,6 @@ digraph g {
     thinking -> create
     create -> presentation
     audience -> presentation
-#    presentation -> create
 }
 ```
 
@@ -341,7 +342,6 @@ digraph g {
     }
     {rank=min audience}
     "create and think" -> world[label="about",dir="none"]
-    #thinking -> create
     "create and think" -> presentation
     audience -> presentation[penwidth=3, arrowsize=.5]
     presentation -> world[penwidth=3, arrowsize=.5, label="VALUE"]
@@ -373,7 +373,9 @@ digraph g {
 
 :::: {.columns}
 ::: {.column width="32%"}
+::: {.nonincremental}
 1. **Identify Opportunity**
+:::
 
 ::: {.incremental}
 - Theory is in short supply
@@ -394,18 +396,32 @@ digraph g {
 - Start with open ended research question
 - Scope re-definition based on empirical findings
 - Risk: "scope creep"
-- Valuable: Limited analyses that lead to follow-up studies
-- Not valuable: Limited analyses that cannot be replicated
-- Listen to the data
-- Generate robust and meaningful findings
+- **Listen to the data**
+- **Generate robust and meaningful findings**
 :::
 :::
 
 ::: {.column width="32%"}
+::: {.fragment}
+
 3. **Advance Understanding**
-          
 :::
 
+::: {.incremental}
+- Uncover empirical regularities (repeatable over circumstances)
+- Concern with effect sizes
+- Empirical findings can question existing theory
+- Empirical findings can initiate theory development
+:::
+::: {.nonincremental}
+::: {.fragment}
+- Take the "third mission" seriously
+    - managers, consumers
+    - policy makers, educators
+    - general public
+:::
+:::
+:::
 ::::
 
 ::: {.notes}
@@ -421,14 +437,20 @@ digraph g {
 
 ## {.center}
 
-> **Failed robustness checks should be viewed as learning opportunities that lead to an even broader exploration that considers why a finding obtains in one context but not another**
+> **If you torture the data long enough, it will confess to anything**
 
-@golderLearningDataEmpiricsFirst2022
+Ronald Coase
+
 
 ## Listen to the Data
 
+::: {.footer}
+
+:::
+
 - Reliability and credibility of sources
 - Visualization
+    - Establish "face-validity" of statistical findings
     - e.g., @bermanValueDescriptiveAnalytics2022 study the adoption of retail analytics dashboards and "find an increase of 4%–10% in average weekly revenues postadoption"
 
 ::: {.fragment}
@@ -439,13 +461,18 @@ digraph g {
 
 ## Listen to the Data 
 
-::: {.nonincremental}
-- Robust findings
-:::
+- Ensure robustness
+- Consider: 
+    - different moderators, mediators, confounders, models
+    - different methods
+    - different subsets of data
 
 ::: {.fragment}
 :::: {.columns}
 ::: {.column width="60%"}
+
+e.g., Simpson's Paradox
+
 ```{r}
 #| message: false
 #| warning: false
@@ -481,11 +508,21 @@ modelsummary(list(`OLS 1` = lm(y~x, df)),
 ## Listen to the Data 
 
 ::: {.nonincremental}
-- Robust findings
+- Ensure robustness
+- Consider: 
+    - different moderators, mediators, confounders, models
+    - different methods
+    - different subsets of data
 :::
 
+
+
 :::: {.columns}
+
 ::: {.column width="60%"}
+
+e.g., Simpson's Paradox
+
 ```{r}
 #| message: false
 #| warning: false
@@ -514,5 +551,325 @@ modelsummary(list(`OLS 2` = lm(y~x + g, df)),
 
 :::
 ::::
+
+
+## {.center}
+
+> **Failed robustness checks should be viewed as learning opportunities that lead to an even broader exploration that considers why a finding obtains in one context but not another**
+
+@golderLearningDataEmpiricsFirst2022
+
+## Listen to the Data
+
+- Incorporate prior knowledge
+    - Using (informal) expert knowledge is desireable 
+    - Provide initial ideas to explore
+    - Develop expectations about (causal) relationships
+    - Be suspicious of contrary findings
+
+> Traditionally theory-agnostic predictive analytics tools are likely to have larger impact and lesser bias if they are able to smartly combine theoretical insights [...] with large troves of data. 
+
+@bradlowRoleBigData2017a
+
+## Listen to the Data
+
+- Explore causality
+    - make use of (quasi-)experiments [@goldfarbConductingResearchMarketing2022]
+        
+        > Good natural experiments are studies in which there is a transparent exogenous source of variation in the explanatory variables that determine treatment assignment.
+
+        @meyer1995natural
+    - choose appropritate models [@cunningham2021causal]
+    - think about good and bad controls [@cinelli2020crash]
+    - explore multiple causal pathways
+ 
+## Aside: Necessary and Sufficient Conditions
+
+::: {.footer}
+
+:::
+
+**Observation: The floor is wet**
+
+:::: {.columns}
+::: {.column width="50%"}
+::: {.callout-note}
+## Necessary Condition
+
+Without such a condition the observation _cannot_ happen.
+
+e.g., Water was "applied" to the floor.
+:::
+::: {.fragment fragment-index=1}
+- Being signed up in LPIS to get a grade
+- Being at least 35 years old to become Austrian president
+- For whole numbers $>2$: Being odd to be prime
+:::
+
+
+
+:::
+::: {.column width="50%"}
+::: {.callout-note}
+## Sufficient Condition
+
+If such a condition is met the observation happens.
+
+e.g., It is raining right now.
+:::
+::: {.fragment fragment-index=2}
+- You arriving before me $\rightarrow$ not miss any of the lecture
+- Receiving $>50\%$ of votes in a presidential election $\rightarrow$ become Austrian president 
+- A number being divisible by $4$ $\rightarrow$ be even
+:::
+
+:::
+::::
+
+:::: {.columns}
+::: {.column width="50%"}
+::: {.fragment fragment-index=3}
+**Can you think of counter examples for each?**
+
+e.g., Being at least 1.5m tall is not a necessary condition to become Austrian president
+
+**What happens if you "flip" conditions?**
+
+e.g., Getting a grade is ... to know you are signed up in LPIS
+:::
+:::
+::: {.column width="50%"}
+::: {.fragment fragment-index=3}
+**What happens if you negate conditions?**
+
+e.g., Not being signed up on LPIS is ... to know you will not receive a grade
+
+**Which of the examples are necessary _and_ sufficient?** 
+
+Can you come up with more?
+:::
+:::
+::::
+
+::: {.notes}
+- Necessity does not imply causality
+:::
+
+## Advance Understanding
+
+::: {.center-screen}
+
+```{dot}
+//| fig-height: 9.58333
+//| fig-width: 19.25
+//| fig-responsive: false
+digraph G {
+    /* Graph */
+    edge [dir=none];
+    graph [labelloc="t", rankdir="LR"];
+    
+    /* Nodes */
+
+    reg [label = "Empirical Regularities", shape=rect];
+    Generalizable;
+    effsize [label = "Effect sizes"];
+    meta [label = "Prelude to Meta-analysis"];
+
+
+
+    /* Edges */
+
+    subgraph regularity {
+        reg -> Generalizable [dir=fwd];
+        Generalizable -> effsize;
+        effsize -> meta;
+    };
+}
+```
+
+:::
+
+
+## Advance Understanding
+
+::: {.center-screen}
+
+```{dot}
+//| fig-height: 9.58333
+//| fig-width: 19.25
+//| fig-responsive: false
+digraph G {
+    /* Graph */
+    edge [dir=none];
+    graph [labelloc="t", rankdir="LR"];
+    
+    /* Nodes */
+
+    concept [label="Conceptual and theoretical Insights" , shape=rect]; 
+    Novel; 
+    Persuasive; 
+    Clear;
+
+    reg [label = "Empirical Regularities", shape=rect];
+    Generalizable;
+    effsize [label = "Effect sizes"];
+    meta [label = "Prelude to Meta-analysis"];
+
+
+
+    /* Edges */
+
+    subgraph regularity {
+        reg -> Generalizable [dir=fwd];
+        Generalizable -> effsize;
+        effsize -> meta;
+    };
+   
+    subgraph concept {
+        concept -> Novel [dir=fwd]
+        Novel -> Persuasive
+        Persuasive -> Clear 
+    };
+
+}
+```
+
+:::
+
+
+## Advance Understanding
+
+::: {.center-screen}
+
+```{dot}
+//| fig-height: 9.58333
+//| fig-width: 19.25
+//| fig-responsive: false
+
+digraph G {
+    /* Graph */
+    edge [dir=none];
+    graph [labelloc="t", rankdir="LR"];
+    
+    /* Nodes */
+
+    stkh [label="Advise Stakeholders", shape=rect]
+    b2c [label="Managers / Consumers"]
+    pol [label="Policy Makers"]
+    Teaching
+
+
+    concept [label="Conceptual and theoretical Insights" , shape=rect]; 
+    Novel; 
+    Persuasive; 
+    Clear;
+
+    reg [label = "Empirical Regularities", shape=rect];
+    Generalizable;
+    effsize [label = "Effect sizes"];
+    meta [label = "Prelude to Meta-analysis"];
+
+
+
+    /* Edges */
+
+    subgraph regularity {
+        reg -> Generalizable [dir=fwd];
+        Generalizable -> effsize;
+        effsize -> meta;
+    };
+   
+    subgraph concept {
+        concept -> Novel [dir=fwd]
+        Novel -> Persuasive
+        Persuasive -> Clear 
+    };
+
+    subgraph stakeholder {
+        stkh -> b2c [dir=fwd];
+        b2c -> pol;
+        pol -> Teaching;
+    }
+    
+    
+    {
+        rank=min
+        reg concept stkh 
+    } 
+
+
+}
+```
+
+:::
+
+
+## Advance Understanding
+
+
+
+```{dot}
+//| fig-height: 9.58333
+//| fig-width: 19.25
+//| fig-responsive: false
+
+digraph Understanding {
+    /* Graph */
+    edge [dir=none];
+    graph [labelloc="t", rankdir="LR", size="400,400"];
+    
+    /* Nodes */
+    World [shape=doublecircle]
+
+    stkh [label="Advise Stakeholders", shape=rect]
+    b2c [label="Managers / Consumers"]
+    pol [label="Policy Makers"]
+    Teaching
+
+
+    concept [label="Conceptual and theoretical Insights" , shape=rect]; 
+    Novel; 
+    Persuasive; 
+    Clear;
+
+    reg [label = "Empirical Regularities", shape=rect];
+    Generalizable;
+    effsize [label = "Effect sizes"];
+    meta [label = "Prelude to Meta-analysis"];
+
+
+
+    /* Edges */
+
+    subgraph regularity {
+        reg -> Generalizable [dir=fwd];
+        Generalizable -> effsize;
+        effsize -> meta;
+    };
+   
+    subgraph concept {
+        concept -> Novel [dir=fwd]
+        Novel -> Persuasive
+        Persuasive -> Clear 
+    };
+
+    subgraph stakeholder {
+        stkh -> b2c [dir=fwd];
+        b2c -> pol;
+        pol -> Teaching;
+    }
+    
+    reg -> concept -> stkh [dir=fwd]
+    stkh -> World [dir=fwd, label="VALUE", labeljust="r"]
+    
+    {
+        rank=min
+        reg concept stkh World
+    } 
+
+}
+```
+
+
 
 ## References {.scrollable}

@@ -10,6 +10,14 @@ $headingMargin: 0 0 33px 0;
     justify-content: left;
 }
 
+.center-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
+
 // .reveal h2 {
 //     display: flex;
 //     align-items: flex-start;
