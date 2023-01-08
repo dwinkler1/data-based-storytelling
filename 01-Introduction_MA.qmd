@@ -870,6 +870,136 @@ digraph Understanding {
 }
 ```
 
+## Advise Stakeholders
 
+::: {style="text-align: center"}
+
+{{< video https://www.youtube.com/embed/xV9HnITo2C0 width="1080" height="920" >}}
+
+:::
+
+## Three-act structure
+
+:::: {.columns}
+::: {.column width="50%"}
+::: {.fragment fragment-index=1}
+1. Setup  - _Why should I pay attention?_
+    - Introduce protagonist
+    - Present the problem
+    - Call to action
+:::
+::: {.fragment fragment-index=4}
+2.  Confrontation - _Why should I endorse?_
+    - Prev. attempts to resolve the problem <br> show imbalance & get credibility
+    - Make clear why your solution is needed and the audience should drive action
+:::
+::: {.fragment fragment-index=6}
+3. Resolution - _What can I do?_
+    - Present your solution
+    - Call to action
+:::
+
+:::
+::: {.column width="50%"}
+
+::: {.r-stack}
+
+::: {.fragment .fade-in-then-out fragment-index=1}
+![](Graphics/story_setup.png)
+:::
+
+::: {.fragment .fade-in-then-out fragment-index=2}
+![](Graphics/setup_problem.png)
+:::
+
+::: {.fragment .fade-in-then-out fragment-index=3}
+![](Graphics/setup_call.png)
+:::
+
+::: {.fragment .fade-in-then-out fragment-index=4}
+![](Graphics/atempt.png)
+:::
+
+::: {.fragment .fade-in-then-out fragment-index=5}
+![](Graphics/failed.png)
+:::
+
+::: {.fragment .fade-in-then-out fragment-index=6}
+![](Graphics/success.png)
+:::
+
+::: {.fragment .fade-in-then-out fragment-index=7}
+![](Graphics/yaaay.png)
+:::
+
+::: 
+
+:::
+::::
+
+## Think different
+
+::: {style="text-align: center"}
+
+{{< video https://www.youtube.com/embed/YBJAvi3A0H8 width="1080" height="920" >}}
+
+:::
+
+## Think different
+
+__Setup__
+
+- Introduce "the crazy ones": Einstein, Dylan, MLK, Earhart...
+- "See things differently", "not fond of rules", "no respect for the status quo" 
+
+. . .
+
+__Confrontation__
+
+- "You can quote them, disagree with them, glorify, or vilify them"
+- You should buy-in because: "the only thing you can't do is ignore them"
+- "While some may see them as the crazy ones..."
+
+. . .
+
+__Resolution__
+
+- "We see genius."
+- "Because the people who are crazy enough to think they can change the world, are the ones who do."
+
+## {background-image=Graphics/Think_Different.svg}
+::: {.footer}
+:::
+
+## Exercise
+
+::: {.center-screen}
+**Prepare a 1-Minute elevator pitch for your thesis (or some other project)**
+<br>
+15 min.
+
+:::
+
+## Uncover Empirical Regularities
+
+> A data analysis can [consist of] importing, cleaning, transforming, and modeling data with a goal to build a machine learning algorithm to decide which product a company should sell.
+
+@mcgowanDesignPrinciplesData2022
 
 ## References {.scrollable}
+
+**Links**
+
+[Five Fifty: Lost in translation](https://www.mckinsey.com/business-functions/people-and-organizational-performance/our-insights/five-fifty-lost-in-translation#)
+
+[LEADERSHIP LAB: The Craft of Writing Effectively](https://www.youtube.com/watch?v=vtIzMaLkCaM)
+
+[The age of analytics: Competing in a data-driven world](https://www.mckinsey.com/business-functions/mckinsey-analytics/our-insights/the-age-of-analytics-competing-in-a-data-driven-world)
+
+[The data-driven enterprise of 2025](https://www.mckinsey.com/business-functions/mckinsey-analytics/our-insights/the-data-driven-enterprise-of-2025)
+
+[Think Different Logo](https://de.wikipedia.org/wiki/Think_Different#/media/Datei:Apple_logo_Think_Different_vectorized.svg)
+
+[Preattentive attributes](http://www.perceptualedge.com/articles/ie/visual_perception.pdf)
+
+**Academic References**
