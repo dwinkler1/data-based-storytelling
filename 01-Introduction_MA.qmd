@@ -44,6 +44,44 @@ format:
 | 01-18-2023 |  1:00pm - 6:00pm | LC.2.064 | Review | [Causal Pitchfork Visualization](./CausalPitchfork.html) | [**A Crash Course in Good and Bad Controls**](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf) |
 | 01-20-2023 | 1:00pm - 3:30pm | LC.2.064 | createations / Exam | | | 
 
+## Who are we? {.smaller}
+
+::: {.footer}
+
+:::
+
+:::: {.columns}
+::: {.column width="20%"}
+**Nils Wlömert**
+
+![](Graphics/nils.jpg)
+:::
+::: {.column width="80%"}
+
+- **Professor** of Marketing, Vienna University of Economics and Business, Institute for Retailing & Data Science, since 2021
+- **Assistant Professor** of Marketing, Vienna University of Economics and Business, Institute for Interactive Marketing & Social Media, 2015-2020
+- **Ph.D.** in Marketing, University of Hamburg, 2010-2014
+- **Dissertation topic:** “Information Technology and Online Content Distribution” (German Marketing Association Best Dissertation Award 2015; International Journal of Research in Marketing Best Paper Award)
+- **Universal Music Group:** Business Analyst & Digital Marketing Manager, 2008-2010
+- **Research interests:** multi-channel distribution, online content distribution, marketing modeling, e-commerce policies, information goods, …
+:::
+::::
+
+. . .
+
+:::: {.columns}
+::: {.column width="20%"}
+**Daniel Winkler**
+![](Graphics/daniel.jpg){.r-stretch}
+:::
+::: {.column width="80%"}
+- **Teaching & Research Associate**, Vienna University of Economics and Business, Institute for Retailing & Data Science, since 2021 (prev. IMSM 2019-2021)
+- **Ph.D.** in Mathematics for Economics and Business, 2019-now 
+- **Masters in Economics w/ major in Mathematics**, Vienna University of Economics and Business, 2016-2019
+- **Research interestes:** Online content distribution, influencer marketing, platform power, applied Bayesian modeling, ...
+:::
+::::
+
 ## Goals
 
 **Gain the ability to create & communicate valuable insight from data**
@@ -982,9 +1020,117 @@ __Resolution__
 
 ## Uncover Empirical Regularities
 
+::: {.footer}
+
+:::
+
 > A data analysis can [consist of] importing, cleaning, transforming, and modeling data with a goal to build a machine learning algorithm to decide which product a company should sell.
 
 @mcgowanDesignPrinciplesData2022
+
+**6 Principles**
+
+::: {.incremental}
+1. _Data Matching_ <br> Are the variables of interests directly available?
+2. _Exhaustive_ <br> Are multiple, complementary methods used?
+3. _Skeptical_ <br> Are related questions and alternative explanations explored?
+4. _Second Order_ <br> Does the analysis provide important context and supporting information?
+5. _Clarity_ <br> Are key pieces of evidence clearly summarized and visualized?
+6. _Reproducible_ <br> Can another researcher take the code/data and reproduce the results?
+:::
+
+## A Data Analysis
+
+:::: {.columns}
+::: {.column width="50%"}
+```{r}
+#| echo: true
+library(palmerpenguins)
+data("penguins")
+str(penguins)
+```
+:::
+::: {.column width="50%"}
+```{r}
+#| echo: true
+library(ggplot2)
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+    geom_point()
+```
+:::
+::::
+
+. . .
+
+```{r}
+#| echo: true
+# Correlation of flipper length and body mass
+flen_bmas_corr <- round(cor(penguins$flipper_length_mm, penguins$body_mass_g, use="pairwise.complete.obs"), digits = 2)
+flen_bmas_corr
+```
+
+
+The correlation between flipper length and body mass in penguins is `r flen_bmas_corr`.
+
+## Projects
+
+- 5 Groups (5-6 people)
+- **Datasets**
+    - Amazon Reviews [@filippasReputationInflation2022; @felbermayrRoleEmotionsPerceived2016]
+    - Tweets about $\sim 13k$ artists  [@bergerWhatMakesOnline2012; @bergerWhatHoldsAttention2022]
+    - Spotify playlist listings + song features + playlist followers [@pachaliWhatDrivesDemand2022d; @aguiarPlatformsPowerPromotion2021a; @boughanmiDynamicsMusicalSuccess2021]
+    - Spotify global charts [@wlomertInternationalHeterogeneityAssociations2019; @ordaniniFewerBlockbustersMore2016a; @aguiarQualityPredictabilityWelfare2016]
+    - Youtube Videos + emotions for titles [@bergerWhatMakesOnline2012; @bergerWhatHoldsAttention2022]
+- [Sentiment Analysis in R](https://ladal.edu.au/sentiment.html)
+- Medium sized data
+    - Fits in RAM but requires memory management
+- **Please let us know your 3 preferred topics by tomorrow noon!**
+
+## Project Timeline
+
+```{r eval = TRUE, echo = FALSE, warning=FALSE, message = FALSE}
+library(dplyr)
+library(kableExtra)
+mytable_sub = data.frame(
+    Component = c(
+             "Preliminary story outline", 
+             "Coaching",
+             "Website submission"
+             ),
+    Date = c(
+      "Jan. 16",
+      "Jan. 18",
+      "Jan. 27"
+    ),
+    Room = c(
+      "LC.2.064",
+      "LC.2.064",
+      "LC.2.064"
+    )
+    )
+#pander::pander(mytable_sub, keep.line.breaks = TRUE, style = 'grid', justify = 'left')
+mytable_sub %>% kable(escape = T,  col.names = gsub("[_]", " ", names(mytable_sub))) %>%
+  kable_paper(c("hover"), full_width = F) 
+#%>%   row_spec(c(1,3,6), background = "#E0E0E0")
+```
+
+**Preliminary story outline**
+
+- Data description
+- Explore the data
+- Initial idea for project
+- Come up with preliminary structure for the website
+
+**Final Result** 
+
+- A website including a short opinion essay 
+
+## Have fun! 
+
+::: {style="text-align: center"}
+![](Graphics/datacleaning.jpg)
+:::
+
 
 ## References {.scrollable}
 
