@@ -22,6 +22,10 @@ format:
         code-link: true
         code-overflow: wrap
         incremental: false
+    beamer:
+        incremental: false
+        aspectratio: 169
+        center-title-slide: false
 ---
 
 # Preliminaries
@@ -36,13 +40,14 @@ format:
 
 ## Lectures
 
-| **Date** | **Time** | **Room** | **Topics** | **Slides** | **Readings** |
+| **Date** | **Time** | **Room** | **Topics** | **Slides** | **Recommended Readings** |
 | :---: | :---: | :---: | :---: | :---: | :---: |
 | 01-09-2023 | 1:00pm - 6:00pm | LC.2.064 | Introduction | [Introduction](./01-Introduction_MA.html) | [**Lost in Data Translation**](https://www.ama.org/marketing-news/lost-in-data-translation/), [**R for Data Science**](https://r4ds.had.co.nz/index.html) |
-| 01-11-2023 |  1:00pm - 6:00pm | **LC.1.038** | Modelling | <!--[Modelling](./02-Modelling.html) --> |  [**Data Science and the Art of Persuasion**](https://hbr.org/2019/01/data-science-and-the-art-of-persuasion) |
-| 01-16-2023 |  1:00pm - 6:00pm | LC.2.064 | Visualization/Datascience in R | <!--[Visualization](./03-Visualization.html) --> | [**The Psychology behind Data Visualization Techniques**](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720) |
-| 01-18-2023 |  1:00pm - 6:00pm | LC.2.064 | Review | [Causal Pitchfork Visualization](./CausalPitchfork.html) | [**A Crash Course in Good and Bad Controls**](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf) |
-| 01-20-2023 | 1:00pm - 3:30pm | LC.2.064 | createations / Exam | | | 
+| 01-11-2023 |  1:00pm - 6:00pm | **LC.1.038** | Modelling and Visualization Theory | <!--[Modelling](./02-Modelling.html) --> |   [Causal Pitchfork Visualization](./CausalPitchfork.html) [**A Crash Course in Good and Bad Controls**](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf) [**The Psychology behind Data Visualization Techniques**](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720) |
+| 01-16-2023 |  1:00pm - 6:00pm | LC.2.064 | Empirical Model Building I | <!--[Visualization](./03-Visualization.html) --> | |
+| 01-18-2023 |  1:00pm - 6:00pm | LC.2.064 | Empirical Model Building II | | |
+| 01-20-2023 | 1:00pm - 3:30pm | LC.2.064 | Project Coaching | | | 
+| 01-31-2023 | 90min. within 24h | World | Take home exam | | |
 
 ## Who are we? {.smaller}
 
@@ -124,8 +129,9 @@ format:
 
 ## Lost in data Translation
 
+::: {.content-visible when-format="html"}
 ![](Graphics/charlie-day-its-always-sunny-in-philadelphia.gif){fig-align="center"}
-
+:::
 
 
 ## Lost in data Translation
@@ -532,6 +538,7 @@ ggplot(df, aes(x=x,y=y)) +
 :::
 ::: {.column width="40%"}
 
+::: {.content-visible when-format="html"}
 ```{r}
 modelsummary(list(`OLS 1` = lm(y~x, df)), 
     stars = TRUE,
@@ -539,6 +546,13 @@ modelsummary(list(`OLS 1` = lm(y~x, df)),
     statistic = NULL,
     gof_map = NA)
 ```
+:::
+
+::: {.content-visible when-format="pdf"}
+```{r}
+summary(lm(y~x, df))
+```
+:::
 
 :::
 ::::
@@ -578,7 +592,7 @@ ggplot(df, aes(x=x,y=y,color=g)) +
 
 :::
 ::: {.column width="40%"}
-
+::: {.content-visible when-format="html"}
 ```{r}
 modelsummary(list(`OLS 2` = lm(y~x + g, df)), 
     stars = TRUE,
@@ -587,6 +601,15 @@ modelsummary(list(`OLS 2` = lm(y~x + g, df)),
     gof_map = NA)
 ```
 
+:::
+::: {.content-visible when-format="pdf"}
+
+```{r}
+summary(lm(y~x + g, df))
+```
+
+
+:::
 :::
 ::::
 
