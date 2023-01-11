@@ -1,5 +1,5 @@
 ---
-title: 'Visualization<br><font size="5" color="black"> [SBWL H &amp; M: Data-based Storytelling](https://danielw2904.github.io/data-based-storytelling/)</font>'
+title: 'Visualization<br><font size="5" color="black"> [Data-based Storytelling](https://wu-rds.github.io/storytelling/)</font>'
 layout: true
 output:
   xaringan::moon_reader:
@@ -68,21 +68,126 @@ knitr::opts_chunk$set(
 
 class: logo-small hide-footer
 
-# Recap: Data Interpretation
+# Data Interpretation
 ___
 `r NoCite(refs, "schwabish2021better")`
 
 .pull-largeleft[
 - Starting with `r Citet(refs, "cleveland1984graphics")` researchers have explored which types of graphs can be read accurately by humans
-- However, accuracy is not always the (only) goal for data story telling
-- Graphs need to be engaging!
+- However, accuracy is not always the (only) goal
 ]
 .pull-smallright[
 ```{r, echo = FALSE, out.width="70%", fig.cap='<a href="https://www.gabrielaplucinska.com/blog/2017/8/7/pie-charts">source</a>'}
 knitr::include_graphics("Graphics/visual_accuracy.jpeg")
 ```
 ]
+
+
 ---
+class: hide-footer    
+## Focus: preattentive attributes
+___
+
+.center[
+```{r echo = FALSE, out.width="55%", fig.cap='<a href="http://www.perceptualedge.com/articles/ie/visual_perception.pdf">source</a>'}
+knitr::include_graphics("Graphics/preattent.png")
+```
+]
+---
+
+## Focus: preattentive attributes
+
+___
+
+```{r, fig.width = 12, fig.height = 4, echo = FALSE, dpi = 600}
+set.seed(1)
+xy = expand.grid(seq(0,1, length.out = 5), seq(0,1, length.out = 5))
+text = sample(c("a", "b", "c", "d", "e"), 25, replace = TRUE)
+par(mar = c(0.1,0,0,0))
+plot(c(0, 1), c(0, 1), ann = F, bty = 'n',type = 'n', xaxt = 'n', yaxt = 'n')
+text(xy[,1], xy[,2], text, cex = 3)
+```
+
+---
+
+## Focus: preattentive attributes
+___
+
+```{r, fig.width = 12, fig.height = 4, echo = FALSE, dpi = 600}
+par(mar = c(0,0,0,0))
+plot(c(0, 1), c(0, 1), ann = F, bty = 'n',type = 'n',  xaxt = 'n', yaxt = 'n')
+text(xy[,1], xy[,2], text, cex = 3, col = ifelse(text == "b", "black", "gray"))
+```
+
+---
+
+# Focus: Preattentive attributes
+
+
+```{r plot_hl, message=FALSE,echo=FALSE,warning=FALSE, dpi=300,fig.height=6.5, out.width = "80%"}
+at_covid_change = at_covid %>%
+  filter(date >= as.Date("2021-10-14"), date <= as.Date("2021-12-19")) %>%
+  group_by(administrative_area_level_2) %>%
+  summarize(change = last(share_vaccinated) - first(share_vaccinated),
+            share_vaccinated = last(share_vaccinated))
+
+at_covid_text = at_covid %>%
+  filter(date == as.Date("2021-10-14"))
+
+at_covid_total = at_covid %>% 
+  filter(date >= as.Date("2021-10-14"), date <= as.Date("2021-12-19")) %>%
+  group_by(date) %>%
+  summarize(share_vaccinated = sum(people_vaccinated) / sum(population)) 
+  
+plot_nice <- at_covid %>%
+  filter(date >= as.Date("2021-10-14"), date <= as.Date("2021-12-19")) %>%
+  ggplot(aes(x = date, y = share_vaccinated)) + 
+  geom_line(aes(linetype=administrative_area_level_2),color = 'gray') +
+  scale_x_date(expand = c(0.01,0), 
+               limits = c(as.Date("2021-10-05"), as.Date("2021-12-19")))  + 
+  annotate("curve",arrow=arrow(length = unit(0.03, "npc"), angle = 30), 
+           x = as.Date("2021-11-01"), xend = as.Date("2021-11-10"),
+           y = 0.71, 
+           yend=at_covid_total$share_vaccinated[at_covid_total$date == as.Date("2021-11-10")],
+           curvature = -0.2) +
+  annotate("text", x = as.Date("2021-11-01"), y = 0.71, 
+           label = "Austria", hjust="right", size = 9)+
+  geom_line(data = at_covid_total) +
+  geom_vline(xintercept= as.Date("2021-11-15")) +
+  annotate("text", y = 0.78, x = as.Date("2021-11-14"),
+           hjust = "right", label = "Lockdown for unvaccinated") +
+  geom_vline(xintercept= as.Date("2021-11-19")) +
+  annotate("text", y = 0.78, x = as.Date("2021-11-20"), 
+           hjust = "left", label = "Announcement of vaccine mandate") +
+  theme_bw() +
+  theme(legend.position='none',
+        panel.border = element_blank(),
+        axis.line = element_line(color = 'black')) +
+  labs(y = "Share of population vaccinated", x = "",
+       title="COVID 19 Vaccination rates in Austria (Okt-Dez 2021)", 
+       subtitle = "changes in policy did not affect trajectory",
+       caption = paste0("Source: ", Citet(refs, 'covid19_data')))
+plot_hl <- plot_nice +
+  geom_text_repel(aes(x=date - as.difftime(1, unit="days"), 
+                      y = share_vaccinated, 
+                      label = administrative_area_level_2), 
+                  hjust='right', data = at_covid_text, direction = 'y', 
+                  color = 'gray')
+plot_hl
+```
+
+
+---
+
+# Bertin's Visual Variables
+___
+
+- **Selective**: easy to distinguish categories of symbols <br> Can a group be identified? <br> e.g., red dots, blue dots but not shape
+- **Associative**: no difference in importance/ does not change visibility <br> Does one group seem more important? <br> e.g., red dots, blue dots
+- **Ordered**: Shows an ordering <br> Is there a natural ordering to the elements? <br> e.g., large dot, small dot but not shape
+- **Quantitative**: Can express ratios <br> large dot, small dot 
+---
+
 class: hide-logo-bottom
 # Bertin's Visual Variables 
 ___
@@ -92,14 +197,7 @@ ___
 [source](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720)
 
 ---
-# Bertin's Visual Variables
-___
 
-- **Selective**: easy to distinguish categories of symbols <br> e.g., red dots, blue dots but not shape
-- **Associative**: no difference in importance/ does not change visibility <br> e.g., red dots, blue dots
-- **Ordered**: Shows an ordering <br> e.g., large dot, small dot but not shape
-- **Quantitative**: Can express ratios <br> large dot, small dot 
----
 class: logo-small
 .pull-left[
 
@@ -116,14 +214,21 @@ class: logo-small
 ]
 [source](https://www.axismaps.com/guide/visual-variables)
 ---
-# Rules
-___
 
-- Avoid encoding patterns with shapes (not selective)
-- Non-associative variables can break perception of "sameness" (e.g., size)
-- Avoid ordered visuals when the data is not ordered
-> “We must remember that quantitative perception represents an accurate approximation but not a precise measurement”
-`r tufte::quote_footer("Bertin")`
+# Gestalt principles
+
+.pull-left[
+- Law of Proximity
+- Law of Closure
+- Law of Similarity
+- Law of Continuity
+]
+
+.pull-right[
+  ![Proximity](Graphics/Gestalt_proximity.svg.png) <br>
+  ![Closure](Graphics/Gestalt_closure.svg.png) <br>
+  ![Similarity](Graphics/Gestalt_similarity.svg.png)
+]
 
 ---
 class: hide-footer

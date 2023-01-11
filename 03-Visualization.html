@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Visualization  SBWL H &amp; M: Data-based Storytelling</title>
+    <title>Visualization  Data-based Storytelling</title>
     <meta charset="utf-8" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
@@ -19,7 +19,9 @@
     <textarea id="source">
 class: left, title-slide
 
-# Visualization<br><font size="5" color="black"> <a href="https://danielw2904.github.io/data-based-storytelling/">SBWL H &amp; M: Data-based Storytelling</a></font>
+.title[
+# Visualization<br><font size="5" color="black"> <a href="https://wu-rds.github.io/storytelling/">Data-based Storytelling</a></font>
+]
 
 ---
 
@@ -37,14 +39,13 @@ class: left, title-slide
 
 class: logo-small hide-footer
 
-# Recap: Data Interpretation
+# Data Interpretation
 ___
 
 
 .pull-largeleft[
 - Starting with Cleveland and McGill (1984) researchers have explored which types of graphs can be read accurately by humans
-- However, accuracy is not always the (only) goal for data story telling
-- Graphs need to be engaging!
+- However, accuracy is not always the (only) goal
 ]
 .pull-smallright[
 &lt;div class="figure"&gt;
@@ -52,7 +53,53 @@ ___
 &lt;p class="caption"&gt;&lt;a href="https://www.gabrielaplucinska.com/blog/2017/8/7/pie-charts"&gt;source&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;
 ]
+
+
 ---
+class: hide-footer    
+## Focus: preattentive attributes
+___
+
+.center[
+&lt;div class="figure"&gt;
+&lt;img src="Graphics/preattent.png" alt="&amp;lt;a href=&amp;quot;http://www.perceptualedge.com/articles/ie/visual_perception.pdf&amp;quot;&amp;gt;source&amp;lt;/a&amp;gt;" width="55%" /&gt;
+&lt;p class="caption"&gt;&lt;a href="http://www.perceptualedge.com/articles/ie/visual_perception.pdf"&gt;source&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+]
+---
+
+## Focus: preattentive attributes
+
+___
+
+![](03-Visualization_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+---
+
+## Focus: preattentive attributes
+___
+
+![](03-Visualization_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+---
+
+# Focus: Preattentive attributes
+
+
+&lt;img src="03-Visualization_files/figure-html/plot_hl-1.png" width="80%" /&gt;
+
+
+---
+
+# Bertin's Visual Variables
+___
+
+- **Selective**: easy to distinguish categories of symbols &lt;br&gt; Can a group be identified? &lt;br&gt; e.g., red dots, blue dots but not shape
+- **Associative**: no difference in importance/ does not change visibility &lt;br&gt; Does one group seem more important? &lt;br&gt; e.g., red dots, blue dots
+- **Ordered**: Shows an ordering &lt;br&gt; Is there a natural ordering to the elements? &lt;br&gt; e.g., large dot, small dot but not shape
+- **Quantitative**: Can express ratios &lt;br&gt; large dot, small dot 
+---
+
 class: hide-logo-bottom
 # Bertin's Visual Variables 
 ___
@@ -62,14 +109,7 @@ ___
 [source](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720)
 
 ---
-# Bertin's Visual Variables
-___
 
-- **Selective**: easy to distinguish categories of symbols &lt;br&gt; e.g., red dots, blue dots but not shape
-- **Associative**: no difference in importance/ does not change visibility &lt;br&gt; e.g., red dots, blue dots
-- **Ordered**: Shows an ordering &lt;br&gt; e.g., large dot, small dot but not shape
-- **Quantitative**: Can express ratios &lt;br&gt; large dot, small dot 
----
 class: logo-small
 .pull-left[
 
@@ -86,24 +126,31 @@ class: logo-small
 ]
 [source](https://www.axismaps.com/guide/visual-variables)
 ---
-# Rules
-___
 
-- Avoid encoding patterns with shapes (not selective)
-- Non-associative variables can break perception of "sameness" (e.g., size)
-- Avoid ordered visuals when the data is not ordered
-&gt; “We must remember that quantitative perception represents an accurate approximation but not a precise measurement”
-&lt;footer&gt;Bertin&lt;/footer&gt;
+# Gestalt principles
+
+.pull-left[
+- Law of Proximity
+- Law of Closure
+- Law of Similarity
+- Law of Continuity
+]
+
+.pull-right[
+  ![Proximity](Graphics/Gestalt_proximity.svg.png) &lt;br&gt;
+  ![Closure](Graphics/Gestalt_closure.svg.png) &lt;br&gt;
+  ![Similarity](Graphics/Gestalt_similarity.svg.png)
+]
 
 ---
 class: hide-footer
 # Gestalt principles: Proximity
 ___
 .pull-left[
-![](03-Visualization_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+![](03-Visualization_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
 ]
 .pull-right[
-![](03-Visualization_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+![](03-Visualization_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
 ]
 ???
 Proximity is primary grouping aesthetic
@@ -112,31 +159,31 @@ class: hide-logo-bottom
 # Gestalt principles: Closure
 ___
 .pull-left[
-![](03-Visualization_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+![](03-Visualization_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
 ]
 --
 .pull-right[
-![](03-Visualization_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+![](03-Visualization_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
 ]
 ---
 # Gestalt principles: Similarity
 ___
 
 .pull-left[
-![](03-Visualization_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+![](03-Visualization_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
 ]
 .pull-right[
-![](03-Visualization_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+![](03-Visualization_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
 ]
 ---
 # Gestalt principles: Continuity
 ___
 
 .pull-left[
-![](03-Visualization_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+![](03-Visualization_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
 ]
 .pull-right[
-![](03-Visualization_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+![](03-Visualization_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
 ]
 
 
@@ -147,18 +194,7 @@ ___
 .scrollable[
 ### Papers &amp; Books
 
-Cleveland, W. S. and R. McGill (1984). "Graphical Perception: Theory,
-Experimentation, and Application to the Development of Graphical
-Methods". In: _Journal of the American Statistical Association_ 79.387,
-pp. 531-554. ISSN: 01621459. URL:
-[http://www.jstor.org/stable/2288400](http://www.jstor.org/stable/2288400).
-
-Morrison, J. L. (1974). "A theoretical framework for cartographic
-generalization with the emphasis on the process of symbolization". In:
-_International Yearbook of Cartography_ 14.1974, pp. 115-27.
-
-Schwabish, J. (2021). _Better data visualizations: A guide for
-scholars, researchers, and Wonks_. Columbia University Press.
+NULL
 
 ### Links
 
@@ -224,6 +260,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable
@@ -390,7 +439,7 @@ document
     ':not(.hide-footer)'
   )
   .forEach(el => {
-    el.innerHTML += '<div class="footer"><span>Daniel Winkler - Retailing &amp; Data Science</span></div>';
+    el.innerHTML += '<div class="footer"><span>Daniel Winkler &amp; Nils Wlömert - Retailing &amp; Data Science</span></div>';
   });
 </script>
 
