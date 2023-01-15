@@ -19,8 +19,21 @@ date: "Updated: `r Sys.Date()`"
 | 01-16-2023 |  1:00pm - 6:00pm | LC.2.064 | Empirical Model Building I + Coaching | <!--[Visualization](./03-Visualization.html) --> | |
 | 01-18-2023 |  1:00pm - 6:00pm | LC.2.064 | Empirical Model Building II + Coaching | | |
 | 01-20-2023 | 1:00pm - 3:30pm | LC.2.064 | Project Coaching | | | 
-| 01-28-2023 | 90min. within 24h | World | Take home exam | | |
+| [see below](#exam) | 90min. within 24h | World | Take home exam | | |
 | 02-12-2023 | - | World | Project deadline |  |  |
+
+
+# Exam 
+
+**The exam will be available on the following dates:** (you can only start the exam once for 90min.)
+
+- January:
+  - 01-27-2023 
+  - 01-28-2023
+- February:
+  - 02-02-2023
+  - 02-03-2023
+
 
 ```{r  echo = FALSE, output='asis', fig.width=0.5, fig.height=0.6, fig.margin=TRUE, dpi=500} 
 library(ggplot2)
