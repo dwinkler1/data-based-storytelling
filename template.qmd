@@ -1,0 +1,161 @@
+---
+title: "My Cool Title"
+subtitle: "An example"
+author:
+- "Daniel Winkler"
+- "Nils Wlömert"
+format: 
+    html:
+        code-fold: true # expandable code
+        table-of-contents: true # show table of contents
+        code-line-numbers: true # add line numbers to code chunks
+        message: false # don't print messages on website
+        warning: false # don't print warnings on website
+        df-print: paged # print long data.frames to paged table
+date: last-modified
+bibliography: references.bib
+---
+
+# Level 1 Headline
+
+Here I want to cite @golder2022learning. Maybe I want to cite them in brackets [@golder2022learning] or [see @golder2022learning p. 12]. The references are stored in the `references.bib` file and follow the [BibTeX](https://de.wikipedia.org/wiki/BibTeX) format. You can find BibTeX entries for most papers on [google scholar](https://scholar.google.com/). Below the search entry is a "Cite" button which opens a pop-up that has a "BibTeX" link ([e.g., here](https://scholar.google.at/scholar?hl=en&as_sdt=0%2C33&q=van+heerde+golder&btnG=#d=gs_cit&t=1674381203374&u=%2Fscholar%3Fq%3Dinfo%3Aas4SEI1c7eAJ%3Ascholar.google.com%2F%26output%3Dcite%26scirp%3D0%26hl%3Den)). 
+
+Links to websites can be added to your document with `[LINK TEXT](https://example.com)`.
+
+## Level 2 Headline
+
+R code goes into code chunks. Chunk options are set with a special comment `#| `. Here we added `echo: fenced` and `code-fold: false` to show the code but you typically want to remove those from the options:
+
+```{r}
+#| echo: fenced
+#| code-fold: false 
+library(ggplot2)
+ggplot(data.frame(x=rnorm(100), y=rnorm(100)), aes(x,y)) +
+    geom_point() +
+    theme_minimal()
+```
+
+Special comments are useful to control output size and captions for images and prevent R from printing warnings (`warning: false`):
+
+```{r}
+#| echo: fenced
+#| code-fold: false
+#| fig-cap: "Very cool correlation"
+#| fig-width: 4
+#| fig-height: 4
+#| warning: false 
+library(palmerpenguins)
+ggplot(penguins, aes(x = body_mass_g, y = bill_length_mm)) +
+    geom_point() +
+    geom_smooth(method="lm") +
+    theme_minimal()
+```
+
+Here is the data
+
+```{r}
+penguins
+```
+
+
+# Another main section
+
+You can use `R` code inline e.g., to print summary statistics automatically. You could say the average body mass of a penguin in the Palmer Penguins dataset is `r round(mean(penguins$body_mass_g, na.rm=TRUE), digits=1)`g (`` `round(mean(penguins$body_mass_g, na.rm=TRUE), digits=1)` ``).
+
+See [the quarto documentation](https://quarto.org/docs/reference/formats/html.html) for more info.
+
+# HTML tables
+
+## Summary statistics
+
+```{r}
+#| message: false
+#| warning: false
+library(dplyr)
+library(gt)
+penguins |>
+    group_by(island, species) |>
+    select(-year) |>
+    summarize_if(is.numeric, \(v)mean(v, na.rm=TRUE)) |>
+    gt(rowname_col = "species") |>
+    tab_header(
+        title = "Penguins",
+        subtitle = "Average by Island and Species"
+    ) |>
+    fmt_number(
+        columns = bill_length_mm:flipper_length_mm,
+        pattern = "{x}mm",
+        decimals = 1
+    ) |>
+    fmt_number(
+        columns = body_mass_g,
+        suffixing = "KG",
+        decimals = 1
+    ) |>
+    tab_spanner(
+        label = "Bill",
+        columns = bill_length_mm:bill_depth_mm
+    ) |>
+    cols_label(
+        bill_length_mm = "length",
+        bill_depth_mm = "depth",
+        flipper_length_mm = "flipper length",
+        body_mass_g = "body mass"
+    )
+```
+
+## Regression Tables
+
+```{r}
+library(modelsummary)
+library(fixest)
+## species and year fixed effects with SE clustered by species
+## Note that this is JUST for presentation purposes
+## and not a meaningful model!!!
+mod1 <- feols(
+    body_mass_g ~ flipper_length_mm + bill_length_mm | species + year,
+    data = penguins
+)
+mod2 <-  feols(
+    body_mass_g ~ flipper_length_mm + bill_length_mm + bill_depth_mm | species + year,
+    data = penguins
+)
+mod3 <-  feols(
+    body_mass_g ~ flipper_length_mm + bill_length_mm + bill_depth_mm | species,
+    cluster = ~species,
+    data = penguins
+)
+mod4 <- lm(
+    body_mass_g ~ flipper_length_mm + bill_length_mm + bill_depth_mm + species,
+    data = penguins
+)
+modelsummary(
+    list(`no depth` = mod1, 
+         `with depth` = mod2,
+         `species FE` = mod3,
+         `species dummy` = mod4),
+    coef_map = c(
+        "flipper_length_mm" = "flipper length",
+        "bill_length_mm" = "bill length",
+        "bill_depth_mm" = "bill depth",
+        "speciesChinstrap" = "Chinstrap vs. Adelie",
+        "speciesGentoo" = "Gentoo vs. Adelie"
+    ),
+    gof_map = c(
+        "nobs", 
+        "r.squared", 
+        "r2.within", 
+        "FE: species", 
+        "FE: year", 
+        "vcov.type"),
+    vcov = ~species,
+    title = "Modelling Penguin Body Mass",
+    notes = "OLS with species dummy results in the same parameters as species FE but is less efficient",
+    output = "gt"
+) |>
+    tab_spanner(columns = 2:4, label = "Fixed Effects") |>
+    tab_spanner(columns = 5, label = "OLS")
+```
+
+
+# References
