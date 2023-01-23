@@ -548,6 +548,34 @@ dagify(y ~ n + z + b + c,
   theme_dag()
 ```
 
+::: {.notes}
+For x -> y:
+
+  Add the following to model:
+ 
+  - c (confounder)
+  - z (confounder) but opens collider
+  - a or b to block collider path (b statistically more efficient)
+ 
+  Mediator:
+ 
+  - n
+
+For z -> y:
+
+  Add the following to model:
+
+  - b (confounder)
+  - a (confounder)
+  
+  Mediators:
+  
+  - If either is included we need to add c
+  - x
+  - n
+
+:::
+
 ## Common bad controls [@cinelli2020crash]
 
 
@@ -590,7 +618,17 @@ p2 <- dagify(y ~ a + U,
 ggarrange(p1, p2)
 ```
 
+::: {.notes}
 
+left: M-Bias
+
+  - Do not adjust for z since it would open the collider path
+
+right: Post-treatment Bias
+
+  - Do not include post treatment variable "a" since it would open the confounder path (cannot control since u is unobserved)
+
+:::
 
 ## Common bad controls
 
@@ -639,6 +677,17 @@ Intelligence, education, income
 Case-control study: Observation ex-post. Ex.: Smoking $\rightarrow$ lung cancer 
 :::
 ::::
+
+::: {.notes}
+
+Left: Selection Bias
+
+  - Do not include "a" since it would open the collider path
+
+Right: Case-control Bias
+
+  - Do not include "a" since it is caused by y. Would bias effect of x on y.
+:::
 
 ## Exercise
 
