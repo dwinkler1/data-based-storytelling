@@ -567,12 +567,12 @@ For z -> y:
 
   - b (confounder)
   - a (confounder)
+  - c (not necessary but not harmful)
   
   Mediators:
   
-  - If either is included we need to add c
-  - x
-  - n
+  - x (also include c) 
+  - n (also include c)
 
 :::
 
