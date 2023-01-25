@@ -1,0 +1,220 @@
+---
+title: "FAQs"
+format: 
+    html:
+        df-print: paged
+        toc: true
+        embed-resources: true
+    pdf: default
+---
+
+
+# Treatment of mediators for causal inference
+
+Assume the following causal model:
+
+```{r}
+#| fig-height: 2.5
+#| message: false
+#| code-fold: true
+library(ggdag)
+library(tidyverse)
+library(dagitty)
+library(patchwork)
+med2 <- dagify(m ~ x, y ~ m + x,
+  coords = list(x = c(x = 1, m = 1.5, y = 2), y = c(x = 1, y = 1, m = 1.5))
+) |>
+  tidy_dagitty() |>
+  mutate(fill = ifelse(name == "m", "Mediator", "variables of interest")) |>
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
+  geom_dag_point(size = 7, aes(color = fill)) +
+  geom_dag_edges(show.legend = FALSE) +
+  geom_dag_text() +
+  theme_dag() +
+  theme(
+    legend.title = element_blank(),
+    legend.position = "top"
+  )
+med2
+```
+
+Data for such a situation can be generated as follows:
+
+```{r}
+
+set.seed(11)
+n <- 500
+X <- 100 * rnorm(n)
+M <- 10 + 0.5 * X + 5 * rnorm(n)
+Y <- -25 + 4 * X + 3 * M + 10 * rnorm(n)
+df <- data.frame(X, M, Y)
+ggplot(df, aes(x = X, y = M)) + 
+    geom_point() +
+    theme_bw() +
+    ggtitle("Relationship between X and M") +
+ggplot(df, aes(x = X, y = Y)) + 
+    geom_point() +
+    theme_bw() +
+    ggtitle("Relationship between X and Y") 
+```
+
+
+There are three options from a modeling perspective and which one we choose depends on the effect we are trying to measure.
+
+1. **Avg. Direct effect** (lower edge): The average direct effect of $x$ on $y$ excluding the part mediated through $m$. If we are interested in the average direct effect, we include both $x$ and $m$ in the model to block the mediated path from $x$ to $y$ through $m$ (upper part of the DAG).
+
+According to the data generationa above the average direct effect of $x$ on $y$ is $\sim4$. We identify this effect correctly with the full model:
+
+```{r}
+average_direct_effect <- lm(Y ~ X + M, data = df)
+summary(average_direct_effect)
+```
+
+
+2. **Total effect** (lower and upper edges): The total effect of $x$ on $y$ including the part mediated through $m$. If we are not interested in the percentage of the effect mediated through $m$ (or we do not observe the mediator), we can simply omit $m$ from the model and estimate the simpler model:
+
+```{r}
+total_effect <- lm(Y ~ X, data = df)
+summary(total_effect)
+``` 
+
+In order to convince ourselves that this is the correct total effect we need two figure out how much a unit change in $x$ affects $m$ and multiply that by the effect a change in $m$ has on $y$ (accounting for the first stage change in $x$). This is coincidentally also the third statistic we might be interested in.
+
+3. **Avg. causal mediation effect** (upper part of DAG): We can estimate the average causal mediation effect by estimating two models separately (effect of $x$ on $m$ and effect of $m$ on $y$ given $x$) and multiplying the coefficients:
+
+```{r}
+average_causal_mediation_effect <- coef(lm(M ~ X, data = df))["X"] * # How much does the change in X affect M?
+coef(lm(Y ~ X + M, data = df))["M"] # How much is the partial effect (accounting for x) of M on Y?
+average_causal_mediation_effect
+```
+
+The total effect is equal to the sum of the average causal mediation effect and the average direct effect (sum of the upper and lower part of the DAG) and we can see that this is indeed the coefficient of the model without the mediator:
+
+```{r}
+average_causal_mediation_effect + coef(average_direct_effect)["X"]
+
+coef(total_effect)["X"]
+```
+
+Most of the time we are also interested in calculating the share of the total effect that is mediated through $m$:
+
+```{r}
+average_causal_mediation_effect / coef(total_effect)["X"]
+```
+
+To summarize:
+
+- Interest in **total effect**: include only $x$ in the model.
+- Interest in **average direct effect**: include $x$ and $m$ in the model. We discussed one notable exception, [the post-treatment bias](https://wu-rds.github.io/storytelling/02-Modelling_MA.html#/common-bad-controls-cinelli2020crash), in which case including the mediator would bias the estimate of the effect of $x$ on $y$ since it opens a colliding path via the unobserved confounder ($U$). In this case we cannot identify the average direct effect but we can still identify the total effect.
+- Interest in **disentangling** the **average causal mediation effect** and **average direct effect**: requires mediation analysis. In practice you want to use the `mediation` package or the [PROCESS macro by Andrew Hayes](https://wu-rds.github.io/storytelling/.CausalPitchfork.html#estimation-using-process) but a simple example is shown above.
+
+
+## Fixed Effects
+
+::: callout-caution
+The term Fixed Effects is not used consistently in the literature. Here we view fixed effects as unit level constants (R packages: `fixest`, `lfe`, or `alpaca`). If you find the term "fixed effects" in the context of "mixed effects models" or "random effects models" (in R when the `lme4` package is used) it is not the same thing.
+:::
+
+**Extremely simplified example**: We observe the streams (S) and number of playlist listings (P) for multiple songs (subscript $i$) on multiple days (subscript $t$). We want to estimate the effect of the number of playlist listings on the number of streams. We know that both consumers and playlist curators pick songs based on their (to us as reasearchers unobserved) quality (Q) and their danceability score (D) (both of which are constant for each song). In addition, consumers follow playlists to discover music. A DAG for this model would look like this:
+
+```{r}
+dag_fixed_effects <- dagitty("dag {
+  S [streams]
+  P [playlist listings]
+  Q [quality]
+  D [danceability]
+  D -> S
+  D -> P
+  Q -> S
+  Q -> P
+  P -> S
+}")
+dag_fixed_effects |>
+ tidy_dagitty() |>
+ mutate(obs = case_when(name == "S" ~ "observed",
+                        name == "P" ~ "observed",
+                        name == "D" ~ "observed",
+                        name == "Q" ~ "unobserved")) |>
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend, color = obs)) +
+  geom_dag_point(size = 7) +
+  geom_dag_edges(show.legend = FALSE) +
+  geom_dag_text(col = "black") +
+  theme_dag() +
+  theme(
+    legend.title = element_blank(),
+    legend.position = "top"
+  )
+```
+
+**Problem**: We have unobserved confounders at a unit level. In our case that is the quality of a song. Not including "quality" in the model will bias the estimate of the effect of playlist listings on streams (omitted variable bias). 
+
+**Solution**: Add song fixed effects to the model. The fixed effect takes care of all unobserved unit (song) level confounders which are constant for a given song (like its quality).
+
+**Requirement for estimation**: Variation (in the variables included in the model) within a unit for which a fixed effect is estimated is necessary since the fixed effect already takes care of everything that is constant within a unit (otherwise we would have perfect collinearity). This implies that each unit is observed more than once in the data and the observations (rows) corresponding to one unit are not identical. In our example we observe songs on multiple days and the number of streams and playlist listings vary across days but the quality of a song and its danceability score are always the same.
+
+The data can be generated as follows. Here the true  average marginal effect of $log(playlist\ listings)$ on $log(streams)$ is $10$:
+
+```{r}
+library(fixest)
+set.seed(42)
+options(scipen = 999)
+n <- 100
+t <- 5
+data <- data.frame(
+## Usually unobserved:
+    quality = rep(rnorm(n, 10, 4), each = t),
+## Usually observed:
+    danceability = rep(rnorm(n, 100, 5), each = t),
+    song_id = as.factor(rep(1:n, each = t)),
+    time_period = as.factor(rep(1:t, n))
+)
+data$log_playlist_listings <- rnorm(n * t, 50 + 1.5 * data$quality + 0.1 * data$danceability, 4)
+data$log_streams <- rnorm(n * t, 100 + 5* data$danceability+ 8 * data$quality + 10 * data$log_playlist_listings, 5)
+data
+```
+
+Note that for each `song_id` we have multiple rows. Quality and danceability are constant for each song but not across songs (the same in each row corresponding to one song but not the same for different songs!). The number of streams and playlist listings vary across `time_period`s for each song.
+
+We first estimate the correct model with song fixed effects which approximately recovers the true effect of playlist listings on streams by accounting for both the unobserved and observed confounder (quality and danceability). 
+In the second model we try estimate a parameter for danceability in addition to the fixed effect. As stated in the model output this does not work due to collinearity (between danceability and the song fixed effect).
+The third model is an OLS model with dummies for the `song_id`s (we only print the coefficient for `log_playlist_listings` since the output is very long). Note that the coefficient is the same as in the first model (i.e., the coefficients on the variables included in a FE model are the same as the ones in the OLS model that includes dummies instead of the fixed effects). However, FE models scale much better to a larger number of groups (e.g., 1M songs) since we still only have to estimate one coefficient for `log_playlist_listings` and the fixed effects can be calculated quickly via demeaning (see below). They also result in smaller standard errors. 
+The fourth model is an OLS model without song fixed effects. The coefficient is biased since it does not account for the confounders.
+The fifth model is an OLS model with the observed confounder (danceability) but without song fixed effects. The coefficient is slightly closer to the true value but still biased due to omitted quality.
+
+```{r}
+## Correctly identified effect: Song Fixed effects
+feols(log_streams ~ log_playlist_listings  | song_id, data = data)
+
+## Not possible since we have no variation in the danceability of a song
+feols(log_streams ~ log_playlist_listings + danceability | song_id, data = data)
+
+## Coefficient of log_playlist_listings with song dummies
+## Same as with fixed effects
+coef(lm(log_streams ~ log_playlist_listings + song_id, data = data))["log_playlist_listings"]
+
+## Biased!!! (without song dummies or FE)
+summary(lm(log_streams ~ log_playlist_listings, data = data))
+
+## Slightly better but still biased with observed danceability but no song dummies
+summary(lm(log_streams ~ log_playlist_listings + danceability, data = data))
+```
+
+Finally, we see what happens behind the scenes when estimating fixed effects. We demean all variables included in the model on the level for which we would like to have a fixed effect (e.g., on the song level). The following code groupes the data by song, calculates the average of each numeric variable (most importantly streams and playlist listings) for each song and deducts it from the corresponding rows. Note that the danceability and quality are now 0 for each song (since the mean of a constant is just that constant). The coefficient on `log_playlist_listings` is now the same as in the FE model even though we estimate it using a simple OLS model (but using the song-level-demeaned data).
+
+```{r}
+#| warning: false
+demeaned_data <- data |>
+    group_by(song_id) |>
+## demean all numeric variables on the song level
+    mutate_if(is.numeric, \(x) x - mean(x))
+## Observe quality and danceability are now 0 for each song
+demeaned_data
+summary(lm(log_streams ~ log_playlist_listings, data = demeaned_data))
+```
+
+::: {.callout-important}
+Even though we can recover the correct coefficients using OLS on demeaned data, there are multiple reasons to use a pre-built FE package (e.g., `fixest`):
+
+1. Standard errors are calculated correctly (i.e., clustered by the fixed effect; manual calculation is beyond the scope of this course)
+2. Calculation of multiple fixed effects (song + time) is not as straight forward (also beyond the scope of this course) but can be easily done correctly with FE packages.
+:::
