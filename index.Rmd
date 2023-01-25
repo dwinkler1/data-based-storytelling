@@ -19,7 +19,7 @@ date: "Updated: `r Sys.Date()`"
 | 01-16-2023 |  1:00pm - 6:00pm | LC.2.064 | Empirical Model Building I + Coaching | <!--[Visualization](./03-Visualization.html) --> | |
 | 01-18-2023 |  1:00pm - 6:00pm | LC.2.064 | Empirical Model Building II + Coaching | | |
 | 01-20-2023 | 1:00pm - 3:30pm | LC.2.064 | Project Coaching | | | 
-| [see below](#exam) | 90min. within 24h | World | Take home exam | | |
+| [see below](#exam) | 90min. within 24h | World | Take home exam | | [FAQs](./FAQs.html) |
 | 02-12-2023 | - | World | Project deadline |  | [Template](./template.html) |
 
 

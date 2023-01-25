@@ -1,10 +1,9 @@
 library(dagitty)
 library(ggdag)
 library(tidyverse)
-dagify(y ~ m +a ,
+dagify(y ~ x + a ,
        x ~ a,
        b ~ y + x,
-       m ~ x,
        coords = list(x = c(x = 1, y = 2, a = 1.5, b = 1.5, c = 1, d = 2, m = 1.5), y = c(x=1, y = 1,  a = 2, b = 0, c = 2, d= 2, m = 1))
 ) %>% 
   tidy_dagitty() %>%
@@ -17,6 +16,6 @@ dagify(y ~ m +a ,
   geom_dag_text() +
   theme_dag() +
   theme(legend.title  = element_blank(),
-        legend.position = "top") +
-  annotate("text", x = 0.8, y = c(0, 1, 2), label = c("lower", "middle", "upper"))
+        legend.position = "top") #+
+#  annotate("text", x = 0.8, y = c(0, 1, 2), label = c("lower", "middle", "upper"))
 ggsave("dag_exercise.png", width=4, height=2)
