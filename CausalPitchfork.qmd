@@ -451,12 +451,7 @@ The following code _should_ download and source the macro for you but will defin
 ```{r}
 #| eval: false
 #| code-fold: false
-temp <- tempfile()
-download.file("https://www.afhayes.com/public/processv42.zip",temp)
-files <- unzip(temp, list = TRUE)
-fname <- files$Name[endsWith(files$Name, "process.R")]
-source(unz(temp, fname))
-unlink(temp)
+#| file: source_process_macro.R
 ```
 
 Alternatively download the program from [here](https://haskayne.ucalgary.ca/CCRAM/resource-hub) and source the `process.R` file manually. 
