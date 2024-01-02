@@ -12,28 +12,16 @@ date: "Updated: `r Sys.Date()`"
 
 # Lectures
 
-| **Date** | **Time** | **Room** | **Topics** | **Slides** | **Recommended Readings** |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| 01-09-2023 | 1:00pm - 6:00pm | LC.2.064 | Introduction | [Introduction](./01-Introduction_MA.html) | [**Lost in Data Translation**](https://www.ama.org/marketing-news/lost-in-data-translation/), [**R for Data Science**](https://r4ds.had.co.nz/index.html) |
-| 01-11-2023 |  1:00pm - 6:00pm | **LC.1.038** | Modelling and Visualization Theory |[Modelling](./02-Modelling_MA.html), [Visualization](./03-Visualization.html) |   [Causal Pitchfork Visualization](./CausalPitchfork.html) [**A Crash Course in Good and Bad Controls**](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf) [**The Psychology behind Data Visualization Techniques**](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720) |
-| 01-16-2023 |  1:00pm - 6:00pm | LC.2.064 | Empirical Model Building I + Coaching | <!--[Visualization](./03-Visualization.html) --> | |
-| 01-18-2023 |  1:00pm - 6:00pm | LC.2.064 | Empirical Model Building II + Coaching | | |
-| 01-20-2023 | 1:00pm - 3:30pm | LC.2.064 | Project Coaching | | | 
-| [see below](#exam) | 90min. within 24h | World | Take home exam | | [FAQs](./FAQs.html) |
-| 02-12-2023 | - | World | Project deadline |  | [Template](./template.html) |
+|  **Date**  |    **Time**     |   **Room**    |               **Topics**               |                                  **Slides**                                   |                                                                                                                                             **Recommended Readings**                                                                                                                                             |
+|:----------:|:---------------:|:-------------:|:--------------------------------------:|:-----------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 01-08-2024 | 1:00pm - 6:00pm |   LC.-1.038   |              Introduction              |                   [Introduction](./01-Introduction_MA.html)                   |                                                                            [**Lost in Data Translation**](https://www.ama.org/marketing-news/lost-in-data-translation/), [**R for Data Science**](https://r4ds.had.co.nz/index.html)                                                                             |
+| 01-10-2024 | 1:00pm - 6:00pm |   LC.-1.038   |   Modelling and Visualization Theory   | [Modelling](./02-Modelling_MA.html), [Visualization](./03-Visualization.html) | [Causal Pitchfork Visualization](./CausalPitchfork.html) [**A Crash Course in Good and Bad Controls**](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf) [**The Psychology behind Data Visualization Techniques**](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720) |
+| 01-15-2024 | 1:00pm - 6:00pm | **LC.2.064**  | Empirical Model Building I + Coaching  |               <!--[Visualization](./03-Visualization.html) -->                |                                                                                                                                                                                                                                                                                                                  |
+| 01-17-2024 | 1:00pm - 6:00pm | **LC.-1.038** | Empirical Model Building II + Coaching |                                                                               |                                                                                                                                                                                                                                                                                                                  |
+| 01-24-2024 | 1:00pm - 5:00pm | **LC.2.064**  |            Project Coaching            |                                                                               |                                                                                                                                                                                                                                                                                                                  |
+| 01-31-2024 | 1:00pm - 3:00pm |    Online     |             Take home exam             |                                                                               |                                                                                                                                               [FAQs](./FAQs.html)                                                                                                                                                |
 
-
-# Exam 
-
-**The exam will be available on the following dates:** (you can only start the exam once for 90min.)
-
-- January:
-  - 01-27-2023 
-  - 01-28-2023
-- February:
-  - 02-02-2023
-  - 02-03-2023
-
+[Add lectures to your calendar](https://bach.wu.ac.at/z/wu/vvz/ical?v=485076&r=02132612)
 
 ```{r  echo = FALSE, output='asis', fig.width=0.5, fig.height=0.6, fig.margin=TRUE, dpi=500} 
 library(ggplot2)
@@ -61,7 +49,7 @@ heart
 
 # Links
 
-- [**Syllabus**](https://learn.wu.ac.at/dotlrn/classes/pool/2346.22w/syllabus/)
+- [**Syllabus**](https://learn.wu.ac.at/vvz/23w/2030)
 - [**Getting started with R**](./getting_started.html)
 - [**Causal Pitchfork Visualization**](./CausalPitchfork.html)
 - [**Institute for Retailing & Data Science (RDS)**](https://www.wu.ac.at/retail)
