@@ -23,6 +23,13 @@ date: "Updated: `r Sys.Date()`"
 
 [Add lectures to your calendar](https://bach.wu.ac.at/z/wu/vvz/ical?v=485076&r=02132612)
 
+# Links
+
+- [**Syllabus**](https://learn.wu.ac.at/vvz/23w/2030)
+- [**Getting started with R**](./getting_started.html)
+- [**Causal Pitchfork Visualization**](./CausalPitchfork.html)
+- [**Institute for Retailing & Data Science (RDS)**](https://www.wu.ac.at/retail)
+
 ```{r  echo = FALSE, output='asis', fig.width=0.5, fig.height=0.6, fig.margin=TRUE, dpi=500} 
 library(ggplot2)
 library(ggthemes)
@@ -46,13 +53,6 @@ heart <- ggplot(circle, aes(heart_x, heart_y)) +
         plot.title = element_text(size = 2))
 heart
 ```
-
-# Links
-
-- [**Syllabus**](https://learn.wu.ac.at/vvz/23w/2030)
-- [**Getting started with R**](./getting_started.html)
-- [**Causal Pitchfork Visualization**](./CausalPitchfork.html)
-- [**Institute for Retailing & Data Science (RDS)**](https://www.wu.ac.at/retail)
 
 ## Additional Readings
 
