@@ -1,7 +1,7 @@
 ---
 output:
    tufte::tufte_html: 
-      css: "mysty.css"
+      css: "landing.css"
       includes:
         after_body: index_header.html
 title: "Data-based Storytelling"
@@ -12,23 +12,18 @@ date: "Updated: `r Sys.Date()`"
 
 # Lectures
 
-|  **Date**  |    **Time**     |   **Room**    |               **Topics**               |                                  **Slides**                                   |                                                                                                                                             **Recommended Readings**                                                                                                                                             |
-|:----------:|:---------------:|:-------------:|:--------------------------------------:|:-----------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| 01-08-2024 | 1:00pm - 6:00pm |   LC.-1.038   |              Introduction              |                   [Introduction](./01-Introduction_MA.html)                   |                                                                            [**Lost in Data Translation**](https://www.ama.org/marketing-news/lost-in-data-translation/), [**R for Data Science**](https://r4ds.had.co.nz/index.html)                                                                             |
-| 01-10-2024 | 1:00pm - 6:00pm |   LC.-1.038   |   Modelling and Visualization Theory   | [Modelling](./02-Modelling_MA.html), [Visualization](./03-Visualization.html) | [Causal Pitchfork Visualization](./CausalPitchfork.html) [**A Crash Course in Good and Bad Controls**](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf) [**The Psychology behind Data Visualization Techniques**](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720) |
-| 01-15-2024 | 1:00pm - 6:00pm | **LC.2.064**  | Empirical Model Building I + Coaching  |               <!--[Visualization](./03-Visualization.html) -->                |                                                                                                                                                                                                                                                                                                                  |
-| 01-17-2024 | 1:00pm - 6:00pm | **LC.-1.038** | Empirical Model Building II + Coaching |                                                                               |                                                                                                                                                                                                                                                                                                                  |
-| 01-24-2024 | 1:00pm - 5:00pm | **LC.2.064**  |            Project Coaching            |                                                                               |                                                                                                                                                                                                                                                                                                                  |
-| 01-31-2024 | 1:00pm - 3:00pm |    Online     |             Take home exam             |                                                                               |                                                                                                                                               [FAQs](./FAQs.html)                                                                                                                                                |
+|  **Date**  |    **Time**     |   **Room**    | **Topics** | **Slides** | **Recommended Readings** |
+|:----------:|:---------------:|:-------------:|:----------:|:----------:|:------------------------:|
+| 01-08-2024 | 1:00pm - 6:00pm |   LC.-1.038   |              Introduction              |[Introduction](./01-Introduction_MA.html) | [**Lost in Data Translation**](https://www.ama.org/marketing-news/lost-in-data-translation/), [**R for Data Science**](https://r4ds.had.co.nz/index.html) |
+| 01-10-2024 | 1:00pm - 6:00pm |   LC.-1.038   |   Modelling and Visualization Theory   | [Modelling](./02-Modelling_MA.html)<br>[Visualization](./03-Visualization.html) | [Causal Pitchfork Visualization](./CausalPitchfork.html)<br>[**A Crash Course in Good and Bad Controls**](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf)<br>[**The Psychology behind Data Visualization Techniques**](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720) |
+| 01-15-2024 | 1:00pm - 6:00pm | **LC.2.064**  | Empirical Model Building I + Coaching  | |                                                                                                                                                                                                                                                                                                                        |
+| 01-17-2024 | 1:00pm - 6:00pm | **LC.-1.038** | Empirical Model Building II + Coaching | |                                                                                                                                                                                                                                                                                                                        |
+| 01-24-2024 | 1:00pm - 5:00pm | **LC.2.064**  |            Project Coaching            | |                                                                                                                                                                                                                                                                                                                        |
+| 01-31-2024 | 1:00pm - 3:00pm |    Online     |             Take home exam             | |                                                                                                                                                  [FAQs](./FAQs.html)                                                                                                                                                   |
 
 [Add lectures to your calendar](https://bach.wu.ac.at/z/wu/vvz/ical?v=485076&r=02132612)
 
 # Links
-
-- [**Syllabus**](https://learn.wu.ac.at/vvz/23w/2030)
-- [**Getting started with R**](./getting_started.html)
-- [**Causal Pitchfork Visualization**](./CausalPitchfork.html)
-- [**Institute for Retailing & Data Science (RDS)**](https://www.wu.ac.at/retail)
 
 ```{r  echo = FALSE, output='asis', fig.width=0.5, fig.height=0.6, fig.margin=TRUE, dpi=500} 
 library(ggplot2)
@@ -54,7 +49,16 @@ heart <- ggplot(circle, aes(heart_x, heart_y)) +
 heart
 ```
 
+- [**Syllabus**](https://learn.wu.ac.at/vvz/23w/2030)
+- [**Getting started with R**](./getting_started.html)
+- [**Causal Pitchfork Visualization**](./CausalPitchfork.html)
+- [**Institute for Retailing & Data Science (RDS)**](https://www.wu.ac.at/retail)
+
+
 ## Additional Readings
 
 - [**ggplot2: Elegant Graphics for Data Analysis**](https://ggplot2-book.org/index.html)
 - [**You Don’t Have to Be a Data Scientist to Fill This Must-Have Analytics Role**](https://hbr.org/2018/02/you-dont-have-to-be-a-data-scientist-to-fill-this-must-have-analytics-role)
+
+
+
