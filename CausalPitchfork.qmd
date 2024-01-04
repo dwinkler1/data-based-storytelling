@@ -1,6 +1,6 @@
 ---
 title: "Causal Pitchfork - The Data"
-subtitle: "Data-based storytelling"
+subtitle: '[Data-based Storytelling](https://dwinkler.org/storytelling)'
 author: 
 - Daniel Winkler
 - Nils Wlömert

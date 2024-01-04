@@ -1,6 +1,6 @@
 ---
 title: 'Introduction'
-subtitle: '[Data-based Storytelling](https://danielw2904.github.io/data-based-storytelling/)'
+subtitle: '[Data-based Storytelling](https://dwinkler.org/storytelling)'
 title-slide-attributes: 
   data-background-image: Graphics/D2.jpg
 author: 
@@ -12,7 +12,7 @@ format:
     revealjs:
         theme: [simple, rds_theme.scss]
         logo: Graphics/WU_logo.png
-        footer: "[Data-based Storytelling](https://danielw2904.github.io/data-based-storytelling/)"
+        footer: "[Data-based Storytelling](https://dwinkler.org/storytelling/)"
         height: 1080
         width: 1920
         center-title-slide: false
@@ -40,15 +40,15 @@ format:
 
 ## Lectures
 
-| **Date** | **Time** | **Room** | **Topics** | **Slides** | **Recommended Readings** |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| 01-09-2023 | 1:00pm - 6:00pm | LC.2.064 | Introduction | [Introduction](./01-Introduction_MA.html) | [**Lost in Data Translation**](https://www.ama.org/marketing-news/lost-in-data-translation/), [**R for Data Science**](https://r4ds.had.co.nz/index.html) |
-| 01-11-2023 |  1:00pm - 6:00pm | **LC.1.038** | Modelling and Visualization Theory | <!--[Modelling](./02-Modelling.html) --> |   [Causal Pitchfork Visualization](./CausalPitchfork.html) [**A Crash Course in Good and Bad Controls**](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf) [**The Psychology behind Data Visualization Techniques**](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720) |
-| 01-16-2023 |  1:00pm - 6:00pm | LC.2.064 | Empirical Model Building I | <!--[Visualization](./03-Visualization.html) --> | |
-| 01-18-2023 |  1:00pm - 6:00pm | LC.2.064 | Empirical Model Building II | | |
-| 01-20-2023 | 1:00pm - 3:30pm | LC.2.064 | Project Coaching | | | 
-| 01-31-2023 | 90min. within 24h | World | Take home exam | | |
 
+|  **Date**  |    **Time**     |   **Room**    | **Topics** | **Slides** | **Recommended Readings** |
+|:----------:|:---------------:|:-------------:|:----------:|:----------:|:------------------------:|
+| 01-08-2024 | 1:00pm - 6:00pm |   LC.-1.038   |              Introduction              |[Introduction](./01-Introduction_MA.html) | [**Lost in Data Translation**](https://www.ama.org/marketing-news/lost-in-data-translation/), [**R for Data Science**](https://r4ds.had.co.nz/index.html) |
+| 01-10-2024 | 1:00pm - 6:00pm |   LC.-1.038   |   Modelling and Visualization Theory   | [Modelling](./02-Modelling_MA.html)<br>[Visualization](./03-Visualization.html) | [Causal Pitchfork Visualization](./CausalPitchfork.html)<br>[**A Crash Course in Good and Bad Controls**](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf)<br>[**The Psychology behind Data Visualization Techniques**](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720) |
+| 01-15-2024 | 1:00pm - 6:00pm | **LC.2.064**  | Empirical Model Building I + Coaching  | |                                                                                                                                                                                                                                                                                                                        |
+| 01-17-2024 | 1:00pm - 6:00pm | **LC.-1.038** | Empirical Model Building II + Coaching | |                                                                                                                                                                                                                                                                                                                        |
+| 01-24-2024 | 1:00pm - 5:00pm | **LC.2.064**  |            Project Coaching            | |                                                                                                                                                                                                                                                                                                                        |
+| 01-31-2024 | 1:00pm - 3:00pm |    Online     |             Take home exam             | |                                                                                                                                                  [FAQs](./FAQs.html)                                                                                                                                                   |
 ## Who are we? {.smaller}
 
 ::: {.footer}
@@ -1121,14 +1121,9 @@ mytable_sub = data.frame(
              "Website submission"
              ),
     Date = c(
-      "Jan. 16",
-      "Jan. 18",
-      "Jan. 27"
-    ),
-    Room = c(
-      "LC.2.064",
-      "LC.2.064",
-      "LC.2.064"
+      "Jan. 17",
+      "Jan. 24",
+      "Feb. 19"
     )
     )
 #pander::pander(mytable_sub, keep.line.breaks = TRUE, style = 'grid', justify = 'left')

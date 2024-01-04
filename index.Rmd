@@ -49,7 +49,7 @@ heart <- ggplot(circle, aes(heart_x, heart_y)) +
 heart
 ```
 
-- [**Syllabus**](https://learn.wu.ac.at/vvz/23w/2030)
+- [**Syllabus**](https://canvas.wu.ac.at/courses/3830/external_tools/201)
 - [**Getting started with R**](./getting_started.html)
 - [**Causal Pitchfork Visualization**](./CausalPitchfork.html)
 - [**Institute for Retailing & Data Science (RDS)**](https://www.wu.ac.at/retail)

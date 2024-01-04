@@ -1,6 +1,6 @@
 ---
 title: 'Modeling'
-subtitle: '[Data-based Storytelling](https://danielw2904.github.io/data-based-storytelling/)'
+subtitle: '[Data-based Storytelling](https://dwinkler.org/storytelling)'
 title-slide-attributes: 
   data-background-image: Graphics/D2.jpg
 author: 
@@ -12,7 +12,7 @@ format:
     revealjs:
         theme: [simple, rds_theme.scss]
         logo: Graphics/WU_logo.png
-        footer: "[Data-based Storytelling](https://danielw2904.github.io/data-based-storytelling/)"
+        footer: "[Data-based Storytelling](https://dwinkler.org/storytelling)"
         height: 1080
         width: 1920
         center-title-slide: false
