@@ -10,7 +10,7 @@ date: "Updated: `r Sys.Date()`"
 ---   
 
 
-# Lectures
+# Lectures & Deadlines
 
 |  **Date**  |    **Time**     |   **Room**    | **Topics** | **Slides** | **Recommended Readings** |
 |:----------:|:---------------:|:-------------:|:----------:|:----------:|:------------------------:|
@@ -18,10 +18,16 @@ date: "Updated: `r Sys.Date()`"
 | 01-10-2024 | 1:00pm - 6:00pm |   LC.-1.038   |   Modelling and Visualization Theory   | [Modelling](./02-Modelling_MA.html)<br>[Visualization](./03-Visualization.html) | [Causal Pitchfork Visualization](./CausalPitchfork.html)<br>[**A Crash Course in Good and Bad Controls**](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf)<br>[**The Psychology behind Data Visualization Techniques**](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720) |
 | 01-15-2024 | 1:00pm - 6:00pm | **LC.2.064**  | Empirical Model Building I + Coaching  | |                                                                                                                                                                                                                                                                                                                        |
 | 01-17-2024 | 1:00pm - 6:00pm | **LC.-1.038** | Empirical Model Building II + Coaching | |                                                                                                                                                                                                                                                                                                                        |
+| 01-21-2024 | Deadline: 11:30pm | Online | **Preliminary story outline due** | | [**Project Topics**](01-Introduction_MA.html#/project-topics) | 
 | 01-24-2024 | 1:00pm - 5:00pm | **LC.2.064**  |            Project Coaching            | |                                                                                                                                                                                                                                                                                                                        |
 | 01-31-2024 | 1:00pm - 3:00pm |    Online     |             Take home exam             | |                                                                                                                                                  [FAQs](./FAQs.html)                                                                                                                                                   |
+| 02-18-2024 | Deadline: 11:30pm | Online | **Project submission due** | | [**Project Topics**](01-Introduction_MA.html#/project-timeline) |
 
 [Add lectures to your calendar](https://bach.wu.ac.at/z/wu/vvz/ical?v=485076&r=02132612)
+
+# Projects
+
+See [**Project Topics**](01-Introduction_MA.html#/project-topics) and [**Project Timeline**](01-Introduction_MA.html#/project-timeline) for details.
 
 # Links
 
