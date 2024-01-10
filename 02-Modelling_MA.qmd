@@ -29,6 +29,27 @@ format:
         fig-height: 8
 ---
 
+## Review & Outlook
+
+**For data-driven projects:**
+
+- How can I come up with project ideas?
+
+
+- How can the research process be structured?
+
+
+- How can the communication be structured?
+
+**Today**:
+
+- How do I decide on the type of model?
+  - Prediction? Causal?
+- How do I find a model structure?
+  - Which variables go where?
+- Working in R
+- Project topics and data
+
 ## Getting into modelling!
 
 
