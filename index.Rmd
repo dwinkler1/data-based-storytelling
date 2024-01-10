@@ -29,7 +29,7 @@ date: "Updated: `r Sys.Date()`"
 
 See [**Project Topics**](01-Introduction_MA.html#/project-topics) and [**Project Timeline**](01-Introduction_MA.html#/project-timeline) for details.
 
-[Download project template](./template.qmd), [Downlaod "references.bib"](./references.bib)
+[Download project template](./template.qmd), [Download "references.bib"](./references.bib)
 
 [Download R script second lecture](./operations.R)
 
