@@ -1,17 +1,13 @@
-# Aggregate
-# Mutate
-# Filter
-# Select
-# Arrange
-# Summarize
-# Join
-# pivot
-
 # Run once:
-#install.packages(c("palmerpenguins", "dplyr", "tidyr", "janitor"))
-
+#install.packages(c(
+# "data.table", "arrow", "palmerpenguins", "dplyr", "tidyr", "janitor"
+#))
+# data.table::fread => csv
+# arrow => many formats (see https://arrow.apache.org/docs/r/articles/read_write.html) 
+#  
+install.packages("palmerpenguins")
 library(palmerpenguins)
-
+penguins_raw
 library(dplyr)
 library(tidyr)
 library(janitor)
@@ -50,7 +46,7 @@ body_flipper
 ## Filters "in" rows
 b_f_nomiss <- body_flipper |>
     filter(!is.na(sex), !is.na(flipper_length_mm), !is.na(body_mass_g))
-
+coalesce(body_flipper$sex, "MISSING")
 b_f_nomiss
 
 # Arrange
@@ -59,7 +55,7 @@ b_f_nomiss |>
 
 # Group By
 species_means <- b_f_nomiss |>
-    group_by(species) |>
+    group_by(species, sex) |>
     summarize(
         s_avg_flip_len = mean(flipper_length_mm),
         s_avg_bmass = mean(body_mass_g),
@@ -67,28 +63,10 @@ species_means <- b_f_nomiss |>
     )
 species_means
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Join
 ## Inner Join
 species_means |>
     inner_join(b_f_nomiss, by = "species")
-
-
-
-
-
 
 # special join data
 dfa <- data.frame(g = c("a", "a", "b", "c"), x = 1:4)
@@ -105,23 +83,3 @@ left_join(dfa, dfb, by = "g")
 anti_join(dfa, dfb, by = "g")
 
 
-emoji_json_file <- "https://raw.githubusercontent.com/muan/emojilib/master/emojis.json"
-json_data <- rjson::fromJSON(paste(readLines(emoji_json_file), collapse = ""))
-
-get_name_from_emoji <- function(emoji_unicode, emoji_data = json_data){
-  emoji_evaluated <- stringi::stri_unescape_unicode(emoji_unicode)
-
-  # names(json_data)
-  vector_of_emoji_names_and_characters <- unlist(
-    lapply(json_data, function(x){
-      x$char
-    })
-  )
-
-  name_of_emoji <- attr(
-    which(vector_of_emoji_names_and_characters == emoji_evaluated)[1],
-    "names"
-  )
-
-  name_of_emoji
-}

@@ -29,6 +29,10 @@ date: "Updated: `r Sys.Date()`"
 
 See [**Project Topics**](01-Introduction_MA.html#/project-topics) and [**Project Timeline**](01-Introduction_MA.html#/project-timeline) for details.
 
+[Download project template](./template.qmd), [Downlaod "references.bib"](./references.bib)
+
+[Download R script second lecture](./operations.R)
+
 # Links
 
 ```{r  echo = FALSE, output='asis', fig.width=0.5, fig.height=0.6, fig.margin=TRUE, dpi=500} 
