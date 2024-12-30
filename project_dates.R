@@ -2,13 +2,13 @@ library(dplyr)
 library(kableExtra)
 mytable_sub = data.frame(
     Component = c(
-             "Preliminary story outline", 
              "Last coaching",
+             "Preliminary story outline", 
              "Website submission"
              ),
     Date = c(
+      "Jan. 17",
       "Jan. 21",
-      "Jan. 24",
       "Feb. 18"
     )
     )

@@ -38,17 +38,6 @@ format:
 ![](Graphics/rds_logo.jpg)
 :::
 
-## Lectures
-
-
-|  **Date**  |    **Time**     |   **Room**    | **Topics** | **Slides** | **Recommended Readings** |
-|:----------:|:---------------:|:-------------:|:----------:|:----------:|:------------------------:|
-| 01-08-2024 | 1:00pm - 6:00pm |   LC.-1.038   |              Introduction              |[Introduction](./01-Introduction_MA.html) | [**Lost in Data Translation**](https://www.ama.org/marketing-news/lost-in-data-translation/), [**R for Data Science**](https://r4ds.had.co.nz/index.html) |
-| 01-10-2024 | 1:00pm - 6:00pm |   LC.-1.038   |   Modelling and Visualization Theory   | [Modelling](./02-Modelling_MA.html)<br>[Visualization](./03-Visualization.html) | [Causal Pitchfork Visualization](./CausalPitchfork.html)<br>[**A Crash Course in Good and Bad Controls**](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf)<br>[**The Psychology behind Data Visualization Techniques**](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720) |
-| 01-15-2024 | 1:00pm - 6:00pm | **LC.2.064**  | Empirical Model Building I + Coaching  | |                                                                                                                                                                                                                                                                                                                        |
-| 01-17-2024 | 1:00pm - 6:00pm | **LC.-1.038** | Empirical Model Building II + Coaching | |                                                                                                                                                                                                                                                                                                                        |
-| 01-24-2024 | 1:00pm - 5:00pm | **LC.2.064**  |            Project Coaching            | |                                                                                                                                                                                                                                                                                                                        |
-| 01-31-2024 | 1:00pm - 3:00pm |    Online     |             Take home exam             | |                                                                                                                                                  [FAQs](./FAQs.html)                                                                                                                                                   |
 ## Who are we? {.smaller}
 
 ::: {.footer}
@@ -1129,7 +1118,7 @@ The correlation between flipper length and body mass in penguins is `r flen_bmas
 #| echo: false
 #| eval: true
 #| warning: false
-#| message: false
+#| message:  false
 #| file: project_dates.R
 ```
 

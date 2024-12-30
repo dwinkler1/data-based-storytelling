@@ -4,7 +4,7 @@ output:
       css: "landing.css"
       includes:
         after_body: index_header.html
-title: "Data-based Storytelling"
+title: "1776 🇺🇸 Data-based Storytelling"
 author: '<a href="https://www.wu.ac.at/en/retail/about-us/team/daniel-winkler">Daniel Winkler</a> &amp; <a href="https://www.wu.ac.at/en/retail/about-us/team/prof-nils-wloemert/">Nils Wlömert</a>'
 date: "Updated: `r Sys.Date()`"
 ---   
@@ -14,14 +14,13 @@ date: "Updated: `r Sys.Date()`"
 
 |  **Date**  |    **Time**     |   **Room**    | **Topics** | **Slides** | **Recommended Readings** |
 |:----------:|:---------------:|:-------------:|:----------:|:----------:|:------------------------:|
-| 01-08-2024 | 1:00pm - 6:00pm |   LC.-1.038   |              Introduction              |[Introduction](./01-Introduction_MA.html) | [**Lost in Data Translation**](https://www.ama.org/marketing-news/lost-in-data-translation/), [**R for Data Science**](https://r4ds.had.co.nz/index.html), [**Moving to a World Beyond "p<0.05"**](https://www.tandfonline.com/doi/full/10.1080/00031305.2019.1583913) |
-| 01-10-2024 | 1:00pm - 6:00pm |   LC.-1.038   |   Modelling and Visualization Theory   | [Modelling](./02-Modelling_MA.html)<br>[Visualization](./03-Visualization.html) | [Causal Pitchfork Visualization](./CausalPitchfork.html)<br>[**A Crash Course in Good and Bad Controls**](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf)<br>[**The Psychology behind Data Visualization Techniques**](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720) |
-| 01-15-2024 | 1:00pm - 6:00pm | **LC.2.064**  | Empirical Model Building I + Coaching  | |                                                                                                                                                                                                                                                                                                                        |
-| 01-17-2024 | 1:00pm - 6:00pm | **LC.-1.038** | Empirical Model Building II + Coaching | |                                                                                                                                                                                                                                                                                                                        |
-| 01-21-2024 | Deadline: 11:30pm | Online | **Preliminary story outline due** | | [**Project Topics**](01-Introduction_MA.html#/project-topics) | 
-| 01-24-2024 | 1:00pm - 5:00pm | **LC.2.064**  |            Project Coaching            | |                                                                                                                                                                                                                                                                                                                        |
-| 01-31-2024 | 1:00pm - 3:00pm |    Online     |             Take home exam             | |                                                                                                                                                  [FAQs](./FAQs.html)                                                                                                                                                   |
-| 02-18-2024 | Deadline: 11:30pm | Online | **Project submission due** | | [**Project Topics**](01-Introduction_MA.html#/project-timeline) |
+| 01-08-2025 | 1:00pm - 6:00pm |   TC.3.07   |              Introduction              |[Introduction](./01-Introduction_MA.html) | [**Lost in Data Translation**](https://www.ama.org/marketing-news/lost-in-data-translation/), [**R for Data Science**](https://r4ds.had.co.nz/index.html), [**Moving to a World Beyond "p<0.05"**](https://www.tandfonline.com/doi/full/10.1080/00031305.2019.1583913) |
+| 01-10-2025 | 1:00pm - 6:00pm |   TC.3.07   |   Modelling and Visualization Theory   | [Modelling](./02-Modelling_MA.html)<br>[Visualization](./03-Visualization.html) | [Causal Pitchfork Visualization](./CausalPitchfork.html)<br>[**A Crash Course in Good and Bad Controls**](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf)<br>[**The Psychology behind Data Visualization Techniques**](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720) |
+| 01-13-2025 | 1:00pm - 6:00pm | TC.3.07  | Empirical Model Building I   | |                                                                                                                                                                                                                                                                                                                        |
+| 01-15-2025 | 1:00pm - 6:00pm | TC.3.07  | Empirical Model Building II   | |                                                                                                                                                                                                                                                                                                                        |
+| 01-17-2025 | 1:00pm - 6:00pm | TC.3.07 | Coaching | |                                                                                                                                                                                                                                                                                                                        |
+| 01-21-2025 | Deadline: 11:30pm | Online | **Preliminary story outline due** | | [**Project Topics**](01-Introduction_MA.html#/project-topics) | 
+| 01-24-2025 | 1:00pm - 5:00pm | Online  |            Exam            | |                                                                                                                                                                                                                                                                                                                        |
 
 [Add lectures to your calendar](https://bach.wu.ac.at/z/wu/vvz/ical?v=485076&r=02132612)
 
@@ -38,24 +37,26 @@ See [**Project Topics**](01-Introduction_MA.html#/project-topics) and [**Project
 ```{r  echo = FALSE, output='asis', fig.width=0.5, fig.height=0.6, fig.margin=TRUE, dpi=500} 
 library(ggplot2)
 library(ggthemes)
-circle <- data.frame(position = seq(0, 2*pi, by = 0.001))
-circle$heart_x <- 16*sin(circle$position)^3 
-circle$heart_y <- 13*cos(circle$position) - 
-                   5*cos(2*circle$position) - 
-                   2*cos(3*circle$position) - 
-                     cos(4*circle$position)
+circle <- data.frame(position = seq(0, 2 * pi, by = 0.001))
+circle$heart_x <- 16 * sin(circle$position)^3
+circle$heart_y <- 13 * cos(circle$position) -
+  5 * cos(2 * circle$position) -
+  2 * cos(3 * circle$position) -
+  cos(4 * circle$position)
 
 heart <- ggplot(circle, aes(heart_x, heart_y)) +
-  geom_polygon(fill = 'firebrick') +
-  labs(title = "Made with", caption = "at the Institute for\nRetailing & Data Science")  +
-  theme_tufte() + 
-  theme(panel.background = element_rect(fill = "transparent",colour = NA),
-        plot.background = element_rect(fill = "transparent",colour = NA),
-        axis.ticks = element_blank(), 
-        axis.text = element_blank(), 
-        axis.title = element_blank(),
-        plot.caption = element_text(hjust = 0, size = 2),
-        plot.title = element_text(size = 2))
+  geom_polygon(fill = "firebrick") +
+  labs(title = "Made with", caption = "at the Institute for\nRetailing & Data Science") +
+  theme_tufte() +
+  theme(
+    panel.background = element_rect(fill = "transparent", colour = NA),
+    plot.background = element_rect(fill = "transparent", colour = NA),
+    axis.ticks = element_blank(),
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    plot.caption = element_text(hjust = 0, size = 2),
+    plot.title = element_text(size = 2)
+  )
 heart
 ```
 
