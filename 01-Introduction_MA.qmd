@@ -387,14 +387,14 @@ digraph g {
 :::
 ::::
 
+
 ## Creating Value with Data
 
-::: footer
-:::
 
 ::: {style="text-align: center"}
 ![](Graphics/Dataanalytics.png){.r-stretch}
 :::
+
 
 ## Creating Value with Data
 
@@ -406,11 +406,8 @@ digraph g {
 
 :::: {.columns}
 ::: {.column width="32%"}
-::: {.nonincremental}
 1. **Identify Opportunity**
-:::
 
-::: {.incremental}
 - Theory is in short supply
 - Observations do not align with theory
 - Literature is equivocal
@@ -418,42 +415,29 @@ digraph g {
 - Newly emergent data allows scantly-/un-examined relationships to be probed
 - Find consequential DVs and actionable IVs
 :::
-:::
 ::: {.column width="32%"}
-::: {.fragment}
 
 2. **Explore Terrain**
-:::
 
-::: {.incremental}
 - Start with open ended research question
 - Scope re-definition based on empirical findings
 - Risk: "scope creep"
 - **Listen to the data**
 - **Generate robust and meaningful findings**
 :::
-:::
 
 ::: {.column width="32%"}
-::: {.fragment}
 
 3. **Advance Understanding**
-:::
 
-::: {.incremental}
 - Uncover empirical regularities (repeatable over circumstances)
 - Concern with effect sizes
 - Empirical findings can question existing theory
 - Empirical findings can initiate theory development
-:::
-::: {.nonincremental}
-::: {.fragment}
 - Take the "third mission" seriously
     - managers, consumers
     - policy makers, educators
     - general public
-:::
-:::
 :::
 ::::
 
@@ -1017,9 +1001,6 @@ __Resolution__
 - "We see genius."
 - "Because the people who are crazy enough to think they can change the world, are the ones who do."
 
-## {background-image=Graphics/Think_Different.svg}
-::: {.footer}
-:::
 
 ## Exercise
 
