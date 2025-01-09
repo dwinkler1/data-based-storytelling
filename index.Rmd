@@ -26,7 +26,7 @@ date: "Updated: `r Sys.Date()`"
 
 # Projects
 
-See [**Project Topics**](01-Introduction_MA.html#/project-topics) and [**Project Timeline**](01-Introduction_MA.html#/project-timeline) for details.
+See [**Project Topics**](02-Modelling_MA.html#/project-topics) and [**Project Timeline**](01-Introduction_MA.html#/project-timeline) for details.
 
 [Download project template](./template.qmd), [Download "references.bib"](./references.bib)
 

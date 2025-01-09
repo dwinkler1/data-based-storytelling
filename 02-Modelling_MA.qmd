@@ -739,4 +739,51 @@ Right: Case-control Bias
 **Prepare a short presentation of a (potential) DAG for your thesis**
 :::
 
+
+## Project Topics
+
+- Predicting sales on Amazon using linguistic features of reviews [@rocklageMassscaleEmotionalityReveals2021; @filippasReputationInflation2022]
+- The impact of short form video on music consumption. Cannibalisation or Promotion? - Using natural experiments to show the impact of TikTok [@callawayDifferenceinDifferencesMultipleTime2021b]
+- Viral online content (1): predicting virality of YouTube videos based on the sentiment of their titles [@bergerWhatMakesOnline2012; @bergerWhatHoldsAttention2022]
+- Viral online content (2): predicting virality of Tweets [@bergerWhatMakesOnline2012; @bergerWhatHoldsAttention2022]
+- Using playlists for song-success prediction [@kimSerendipityChanceEncounters2021; @pachaliWhatDrivesDemand2022d; @boughanmiDynamicsMusicalSuccess2021; @aguiarPlatformsPowerPromotion2021a]
+- Internationalization of the music industry. Analyzing international chart data [@wlomertInternationalHeterogeneityAssociations2019; @ordaniniFewerBlockbustersMore2016a; @aguiarQualityPredictabilityWelfare2016]
+- Fraud Detection (Various topics)
+
+<!-- 
+- **Datasets**
+    - Amazon Reviews [@filippasReputationInflation2022; @felbermayrRoleEmotionsPerceived2016]
+    - Tweets about $\sim 13k$ artists  [@bergerWhatMakesOnline2012; @bergerWhatHoldsAttention2022]
+    - Spotify playlist listings + song features + playlist followers [@pachaliWhatDrivesDemand2022d; @aguiarPlatformsPowerPromotion2021a; @boughanmiDynamicsMusicalSuccess2021]
+    - Spotify global charts [@wlomertInternationalHeterogeneityAssociations2019; @ordaniniFewerBlockbustersMore2016a; @aguiarQualityPredictabilityWelfare2016]
+    - Youtube Videos + emotions for titles [@bergerWhatMakesOnline2012; @bergerWhatHoldsAttention2022]
+- [Sentiment Analysis in R](https://ladal.edu.au/sentiment.html)
+- Medium sized data
+    - Fits in RAM but requires memory management
+- **Please let us know your 3 preferred topics by tomorrow noon!**
+--> 
+
+## Project Timeline
+
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message:  false
+#| file: project_dates.R
+```
+
+**Preliminary story outline**
+
+- Data description
+- Explore the data
+- Initial idea for project
+- Come up with preliminary structure for the website
+
+**Final Result** 
+
+- A website including a short opinion essay 
+
+
 ## References
