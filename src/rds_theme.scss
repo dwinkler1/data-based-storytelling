@@ -1,0 +1,51 @@
+/*-- scss:defaults --*/
+$presentation-title-slide-text-align: left;
+$presentation-title-slide-align: left;
+$link-color: #5a5a5a !default;
+$headingLineHeight: 1.5;
+$headingMargin: 0 0 33px 0;
+/*-- scss:rules --*/
+
+.reveal .quarto-title-block .quarto-title-authors {
+    justify-content: left;
+}
+
+.center-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
+
+.level1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    padding-top: 25%;
+}
+
+[role="doc-toc"] {
+  ul {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-weight: 100;
+  padding-top: 50px;
+    li {
+        padding: 15px;
+        display: inline-block;
+    }
+  }
+} 
+
+details>summary {
+    color: #4d4d4d;
+    opacity: 0.1;
+}
+// .reveal h2 {
+//     display: flex;
+//     align-items: flex-start;
+// }

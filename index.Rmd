@@ -15,7 +15,7 @@ date: "Updated: `r Sys.Date()`"
 |  **Date**  |    **Time**     |   **Room**    | **Topics** | **Slides** | **Recommended Readings** |
 |:----------:|:---------------:|:-------------:|:----------:|:----------:|:------------------------:|
 | 01-08-2025 | 1:00pm - 6:00pm |   TC.3.07   |              Introduction              |[Introduction](./01-Introduction_MA.html) | [**Lost in Data Translation**](https://www.ama.org/marketing-news/lost-in-data-translation/), [**R for Data Science**](https://r4ds.had.co.nz/index.html), [**Moving to a World Beyond "p<0.05"**](https://www.tandfonline.com/doi/full/10.1080/00031305.2019.1583913) |
-| 01-10-2025 | 1:00pm - 6:00pm |   TC.3.07   |   Modelling and Visualization Theory   | [Modelling](./02-Modelling_MA.html)<br>[Visualization](./03-Visualization.html) | [Causal Pitchfork Visualization](./CausalPitchfork.html)<br>[**A Crash Course in Good and Bad Controls**](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf)<br>[**The Psychology behind Data Visualization Techniques**](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720) |
+| 01-10-2025 | 1:00pm - 6:00pm |   TC.3.07   |   Modelling and Visualization Theory   | [Modelling](./02-modeling.html)<br>[Visualization](./03-data_visualization.html) | [Causal Pitchfork Visualization](./CausalPitchfork.html)<br>[**A Crash Course in Good and Bad Controls**](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf)<br>[**The Psychology behind Data Visualization Techniques**](https://towardsdatascience.com/the-psychology-behind-data-visualization-techniques-68ef12865720) |
 | 01-13-2025 | 1:00pm - 6:00pm | TC.3.07  | Empirical Model Building I   | |                                                                                                                                                                                                                                                                                                                        |
 | 01-15-2025 | 1:00pm - 6:00pm | TC.3.07  | Empirical Model Building II   | |                                                                                                                                                                                                                                                                                                                        |
 | 01-17-2025 | 1:00pm - 6:00pm | TC.3.07 | Coaching | |                                                                                                                                                                                                                                                                                                                        |
@@ -26,11 +26,13 @@ date: "Updated: `r Sys.Date()`"
 
 # Projects
 
-See [**Project Topics**](02-Modelling_MA.html#/project-topics) and [**Project Timeline**](01-Introduction_MA.html#/project-timeline) for details.
+See [**Project Topics**](02-modeling.html#/project-topics) and [**Project Timeline**](01-Introduction_MA.html#/project-timeline) for details.
 
 [Download project template](./template.qmd), [Download "references.bib"](./references.bib)
 
-[Download R script second lecture](./operations.R)
+[Download R script data operations](./operations.R)
+
+[Download R script data visualization](./visualization.R)
 
 # Links
 
